@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+            **********************
+            List Preference Arrays
+            **********************
+    -->
+
+    <!-- entries for sort by list prefence -->
+    <string-array name="pref_sort_by_entries">
+        <item>Most Popular</item>
+        <item>Top Rated</item>
+        <item>Favorites</item>
+    </string-array>
+
+    <!-- values for sort by list preference -->
+    <string-array name="prev_sort_by_values">
+        <item>popularity</item>
+        <item>rating</item>
+        <item>favorite</item>
+    </string-array>
+
+</resources>

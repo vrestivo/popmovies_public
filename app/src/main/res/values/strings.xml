@@ -1,0 +1,210 @@
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+
+    <!--
+                **************************
+                    General App Strings
+                **************************
+    -->
+
+    <string name="app_name">Popular Movies Stage2</string>
+    <string name="content_authority">com.example.android.popmoviesstage2</string>
+
+    
+    <!--
+                ***************************
+                    TMDB Strings
+                ***************************
+    -->
+
+    <!-- example sorted com.example.android.popmoviesstage2.data pull url request with release_date parameter
+     without api key
+     http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&primary_release_date.gte=2016-01-01
+      -->
+
+    <!-- example poster image request url
+    http://image.tmdb.org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg
+    ^======base url======^size^=========poster image name========^
+    -->
+
+
+    <!-- API Key.  Insert your key below -->
+    <string name="tmdb_api_key_sequence"></string>
+
+    <!-- a working API call for movie details, used for testing purposes -->
+    <string name="tmdb_full_detail_request_with_api_key">http://api.themoviedb.org/3/movie/157336?api_key=&#38;append_to_response=videos&#44;reviews</string>
+    <!--                                                                              Insert API Key here ^ (after the "api_key=")                 -->
+
+
+
+    <!-- tmdb append_response parameter -->
+    <string name="tmdb_append_to_response_key">append_to_response</string>
+
+    <!-- tmdb values to append -->
+    <string name="tmdb_append_to_response_values">videos,reviews</string>
+
+    <!-- tmdb encoded "append_to_response" query -->
+    <string name="tmdb_encoded_append_values">&#38;append_to_response=videos&#44;reviews</string>
+
+    <!-- tmdb api_key url parameter -->
+    <string name="tmdb_api_key_param">api_key</string>
+
+    <!-- tmdb api base url -->
+    <string name="tmdb_api_base_url">http://api.themoviedb.org/3/movie</string>
+    <!--                                           api version-^|^-search option -->
+
+    <!-- tmdp api sort_by parameter key -->
+
+    <!-- tmdb uri request path addition: sort results by popularity in descending order -->
+    <string name="tmdb_api_sort_popular">popular</string>
+
+
+    <!-- tmdb uri request path addition: sort results by top rating -->
+    <string name="tmdb_api_sort_top_rated">top_rated</string>
+
+    <!-- tmdb poster image base url with default size of w185-->
+    <string name="tmdb_poster_base_url">http://image.tmdb.org/t/p/w185</string>
+
+    <!-- request for videos and reviews -->
+    <string name="tmdb_request_videos_and_reviews">append_to_response=videos,reviews</string>
+
+    <!-- tmdb poster size of w185 may be utilized as an option later-->
+
+    <!-- tmdb poster size of w300 may be utilized as an option later-->
+
+
+    <!--    ******************************
+                   YouTube Strings
+            ******************************
+    -->
+
+    <string name="youtube_base_url">https://www.youtube.com/watch</string>
+    <string name="intent_chooser_message">Make your choice wisely.</string>
+
+
+
+
+    <!--
+            *******************************
+                Preference Strings
+            *******************************
+    -->
+
+    <!-- title for general preference menu -->
+
+    <string name="pref_sort_name">Sort Settings</string>
+
+    <!-- title for the sort by list preference -->
+    <string name="pref_sort_title">Sort By (click to change): </string>
+
+    <!-- key for SharedPreference setting -->
+    <string name="pref_sort_key">sort_by</string>
+
+    <!-- key for SharedPreference setting -->
+    <string name="pref_firstrun_key">firstrun</string>
+
+    <!-- value for sorting by rating -->
+    <string name="pref_setting_vote">rating</string>
+
+    <!-- value for sorting by popularity -->
+    <string name="pref_setting_popularity">popularity</string>
+
+    <!-- value for sorting by favorites -->
+    <string name="pref_setting_favorites">favorite</string>
+
+    <!-- default value for sort by list preference -->
+    <string name="pref_sort_by_default">popularity</string>
+
+
+    <!--
+            *******************************************
+               JSON Data keys for general movie data
+            *******************************************
+    -->
+
+    <string name="json_key_page">page</string>
+    <string name="json_key_results">results</string>
+    <string name="json_key_poster_path">poster_path</string>
+    <string name="json_key_overview">overview</string>
+    <string name="json_key_release_date">release_date</string>
+    <string name="json_key_original_title">original_title</string>
+    <string name="json_key_vote_average">vote_average</string>
+    <string name="json_key_movie_id">id</string>
+    <string name="json_key_popularity">popularity</string>
+
+    
+    <!--    
+            **************************************
+               JSON data keys for movie details
+            **************************************   
+    
+    -->
+    <string name="json_details_key_runtime">runtime</string>
+
+
+    <!--
+            **************************************
+               JSON data keys for trailers
+            **************************************
+    -->
+    <string name="json_details_trailers_videos">videos</string>
+    <string name="json_details_trailers_key">key</string>
+    <string name="json_details_trailers_site">site</string>
+    <string name="json_details_trailers_youtube">YouTube</string>
+    <string name="json_details_trailers_type">type</string>
+    <string name="json_details_trailers_type_trailer">Trailer</string>
+
+
+    <!--
+            **************************************
+               JSON data keys for reviews
+            **************************************
+    -->
+    <string name="json_details_reviews_reviews">reviews</string>
+    <string name="json_details_reviews_author">author</string>
+    <string name="json_details_reviews_content">content</string>
+
+
+
+
+
+
+
+    <!--
+                ****************************
+                    Error Messages
+                ****************************
+    -->
+
+    <string name="error_data_unavailable">Data not available</string>
+
+
+    <!--  TODO delete if not used
+                ***************************
+                    Data output Strings
+                ***************************
+    -->
+    <string name="msg_initial_run">Performing initializtion... \n Please wait...</string>
+
+
+    <!--
+                ***************************
+                    Service Strings
+                ***************************
+
+    -->
+    <string name="service_descriptoin">data sync service</string>
+    <string name="service_name">Data Service</string>
+
+    <!---
+                ***************************
+                    Sync Adapter Strings
+                ***************************
+
+    -->
+
+    <!-- string name="authenticator_label">Pop Movies 2 Authenticator label</string -->
+    <string name="account_type">account.popmoviesstage2.example.com</string>
+    <string name="action_authenticator">android.accounts.AccountAuthenticator</string>
+    <string name="account_name">MovieSyncAccount</string>
+
+</resources>
