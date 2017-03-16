@@ -6,7 +6,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.example.android.popmoviesstage2"
@@ -32,20 +32,19 @@ android {
 }
 
 ext{
-    supportLibraryVersion = "25.0.1"
+    supportLibraryVersion = "25.3.0"
     espressoVersion = "2.2.2"
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     //added for image caching
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
     //Android Testing Support Library runner and rules
     androidTestCompile "com.android.support.test:runner:0.5"
@@ -53,6 +52,9 @@ dependencies {
 
     //this statement is needed to avoid version resolution conflicts
     androidTestCompile "com.android.support:support-annotations:$supportLibraryVersion"
+
+    //Junit framework
+    testCompile 'junit:junit:4.12'
 
     //Espresso UI testing dependencies
     androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
