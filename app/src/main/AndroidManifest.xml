@@ -12,9 +12,8 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <uses-sdk
-        android:minSdkVersion="18"
-        android:targetSdkVersion="25"
-        />
+        android:minSdkVersion="21"
+        android:targetSdkVersion="25" />
 
     <application
         android:allowBackup="true"
@@ -33,35 +32,36 @@
 
         <activity android:name="com.example.android.popmoviesstage2.SettingsActivity" />
 
-        <activity android:name="com.example.android.popmoviesstage2.DetailActivity" />
+        <!--Declare a detail activity and set MainActivity as parent-->
+        <activity android:name="com.example.android.popmoviesstage2.DetailActivity"
+            android:parentActivityName=".MainActivity"
+            />
 
         <provider
             android:name="com.example.android.popmoviesstage2.data.MovieProvider"
             android:authorities="@string/content_authority"
             android:exported="false"
-            android:syncable="true"
             android:label="my_provider"
-            />
+            android:syncable="true" />
 
         <service android:name=".data_sync.AuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"
-                />
+                android:resource="@xml/authenticator" />
         </service>
 
-        <service android:name=".data_sync.SyncAdapterService"
+        <service
+            android:name=".data_sync.SyncAdapterService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"
-            />
+                android:resource="@xml/syncadapter" />
         </service>
 
     </application>

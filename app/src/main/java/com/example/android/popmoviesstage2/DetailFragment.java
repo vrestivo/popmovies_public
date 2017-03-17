@@ -1,17 +1,20 @@
 package com.example.android.popmoviesstage2;
 
-import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +23,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.squareup.picasso.Picasso;
@@ -51,6 +53,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private CheckBox mCheckBox;
     private Context mContext;
     private String mMovieId;
+    private Toolbar mToolbar;
+    private ActionBar mActionbar;
 
     private String mBundleUriKey = "uri";
 
@@ -105,6 +109,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mOverview = (TextView) rootView.findViewById(R.id.detail_overview);
         mRuntime = (TextView) rootView.findViewById(R.id.detail_runtime_text_view);
         mCheckBox = (CheckBox) rootView.findViewById(R.id.detail_fav_button);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
+
+        //set up the toolbar
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        mActionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
 
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
