@@ -25,6 +25,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField("String", 'TMDB_API_KEY', project.properties.get("API_KEY"))
+    }
+
     lintOptions{
         abortOnError false
 
@@ -35,6 +40,11 @@ ext{
     supportLibraryVersion = "25.3.0"
     espressoVersion = "2.2.2"
 }
+
+task printAPIKey {
+    println(project.properties.get("API_KEY"))
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

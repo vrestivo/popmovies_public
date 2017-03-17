@@ -1,14 +1,14 @@
 package com.example.android.popmoviesstage2;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.util.Log;
+
+import com.example.android.popmoviesstage2.data.DataContract;
+import com.example.android.popmoviesstage2.data.DataContract.Movies;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -29,9 +28,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
-
-import com.example.android.popmoviesstage2.data.DataContract;
-import com.example.android.popmoviesstage2.data.DataContract.Movies;
 
 import static com.example.android.popmoviesstage2.data.DataContract.Movies.COL_OVERVIEW;
 import static com.example.android.popmoviesstage2.data.DataContract.Movies.COL_POPULARITY;
@@ -73,7 +69,12 @@ public class FetchData {
         String urlString = "";
         String baseUrl = context.getString(R.string.tmdb_api_base_url);
         String apiKeyParam = context.getString(R.string.tmdb_api_key_param);
-        String apiKey = context.getString(R.string.tmdb_api_key_sequence);
+
+        //optionally can specify TMDB api key in the strings.xml
+        //String apiKey = context.getString(R.string.tmdb_api_key_sequence);
+
+        String apiKey = BuildConfig.TMDB_API_KEY;
+
 
         builder = new Uri.Builder();
 
