@@ -1,6 +1,5 @@
 package com.example.android.popmoviesstage2;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,7 +29,6 @@ public class DetailActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.movie_detail_container, df).commit();
-
 
     }
 

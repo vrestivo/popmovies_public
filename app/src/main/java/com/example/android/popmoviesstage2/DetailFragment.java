@@ -44,7 +44,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = "DetailFragment: ";
 
     //Define Data Fields for the fragment
-    private TextView mTitle;
     private ImageView mMoviePoster;
     private TextView mReleaseDate;
     private TextView mRuntime;
@@ -102,7 +101,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         //get the view references for binding to data
-        mTitle = (TextView) rootView.findViewById(R.id.detail_title_text_view);
         mMoviePoster = (ImageView) rootView.findViewById(R.id.detail_poster_image_view);
         mReleaseDate = (TextView) rootView.findViewById(R.id.detail_release_date_text_view);
         mRating = (TextView) rootView.findViewById(R.id.detail_rating_text_view);
@@ -215,7 +213,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Context context = getActivity().getApplicationContext();
 
         if (data != null && data.moveToFirst()) {
-            mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+            mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
 
 
             mReleaseDate.setText(

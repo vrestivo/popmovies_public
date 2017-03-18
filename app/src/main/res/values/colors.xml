@@ -15,4 +15,5 @@
     <color name="colorDetailBackground">#FFFFFF</color>
     <color name="colorDetailText">#787878</color>
     <color name="colorDetailTextBlack">#000000</color>
+    <color name="colorDetailTitleTextWhite">@android:color/white</color>
 </resources>

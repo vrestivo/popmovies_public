@@ -2,11 +2,12 @@
 
     <!-- Base application theme. -->
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--set toolbar style-->
+        <!--<item name="toolbarStyle">@style/Toolbar</item>-->
     </style>
 
     <style name="AppThemeNew" parent="Theme.AppCompat.Light.NoActionBar">
@@ -18,7 +19,16 @@
 
     <style name="Toolbar">
         <item name="android:elevation">4dp</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <!--set toolbar background color-->
+        <item name="android:background">@color/colorPrimary</item>
+        <!--set title text color-->
+        <item name="titleTextColor">@color/colorDetailTitleTextWhite</item>
+        <!--set text color for the back arrow-->
+        <item name="android:textColorSecondary">@color/colorDetailTitleTextWhite</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="Toolbar">
+        <item name="android:textSize">24sp</item>
     </style>
 
 
