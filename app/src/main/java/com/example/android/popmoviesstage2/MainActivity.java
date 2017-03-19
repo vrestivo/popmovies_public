@@ -3,33 +3,19 @@ package com.example.android.popmoviesstage2;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.Toast;
-
 
 import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 
@@ -54,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     public static final long SYNC_INTERVAL =
             SECONDS_PER_MINUTE * SYNC_INTERVAL_IN_MINUTES;
 
+    private Toolbar mToolbar;
 
     //tracks if device is a tabled and two pane layout
     //should be used
@@ -136,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
         setContentView(R.layout.activity_main);
 
+        //setup toolbar
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+
+
         //inflate layout based on orientation and screen size
         if (findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
@@ -162,17 +154,14 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     }
 
 
-
     public boolean isTwoPane() {
         return mTwoPane;
     }
 
 
-
-
     @Override
     public void setFragment(Uri uri) {
-        if(mTwoPane && uri !=null){
+        if (mTwoPane && uri != null) {
 
             Bundle fragmentArgs = new Bundle();
             fragmentArgs.putString(DETAIL_URI_TAG, uri.toString());
@@ -182,9 +171,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
             getSupportFragmentManager()
                     .beginTransaction().replace(R.id.movie_detail_container,
-                            detailFragment, DETAIL_FRAGMENT_TAG).commit();
-        }
-        else if (!mTwoPane && uri != null){
+                    detailFragment, DETAIL_FRAGMENT_TAG).commit();
+        } else if (!mTwoPane && uri != null) {
             Intent intent = new Intent(getApplicationContext(),
                     DetailActivity.class);
 
@@ -197,14 +185,13 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
     }
 
-    public void restartFragmentMainLoader(){
+    public void restartFragmentMainLoader() {
         FragmentMain fragmentMain;
 
-        if(isTwoPane()) {
+        if (isTwoPane()) {
             fragmentMain = (FragmentMain) getFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
 
-        }
-        else {
+        } else {
             fragmentMain = (FragmentMain) getFragmentManager().findFragmentById(R.id.main_container);
         }
 

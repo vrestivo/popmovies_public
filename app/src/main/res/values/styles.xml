@@ -6,8 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--set toolbar style-->
-        <!--<item name="toolbarStyle">@style/Toolbar</item>-->
     </style>
 
     <style name="AppThemeNew" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,18 +15,23 @@
         <item name="colorAccent">@color/colorAccentNew</item>
     </style>
 
-    <style name="Toolbar">
+    <style name="Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:elevation">4dp</item>
-        <!--set toolbar background color-->
-        <item name="android:background">@color/colorPrimary</item>
         <!--set title text color-->
         <item name="titleTextColor">@color/colorDetailTitleTextWhite</item>
         <!--set text color for the back arrow-->
         <item name="android:textColorSecondary">@color/colorDetailTitleTextWhite</item>
     </style>
 
-    <style name="Toolbar.TitleText" parent="Toolbar">
+    <style name="Toolbar.TitleText">
         <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="MenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/colorDetailTitleTextWhite</item>
+        <item name="android:colorBackground">#CC000000</item>
+
+
     </style>
 
 
