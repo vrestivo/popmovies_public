@@ -25,7 +25,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_weight="6">
 
             <LinearLayout
                 android:id="@+id/detail_outer_linear_layout"
@@ -118,7 +118,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="4">
+            android:layout_weight="4"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
+            >
 
 
             <LinearLayout
@@ -132,9 +134,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="@color/colorDetailTitle"
                     android:orientation="horizontal"
-
+                    android:background="@color/colorPrimary"
                     />
 
 

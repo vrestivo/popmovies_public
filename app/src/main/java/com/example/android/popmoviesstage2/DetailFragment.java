@@ -137,7 +137,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, b);
                         bundle.putString(mBundleUriKey, toggleUri.toString());
                         getLoaderManager().restartLoader(LOADER_ID, bundle, detailFragment);
-
                     }
                 }
             }
@@ -160,11 +159,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
                 ReviewsTabContent.class, tabContentArgs);
 
-
         return rootView;
 
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
