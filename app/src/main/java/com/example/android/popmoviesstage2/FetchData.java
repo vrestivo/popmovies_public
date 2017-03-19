@@ -149,7 +149,8 @@ public class FetchData {
         String baseUrl = context.getString(R.string.tmdb_api_base_url);
 
         String apiKeyParam = context.getString(R.string.tmdb_api_key_param);
-        String apiKey = context.getString(R.string.tmdb_api_key_sequence);
+        //String apiKey = context.getString(R.string.tmdb_api_key_sequence);
+        String apiKey = BuildConfig.TMDB_API_KEY;
 
         Uri.Builder builder = new Uri.Builder();
         builder.encodedPath(baseUrl);
