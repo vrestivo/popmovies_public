@@ -90,7 +90,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         mContext = getActivity().getApplicationContext();
         mPreferences = getActivity().getPreferences(mContext.MODE_PRIVATE);
 
-
         SETTING_VOTE = getString(R.string.pref_setting_vote);
         SETTING_POPULARITY = getString(R.string.pref_setting_popularity);
         PREF_KEY_SORT_BY = getString(R.string.pref_sort_key);
@@ -138,7 +137,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         mDataAdapter = new DataAdapter(getActivity(), null, 0);
 
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        final MainActivity mainActivity = (MainActivity) getActivity();
 
         if (mainActivity != null) {
             mTwoPane = mainActivity.isTwoPane();
@@ -171,7 +170,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(mRowId);
                 Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
 
-                ((MainActivity) getActivity()).setFragment(clickedItemUri);
+                mainActivity.setFragment(clickedItemUri);
 
             }
         });

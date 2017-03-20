@@ -11,13 +11,16 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
+
 
 
 /**
@@ -42,44 +45,16 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
     private Toolbar mToolbar;
 
+    //detail container visibility for 2 pane layout
+    private boolean mContainerVisibility;
+    private final String VISIBILITY = "VISIBILITY";
+
+
     //tracks if device is a tabled and two pane layout
     //should be used
     private static boolean mTwoPane;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_sort: {
-                Intent settingIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingIntent);
-                return true;
-            }
-            case R.id.button_refresh: {
-                FragmentMain fragmentMain;
-                if(isTwoPane()) {
-                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
-                }
-                else {
-                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentById(R.id.main_container);
-                }
-                if(fragmentMain != null){
-                    //passing false to will preserve the favorites is any are saved
-                    fragmentMain.syncNow(this.getApplicationContext(), false);
-                }
-            }
-            default:
-                //super.onOptionsItemSelected return false by default
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
+    private View mDetailContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,18 +123,85 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         } else {
             mTwoPane = false;
         }
+
+        if (mTwoPane) {
+            mDetailContainer = findViewById(R.id.movie_detail_container);
+            if(savedInstanceState!=null){
+                mContainerVisibility = savedInstanceState.getBoolean(VISIBILITY);
+            }
+        }
+
+
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(mTwoPane) {
+            outState.putBoolean(VISIBILITY, mContainerVisibility);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        if(mTwoPane) {
+            viewTwoPaneDetailContainer(mContainerVisibility);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mTwoPane) {
+            FragmentManager fm = getSupportFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+                viewTwoPaneDetailContainer(false);
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort: {
+                Intent settingIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingIntent);
+                return true;
+            }
+            case R.id.button_refresh: {
+                FragmentMain fragmentMain;
+                if (isTwoPane()) {
+                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
+                } else {
+                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentById(R.id.main_container);
+                }
+                if (fragmentMain != null) {
+                    //passing false to will preserve the favorites is any are saved
+                    fragmentMain.syncNow(this.getApplicationContext(), false);
+                }
+            }
+            default:
+                //super.onOptionsItemSelected return false by default
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
 
@@ -178,9 +220,26 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setArguments(fragmentArgs);
 
-            getSupportFragmentManager()
-                    .beginTransaction().replace(R.id.movie_detail_container,
-                    detailFragment, DETAIL_FRAGMENT_TAG).commit();
+            //viewTwoPaneDetailContainer(true);
+
+
+            FragmentManager fm = getSupportFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.beginTransaction().replace(R.id.movie_detail_container,
+                        detailFragment, DETAIL_FRAGMENT_TAG)
+                        .commit();
+            } else {
+                fm.beginTransaction()
+                        //.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                        .addToBackStack(DETAIL_FRAGMENT_TAG)
+                        .replace(R.id.movie_detail_container,
+                        detailFragment, DETAIL_FRAGMENT_TAG)
+                        .commit();
+                viewTwoPaneDetailContainer(true);
+
+            }
+
+
         } else if (!mTwoPane && uri != null) {
             Intent intent = new Intent(getApplicationContext(),
                     DetailActivity.class);
@@ -199,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
         if (isTwoPane()) {
             fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
-
         } else {
             fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentById(R.id.main_container);
         }
@@ -208,5 +266,17 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
     }
 
+    private void viewTwoPaneDetailContainer(boolean show) {
+        if (mDetailContainer != null) {
+            if (show) {
+                mDetailContainer.setVisibility(View.VISIBLE);
+            } else {
+                mDetailContainer.setVisibility(View.GONE);
+
+            }
+        }
+        mContainerVisibility = show;
+
+    }
 
 }

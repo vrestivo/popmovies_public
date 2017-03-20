@@ -30,9 +30,23 @@
     <style name="MenuStyle" parent="Widget.AppCompat.PopupMenu">
         <item name="android:textColor">@color/colorDetailTitleTextWhite</item>
         <item name="android:colorBackground">#CC000000</item>
-
-
     </style>
 
+    <style name="TabletDetailTitle">
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorDetailTitleTextWhite</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="SelectMovieMessage">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">16dp</item>
+    </style>
 
 </resources>

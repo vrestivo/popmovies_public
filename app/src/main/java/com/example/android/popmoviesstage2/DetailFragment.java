@@ -51,7 +51,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mRating;
     private TextView mOverview;
     private CheckBox mCheckBox;
-    private Context mContext;
     private String mMovieId;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
@@ -71,7 +70,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        mContext = activity.getApplicationContext();
         mTowPane = MainActivity.isTwoPane();
 
         Intent receivedIntent = activity.getIntent();
