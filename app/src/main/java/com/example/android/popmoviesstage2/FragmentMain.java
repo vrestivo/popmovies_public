@@ -1,6 +1,8 @@
 package com.example.android.popmoviesstage2;
 
 import android.accounts.Account;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -14,7 +16,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -62,6 +67,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     private boolean mTwoPane;
 
+    //progress dialog
+    private final String DIALOG_TAG = "DIALOG_TAG";
 
     //CursorAdapter for the grid view
     DataAdapter mDataAdapter;
@@ -113,7 +120,12 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 if (mainActivity != null) {
                     mainActivity.restartFragmentMainLoader();
                     Toast.makeText(mainActivity, "Done Refreshing", Toast.LENGTH_SHORT).show();
+                    ProgressFragment pf = (ProgressFragment) mainActivity.getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
+                    if(pf != null){
+                        pf.dismiss();
+                    }
                 }
+
             }
         };
 
@@ -213,8 +225,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         return super.onOptionsItemSelected(item);
     }
 
-
-
     //LoaderManager.LoaderCallbacks implemetation
 
     @Override
@@ -277,7 +287,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     public void onLoaderReset(Loader<Cursor> loader) {
         mDataAdapter.swapCursor(null);
     }
-    
+
 
     /**
      * perform manual sync immediately
@@ -292,7 +302,26 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         syncSettings.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         syncSettings.putBoolean(PREF_KEY_FIRSTRUN, AppFirstRun);
 
+        //TODO start dialog
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        ProgressFragment progressFragment = new ProgressFragment();
+        progressFragment.setCancelable(false);
+        progressFragment.show(fragmentManager, DIALOG_TAG);
+
         ContentResolver.requestSync(account, getString(R.string.content_authority), syncSettings);
+    }
+
+    public static class ProgressFragment extends DialogFragment{
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final ProgressDialog progressDialog = ProgressDialog.show(
+                    getActivity(),
+                    "",
+                    getString(R.string.message_refresh_wait)
+            );
+            return progressDialog;
+        }
     }
 
 }
