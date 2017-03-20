@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/button_refresh"
+        android:title="@string/button_refresh"
+        android:orderInCategory="99"
+        android:icon="@mipmap/ic_autorenew_white"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_sort"
         android:title="@string/pref_sort_name"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
+
 </menu>

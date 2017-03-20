@@ -5,20 +5,17 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.android.popmoviesstage2.FetchData;
 import com.example.android.popmoviesstage2.R;
 import com.example.android.popmoviesstage2.Utility;
-import com.example.android.popmoviesstage2.data.DataContract;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +111,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), MODE_PRIVATE);
 
         //if it is the first run pull all data from scratch
+        //TODO replace with initialDataPull(context, firstrun)
         if (firstrun) {
             Log.v(LOG_TAG, "_first sync ever...");
 

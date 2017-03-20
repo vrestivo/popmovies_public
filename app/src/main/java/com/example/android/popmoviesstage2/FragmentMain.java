@@ -17,7 +17,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -41,27 +40,18 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private BroadcastReceiver mBroadcastReceiver;
-
     private final String SYNC_DONE = "sync_complete";
     private boolean firstRun;
-
     private ConnectivityManager mConnectivityManager;
-
     private String LOG_TAG = "FragmentMain";
-
     //CursorLoader ID
     public static final int LOADER_ID = 123;
-
     //Extra tag for position
     private static final String POS_EXTRA = "POSITION";
-
     //intent tag for passed Uri
     private static final String POS_URI = "POSITION";
-
-
     //stores cursor's rowId of a clicked item
     private long mRowId;
-
     private SharedPreferences mPreferences;
 
     private String SETTING_VOTE;
@@ -74,10 +64,9 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
 
     //CursorAdapter for the grid view
-    //since no cursor is available yet, null passed to the constructor
     DataAdapter mDataAdapter;
 
-    //List Position variable use for scrolling to the last viewed item
+    //List Position variable used for scrolling to the last viewed item
     //in case of a configuration change
     private int mPosition = GridView.INVALID_POSITION;
 
@@ -118,18 +107,15 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 Log.v(LOG_TAG, "_restaring cursorloader");
-
                 MainActivity mainActivity = (MainActivity) getActivity();
 
                 if (mainActivity != null) {
-
                     mainActivity.restartFragmentMainLoader();
+                    Toast.makeText(mainActivity, "Done Refreshing", Toast.LENGTH_SHORT).show();
                 }
             }
         };
-
 
     }
 
@@ -151,14 +137,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             rootView = inflater.inflate(R.layout.fragment_main_landscape, container, false);
-
         } else {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
         }
 
         GridView gridView = (GridView) rootView.findViewById(R.id.id_grid_view);
-
 
         //initializing grid view and populating with images
         gridView.setAdapter(mDataAdapter);
@@ -187,11 +170,9 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onPause() {
-
         super.onPause();
         mPreferences.edit().putBoolean(PREF_KEY_FIRSTRUN, false).apply();
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mBroadcastReceiver);
-
     }
 
 
@@ -215,13 +196,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         //which is the current class
         super.onActivityCreated(savedInstanceState);
         //getLoaderManager().initLoader(LOADER_ID, null, this);
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override
@@ -253,7 +232,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             if (firstRun) {
                 //run initial sync
                 syncNow(mContext, firstRun);
-
             }
             firstRun = false;
 
@@ -274,7 +252,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         else if (sortOrder.contentEquals(SETTING_FAVORITES)) {
             //sort by favorites
             seletction = SETTING_FAVORITES + ">0";
-
         }
         //set sorting to default (popularity)
         else {
@@ -293,13 +270,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mDataAdapter.swapCursor(data);
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mDataAdapter.swapCursor(null);
-
     }
 
     /**
@@ -307,9 +282,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
      *
      * @param context
      */
-    private void syncNow(Context context, boolean AppFirstRun) {
+    public void syncNow(Context context, boolean AppFirstRun) {
         Account account = SyncAdapter.createSyncAccount(context);
-
         Bundle syncSettings = new Bundle();
 
         syncSettings.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -317,8 +291,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         syncSettings.putBoolean(PREF_KEY_FIRSTRUN, AppFirstRun);
 
         ContentResolver.requestSync(account, getString(R.string.content_authority), syncSettings);
-
     }
+
 }
 
 

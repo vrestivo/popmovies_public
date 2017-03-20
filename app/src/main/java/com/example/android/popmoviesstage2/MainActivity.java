@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     //should be used
     private boolean mTwoPane;
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -54,6 +53,19 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
                 Intent settingIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingIntent);
                 return true;
+            }
+            case R.id.button_refresh: {
+                FragmentMain fragmentMain;
+                if(isTwoPane()) {
+                    fragmentMain = (FragmentMain) getFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
+                }
+                else {
+                    fragmentMain = (FragmentMain) getFragmentManager().findFragmentById(R.id.main_container);
+                }
+                if(fragmentMain != null){
+                    //passing false to will preserve the favorites is any are saved
+                    fragmentMain.syncNow(this.getApplicationContext(), false);
+                }
             }
             default:
                 //super.onOptionsItemSelected return false by default
@@ -90,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
                         true
                 );
 
-                //this method and account creation tend to trigger a sync
+                //this method and account creation tends to trigger a sync
                 //however, it does not seem to be a reliable way to
                 // initiate the app with data on the first run
                 contentResolver.addPeriodicSync(
@@ -135,10 +147,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
         } else {
             mTwoPane = false;
-
         }
-
-
     }
 
 
