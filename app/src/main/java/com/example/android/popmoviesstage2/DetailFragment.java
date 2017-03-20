@@ -187,7 +187,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         }
 
-
         if (itemUri != null) {
             return new CursorLoader(
                     getActivity(),
@@ -198,7 +197,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     null
             );
         }
-
 
         return null;
     }

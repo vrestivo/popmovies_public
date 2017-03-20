@@ -57,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             case R.id.button_refresh: {
                 FragmentMain fragmentMain;
                 if(isTwoPane()) {
-                    fragmentMain = (FragmentMain) getFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
+                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
                 }
                 else {
-                    fragmentMain = (FragmentMain) getFragmentManager().findFragmentById(R.id.main_container);
+                    fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentById(R.id.main_container);
                 }
                 if(fragmentMain != null){
                     //passing false to will preserve the favorites is any are saved
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         //inflate layout based on orientation and screen size
         if (findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
-            getFragmentManager().beginTransaction().replace(R.id.layout_fragment_main, fragmentMain, MAIN_FRAGMENT_TAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_fragment_main, fragmentMain, MAIN_FRAGMENT_TAG).commit();
 
         } else {
             mTwoPane = false;
@@ -198,14 +198,13 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         FragmentMain fragmentMain;
 
         if (isTwoPane()) {
-            fragmentMain = (FragmentMain) getFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
+            fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
 
         } else {
-            fragmentMain = (FragmentMain) getFragmentManager().findFragmentById(R.id.main_container);
+            fragmentMain = (FragmentMain) getSupportFragmentManager().findFragmentById(R.id.main_container);
         }
 
-        getLoaderManager().restartLoader(FragmentMain.LOADER_ID, null, fragmentMain);
-
+        getSupportLoaderManager().restartLoader(FragmentMain.LOADER_ID, null, fragmentMain);
 
     }
 

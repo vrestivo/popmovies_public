@@ -1,15 +1,11 @@
 package com.example.android.popmoviesstage2;
 
 import android.accounts.Account;
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -18,6 +14,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -214,11 +214,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
+
     //LoaderManager.LoaderCallbacks implemetation
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
         Context context = getActivity().getApplicationContext();
         String seletction = null;
 
@@ -258,7 +258,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             sortOrder = DataContract.Movies.COL_POPULARITY + " DESC";
         }
 
-        return new CursorLoader(getActivity(),
+        return new CursorLoader(
+                getActivity(),
                 DataContract.Movies.buildMoviesUri(), //Uri
                 DataContract.Movies.defaultProjection, //projection
                 seletction,   //selection
@@ -276,6 +277,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     public void onLoaderReset(Loader<Cursor> loader) {
         mDataAdapter.swapCursor(null);
     }
+    
 
     /**
      * perform manual sync immediately
