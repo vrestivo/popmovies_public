@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
     //tracks if device is a tabled and two pane layout
     //should be used
-    private boolean mTwoPane;
+    private static boolean mTwoPane;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     }
 
 
-    public boolean isTwoPane() {
+    public static boolean isTwoPane() {
         return mTwoPane;
     }
 

@@ -44,6 +44,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = "DetailFragment: ";
 
     //Define Data Fields for the fragment
+    private TextView mTitle;
     private ImageView mMoviePoster;
     private TextView mReleaseDate;
     private TextView mRuntime;
@@ -54,6 +55,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private String mMovieId;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
+    private boolean mTowPane;
 
     private String mBundleUriKey = "uri";
 
@@ -67,9 +69,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mContext = getActivity().getApplicationContext();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        Intent receivedIntent = getActivity().getIntent();
+        mContext = activity.getApplicationContext();
+        mTowPane = MainActivity.isTwoPane();
+
+        Intent receivedIntent = activity.getIntent();
 
         View rootView;
 
@@ -109,10 +114,21 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mCheckBox = (CheckBox) rootView.findViewById(R.id.detail_fav_button);
         mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
 
-        //set up the toolbar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mActionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(true);
+        //set up title text view if using tabled layout
+        //set up tool bar for detail activity if using phone layout
+        if (mTowPane) {
+            mTitle = (TextView) rootView.findViewById(R.id.detail_title_text_view);
+        }
+        else {
+            //set up the toolbar
+            activity.setSupportActionBar(mToolbar);
+            mActionbar = activity.getSupportActionBar();
+            mActionbar.setDisplayHomeAsUpEnabled(true);
+        }
+
+
+
+
 
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -151,7 +167,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         //in the detail view
         mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
         //connect tabhost to the FrameLayout which will hold the content
-        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        mTabHost.setup(activity, getChildFragmentManager(), android.R.id.tabcontent);
         //add trailers tab
         mTabHost.addTab(mTabHost.newTabSpec("trailers").setIndicator("Trailers"),
                 TrailerTabContent.class, tabContentArgs);
@@ -208,8 +224,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Context context = getActivity().getApplicationContext();
 
         if (data != null && data.moveToFirst()) {
-            mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
 
+            if (mTowPane) {
+                mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+            } else {
+                mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+            }
 
             mReleaseDate.setText(
                     //Truncate data to first 4 characters, leaving only release year

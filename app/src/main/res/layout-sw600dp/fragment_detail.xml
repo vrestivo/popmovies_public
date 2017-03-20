@@ -136,7 +136,6 @@
                     android:layout_marginLeft="8dp"
                     android:background="@color/colorDetailTitle"
                     android:orientation="horizontal"
-
                     />
 
 
