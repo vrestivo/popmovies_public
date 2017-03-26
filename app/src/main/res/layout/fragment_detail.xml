@@ -83,7 +83,8 @@
                             android:layout_weight="1"
                             android:minHeight="260dp"
                             android:scaleType="fitCenter"
-                            android:src="@mipmap/ic_launcher" />
+                            android:transitionName="@string/share_poster"
+                            />
 
                         <LinearLayout
                             android:id="@+id/detail_summary_linear_layout"

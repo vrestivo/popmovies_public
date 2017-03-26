@@ -12,7 +12,10 @@
     <string name="message_refresh_wait">Downloading movie data\nPlease wait...</string>
     <string name="message_select_movie">Please click on a movie for details...</string>
 
-    
+
+    <!--Shared Element Transition IDs -->
+    <string name="share_poster">shared_poster</string>
+
     <!--
                 ***************************
                     TMDB Strings

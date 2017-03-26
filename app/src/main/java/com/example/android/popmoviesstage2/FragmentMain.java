@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -81,7 +82,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     //callback interface
     public interface FragmentMainCallback {
-        public void setFragment(Uri uri);
+        public void setFragment(Uri uri, @Nullable View view);
     }
 
     @Override
@@ -170,7 +171,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(mRowId);
                 Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
 
-                mainActivity.setFragment(clickedItemUri);
+                mainActivity.setFragment(clickedItemUri, view);
 
             }
         });

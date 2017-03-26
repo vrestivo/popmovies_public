@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
 
     @Override
-    public void setFragment(Uri uri) {
+    public void setFragment(Uri uri, @Nullable View view) {
         if (mTwoPane && uri != null) {
 
             Bundle fragmentArgs = new Bundle();
@@ -247,14 +248,21 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
             //pass uri to intent
             intent.setData(uri);
-
-            //facilitate activity transition
-            Bundle bundle = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(this)
-                    .toBundle();
-
-            //start detail activity
-            startActivity(intent, bundle);
+            if(view!=null) {
+                //facilitate activity transition
+                Bundle bundle = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(
+                                this,
+                                view,
+                                view.getTransitionName())
+                        .toBundle();
+                //start detail activity
+                startActivity(intent, bundle);
+            }
+            else {
+                //start detail activity
+                startActivity(intent);
+            }
         }
 
     }
