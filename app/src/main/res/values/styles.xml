@@ -8,11 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+
     <style name="AppThemeNew" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- implementing cusom colors -->
         <item name="colorPrimary">@color/colorPrimaryNew</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNew</item>
         <item name="colorAccent">@color/colorAccentNew</item>
+    </style>
+
+
+    <style name="AppThemeNew.Home" parent="AppThemeNew">
+        <item name="android:windowExitTransition">
+            @transition/grid_exit
+        </item>
     </style>
 
     <style name="Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">

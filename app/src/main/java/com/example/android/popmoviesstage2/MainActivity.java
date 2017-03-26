@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -247,8 +248,13 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             //pass uri to intent
             intent.setData(uri);
 
+            //facilitate activity transition
+            Bundle bundle = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(this)
+                    .toBundle();
+
             //start detail activity
-            startActivity(intent);
+            startActivity(intent, bundle);
         }
 
     }
