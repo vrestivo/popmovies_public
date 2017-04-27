@@ -6,7 +6,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         applicationId "com.example.android.popmoviesstage2"
@@ -37,7 +37,7 @@ android {
 }
 
 ext{
-    supportLibraryVersion = "25.3.0"
+    supportLibraryVersion = "25.3.1"
     espressoVersion = "2.2.2"
 }
 
