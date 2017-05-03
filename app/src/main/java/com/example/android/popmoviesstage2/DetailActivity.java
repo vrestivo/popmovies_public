@@ -20,15 +20,17 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.view_pager_fragment);
 
-        DetailFragment df = new DetailFragment();
+        //TODO delete when done
+        //DetailFragment df = new DetailFragment();
+        ViewPagetTabFragment fptf = new ViewPagetTabFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.movie_detail_container, df).commit();
+        fragmentTransaction.add(R.id.movie_detail_container, fptf).commit();
 
     }
 

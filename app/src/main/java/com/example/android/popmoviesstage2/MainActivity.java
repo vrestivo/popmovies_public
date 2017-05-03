@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             Bundle fragmentArgs = new Bundle();
             fragmentArgs.putString(DETAIL_URI_TAG, uri.toString());
 
+            //FIXME change to match ViewPager implementation
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setArguments(fragmentArgs);
 
