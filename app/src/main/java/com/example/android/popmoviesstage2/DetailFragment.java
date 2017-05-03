@@ -157,6 +157,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         });
 
 
+
+
+        //TODO DELETE WHEN DONE
+        /***** OLD  TABHOST STUFF *****/
+/*
+
         //Create a bundle with movie ID and pass it to tabs
         Bundle tabContentArgs = new Bundle();
         tabContentArgs.putString(DataContract.KEY_MOVIE_ID, mMovieId);
@@ -172,6 +178,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         //add reviews tab
         mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
                 ReviewsTabContent.class, tabContentArgs);
+*/
 
         return rootView;
 
