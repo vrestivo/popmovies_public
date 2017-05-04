@@ -174,10 +174,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mTabHost.setup(activity, getChildFragmentManager(), android.R.id.tabcontent);
         //add trailers tab
         mTabHost.addTab(mTabHost.newTabSpec("trailers").setIndicator("Trailers"),
-                TrailerTabContent.class, tabContentArgs);
+                TrailerFragment.class, tabContentArgs);
         //add reviews tab
         mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
-                ReviewsTabContent.class, tabContentArgs);
+                ReviewsFragment.class, tabContentArgs);
 */
 
         return rootView;

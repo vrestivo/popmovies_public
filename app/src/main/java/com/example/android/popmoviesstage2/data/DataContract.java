@@ -41,7 +41,7 @@ public class DataContract {
     public static final String KEY_FLAG = "flag";
 
     //key for movid Id argument passed in a bundle
-    //to the TrailerTabContent and ReviewsTabContent
+    //to the TrailerFragment and ReviewsFragment
     public static final String KEY_MOVIE_ID = "movieId";
 
 

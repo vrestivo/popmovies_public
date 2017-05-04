@@ -22,7 +22,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.view_pager_fragment);
+        setContentView(R.layout.activity_detail);
 
         //TODO delete when done
         Log.v(LOG_TAG, "_in onCreate()");
@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.movie_detail_container, fptf).commit();
+        fragmentTransaction.add(R.id.view_pager_container, fptf).commit();
 
     }
 

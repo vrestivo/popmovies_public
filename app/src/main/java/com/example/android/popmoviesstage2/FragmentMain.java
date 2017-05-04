@@ -45,6 +45,8 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 
 public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
+
     private BroadcastReceiver mBroadcastReceiver;
     private final String SYNC_DONE = "sync_complete";
     private boolean firstRun;
@@ -157,6 +159,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
         //initializing grid view and populating with images
         gridView.setAdapter(mDataAdapter);
+
+        //FIXME check refactoring
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(
 

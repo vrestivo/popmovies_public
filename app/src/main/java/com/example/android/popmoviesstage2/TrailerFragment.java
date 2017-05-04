@@ -22,19 +22,30 @@ import android.widget.ListView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
+import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
+
 /**
  * Created by devbox on 12/15/16.
  */
 
-public class TrailerTabContent extends Fragment
+public class TrailerFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final String LOG_TAG = "TrailerTabContent";
+    private final String LOG_TAG = this.getClass().getSimpleName();
     private final int LOADER_ID = 1234;
     private Context mContext;
-    private String mMovieId;
+    private long mMovieId;
     private TrailerAdapter trailerAdapter;
 
+
+    public static TrailerFragment newInstance(long movieId) {
+
+        Bundle args = new Bundle();
+        args.putLong(ARG_MOVIE_ID, movieId);
+        TrailerFragment fragment = new TrailerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,31 +57,19 @@ public class TrailerTabContent extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
-        Bundle bundle = getArguments();
-        mMovieId = bundle.getString(DataContract.KEY_MOVIE_ID);
-
+        Bundle arguments = getArguments();
+        mMovieId = arguments.getLong(ARG_MOVIE_ID);
 
         trailerAdapter = new TrailerAdapter(mContext, null);
 
-        View rootView = inflater.inflate(R.layout.tab_content_layout, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.tab_content_listview);
-
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        View rootView = inflater.inflate(R.layout.trailers_layout, container, false);
+        ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
 
         listView.setAdapter(trailerAdapter);
 
-
-
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
 
-        getLoaderManager().initLoader(LOADER_ID, bundle, this);
-
+        getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
         return rootView;
     }
@@ -80,7 +79,7 @@ public class TrailerTabContent extends Fragment
 
         if (bundle != null) {
 
-            Uri request = DataContract.Trailers.buildTrailersByMovieIdUri(Long.parseLong(mMovieId));
+            Uri request = DataContract.Trailers.buildTrailersByMovieIdUri(mMovieId);
 
 
             return new CursorLoader(

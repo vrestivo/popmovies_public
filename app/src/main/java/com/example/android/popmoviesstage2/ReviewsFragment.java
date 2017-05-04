@@ -18,47 +18,71 @@ import android.widget.ListView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
+import java.util.List;
+
+import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
+
 /**
  * Created by devbox on 12/15/16.
  */
 
 
-public class ReviewsTabContent extends Fragment
+public class ReviewsFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final String LOG_TAG = "ReviewsTabContent";
+    private final String LOG_TAG = this.getClass().getSimpleName();
     private final int LOADER_ID = 12345;
     private Context mContext;
-    private String mMovieId;
+    private long mMovieId = 0;
     private ReviewAdapter reviewAdapter = null;
+
+
+    public static ReviewsFragment newInstance(long movieId) {
+
+        Bundle args = new Bundle();
+        args.putLong(ARG_MOVIE_ID, movieId);
+        ReviewsFragment fragment = new ReviewsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mContext = getActivity().getApplicationContext();
-        Bundle bundle = getArguments();
+        Bundle arguments = getArguments();
 
-        mMovieId = bundle.getString(DataContract.KEY_MOVIE_ID);
+        //mMovieId = bundle.getString(DataContract.KEY_MOVIE_ID);
+
+        if (arguments.containsKey(ARG_MOVIE_ID)){
+            mMovieId = arguments.getLong(ARG_MOVIE_ID);
+        }
 
         reviewAdapter = new ReviewAdapter(mContext, null, true);
 
-        View rootView = inflater.inflate(R.layout.tab_content_layout, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.tab_content_listview);
+        View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
+        //ListView listView = (ListView) rootView.findViewById(R.id.review_list);
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        ListView listView = (ListView) rootView.findViewById(R.id.review_list);
+
+
+//        listView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                view.getParent().requestDisallowInterceptTouchEvent(true);
+//                return false;
+//            }
+//        });
 
         listView.setAdapter(reviewAdapter);
 
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
 
-        getLoaderManager().initLoader(LOADER_ID, bundle, this);
+        getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
 
         return rootView;
@@ -70,7 +94,7 @@ public class ReviewsTabContent extends Fragment
         if (args != null) {
             Log.v("_inside reviewLoader", "args not null");
 
-            Uri request = DataContract.Reviews.buildReviewsByMovieIdUri(Long.parseLong(mMovieId));
+            Uri request = DataContract.Reviews.buildReviewsByMovieIdUri((mMovieId));
 
             return new CursorLoader(
                     getActivity(),

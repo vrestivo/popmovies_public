@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -29,6 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
+import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
+
+
 /**
  * Created by devbox on 5/3/17.
  */
@@ -43,9 +47,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final int LOADER_ID = 123;
 
-    private final String LOG_TAG = "DetailFragment: ";
+    private final String LOG_TAG = this.getClass().getSimpleName();
 
-    public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
 
     //Define Data Fields for the fragment
     private TextView mTitle;
@@ -56,6 +59,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     private TextView mOverview;
     private CheckBox mCheckBox;
     private String mMovieId;
+    private long mMovieIdLong;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
     private boolean mTowPane;
@@ -69,14 +73,15 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public OverviewFragment() {
     }
 
-    public static  OverviewFragment newInstance(long movieID) {
-        Bundle arguments = new Bundle();
-        arguments.putLong(ARG_MOVIE_ID, movieID);
-        OverviewFragment of = new OverviewFragment();
-        of.setArguments(arguments);
-        return of;
-    }
 
+    public static OverviewFragment newInstance(long movieId) {
+
+        Bundle args = new Bundle();
+        args.putLong(ARG_MOVIE_ID, movieId);
+        OverviewFragment fragment = new OverviewFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Nullable
@@ -87,7 +92,11 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         mTowPane = MainActivity.isTwoPane();
 
-        //Intent receivedIntent = activity.getIntent();
+        Bundle args = getArguments();
+        if(args!=null && args.containsKey(ARG_MOVIE_ID)){
+            mMovieIdLong = args.getLong(ARG_MOVIE_ID);
+            mMovieId = String.valueOf(mMovieIdLong);
+        }
 
         View rootView;
 
@@ -101,20 +110,21 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
 
 
+
         //TODO delete when done
         Log.v(LOG_TAG, "_in onCreateView()");
 
 
         //TODO DELETE WHEN DONE
 /*
+        Intent receivedIntent = getActivity().getIntent();
+
         if (receivedIntent != null && itemUri == null && receivedIntent.getData() != null) {
             itemUri = receivedIntent.getData();
             mMovieId = itemUri.getLastPathSegment();
 
         } else {
-
-            Bundle args = getArguments();
-
+            //TODO decide if needed
             if (args != null) {
                 String uri = args.getString(MainActivity.DETAIL_URI_TAG);
                 if (uri != null) {
@@ -125,8 +135,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                 Log.v(LOG_TAG, "_no arguments passed");
             }
         }
+*/
 
-        */
 
         //get the view references for binding to data
         mMoviePoster = (ImageView) rootView.findViewById(R.id.detail_poster_image_view);
@@ -144,9 +154,9 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         }
         else {
             //set up the toolbar
-            activity.setSupportActionBar(mToolbar);
-            mActionbar = activity.getSupportActionBar();
-            mActionbar.setDisplayHomeAsUpEnabled(true);
+            //activity.setSupportActionBar(mToolbar);
+            //mActionbar = activity.getSupportActionBar();
+            //mActionbar.setDisplayHomeAsUpEnabled(true);
         }
 
 
@@ -161,6 +171,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
                 Bundle bundle = new Bundle();
 
+                //FIXME
                 DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.movie_detail_container);
 
 
@@ -199,10 +210,10 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         mTabHost.setup(activity, getChildFragmentManager(), android.R.id.tabcontent);
         //add trailers tab
         mTabHost.addTab(mTabHost.newTabSpec("trailers").setIndicator("Trailers"),
-                TrailerTabContent.class, tabContentArgs);
+                TrailerFragment.class, tabContentArgs);
         //add reviews tab
         mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
-                ReviewsTabContent.class, tabContentArgs);
+                ReviewsFragment.class, tabContentArgs);
 */
 
         return rootView;
@@ -211,6 +222,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.v(LOG_TAG, "_initializing loader");
         getLoaderManager().initLoader(LOADER_ID, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -219,9 +231,15 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri request;
 
-        if (args != null) {
+        //if (args != null) {
 
-            request = Uri.parse(args.getString(mBundleUriKey));
+            //request = Uri.parse(args.getString(mBundleUriKey));
+
+            request = DataContract.Movies.buildMovieWithIdUri(mMovieIdLong);
+
+            Log.v(LOG_TAG, "_loader request: " + request);
+
+
 
             Log.v(LOG_TAG, "_request: " + request);
 
@@ -234,8 +252,10 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                     null
             );
 
-        }
 
+        //TODO cleanup
+        //}
+/*
         if (itemUri != null) {
             return new CursorLoader(
                     getActivity(),
@@ -247,7 +267,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             );
         }
 
-        return null;
+        return null;*/
     }
 
     @Override
@@ -258,10 +278,12 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         if (data != null && data.moveToFirst()) {
 
+            Log.v(LOG_TAG, "_non null data returned");
+
             if (mTowPane) {
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
-                mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+                //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             }
 
             mReleaseDate.setText(
