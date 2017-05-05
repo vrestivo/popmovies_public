@@ -56,6 +56,9 @@ public class ReviewsFragment extends Fragment
         mContext = getActivity().getApplicationContext();
         Bundle arguments = getArguments();
 
+        Log.v(LOG_TAG, "_fragment id: " + this.getId());
+
+
         //mMovieId = bundle.getString(DataContract.KEY_MOVIE_ID);
 
         if (arguments.containsKey(ARG_MOVIE_ID)){

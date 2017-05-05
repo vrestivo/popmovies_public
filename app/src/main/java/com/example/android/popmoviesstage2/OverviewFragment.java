@@ -37,9 +37,11 @@ import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
  * Created by devbox on 5/3/17.
  */
 
-public class OverviewFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class OverviewFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        CompoundButton.OnCheckedChangeListener {
 
 
+    public static final String FRAGMENT_TAG = "OVERVIEW_FRAGMENT";
 
     private Uri itemUri = null;
 
@@ -84,6 +86,30 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        Uri toggleUri;
+
+        Bundle bundle = new Bundle();
+
+        //FIXME
+        //DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.movie_detail_container);
+
+        Log.v(LOG_TAG, "_in onclick listener: fragment not null");
+
+        if (isChecked) {
+            //update favorite flag to 1 if favorite button is selected
+            toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, isChecked);
+            bundle.putString(mBundleUriKey, toggleUri.toString());
+            getLoaderManager().restartLoader(LOADER_ID, bundle, this);
+        } else {
+            //update favorite flag to 0 if favorite button is not selected
+            toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, isChecked);
+            bundle.putString(mBundleUriKey, toggleUri.toString());
+            getLoaderManager().restartLoader(LOADER_ID, bundle, this);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,7 +119,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         mTowPane = MainActivity.isTwoPane();
 
         Bundle args = getArguments();
-        if(args!=null && args.containsKey(ARG_MOVIE_ID)){
+        if (args != null && args.containsKey(ARG_MOVIE_ID)) {
             mMovieIdLong = args.getLong(ARG_MOVIE_ID);
             mMovieId = String.valueOf(mMovieIdLong);
         }
@@ -109,10 +135,9 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         }
 
 
-
-
         //TODO delete when done
         Log.v(LOG_TAG, "_in onCreateView()");
+        Log.v(LOG_TAG, "_fragment id: " + this.getId());
 
 
         //TODO DELETE WHEN DONE
@@ -151,70 +176,14 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         //set up tool bar for detail activity if using phone layout
         if (mTowPane) {
             mTitle = (TextView) rootView.findViewById(R.id.detail_title_text_view);
-        }
-        else {
+        } else {
+            //FIXME
             //set up the toolbar
             //activity.setSupportActionBar(mToolbar);
             //mActionbar = activity.getSupportActionBar();
             //mActionbar.setDisplayHomeAsUpEnabled(true);
         }
-
-
-
-
-
-        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                Uri toggleUri;
-
-                Bundle bundle = new Bundle();
-
-                //FIXME
-                DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.movie_detail_container);
-
-
-                if (detailFragment != null) {
-
-                    if (b) {
-                        //update favorite flag to 1 if favorite button is selected
-                        toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, b);
-                        bundle.putString(mBundleUriKey, toggleUri.toString());
-                        getLoaderManager().restartLoader(LOADER_ID, bundle, detailFragment);
-                    } else {
-                        //update favorite flag to 0 if favorite button is not selected
-                        toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, b);
-                        bundle.putString(mBundleUriKey, toggleUri.toString());
-                        getLoaderManager().restartLoader(LOADER_ID, bundle, detailFragment);
-                    }
-                }
-            }
-        });
-
-
-
-
-        //TODO DELETE WHEN DONE
-        /***** OLD  TABHOST STUFF *****/
-/*
-
-        //Create a bundle with movie ID and pass it to tabs
-        Bundle tabContentArgs = new Bundle();
-        tabContentArgs.putString(DataContract.KEY_MOVIE_ID, mMovieId);
-
-        //create and settup tabs for selection between viewing trailers and reviews
-        //in the detail view
-        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
-        //connect tabhost to the FrameLayout which will hold the content
-        mTabHost.setup(activity, getChildFragmentManager(), android.R.id.tabcontent);
-        //add trailers tab
-        mTabHost.addTab(mTabHost.newTabSpec("trailers").setIndicator("Trailers"),
-                TrailerFragment.class, tabContentArgs);
-        //add reviews tab
-        mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
-                ReviewsFragment.class, tabContentArgs);
-*/
+        mCheckBox.setOnCheckedChangeListener(this);
 
         return rootView;
 
@@ -231,15 +200,9 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri request;
 
-        //if (args != null) {
-
-            //request = Uri.parse(args.getString(mBundleUriKey));
-
+        //Normal fragment loading
+        if (args == null) {
             request = DataContract.Movies.buildMovieWithIdUri(mMovieIdLong);
-
-            Log.v(LOG_TAG, "_loader request: " + request);
-
-
 
             Log.v(LOG_TAG, "_request: " + request);
 
@@ -252,14 +215,17 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                     null
             );
 
+        }
+        //The bundle only passed when the favorite button is pressed
+        //in this case the bundle will contain a Uri to update the favorite
+        //flag in SQLite database according to the button state
+        else {
+            request = Uri.parse(args.getString(mBundleUriKey));
+            Log.v(LOG_TAG, "_request: " + request);
 
-        //TODO cleanup
-        //}
-/*
-        if (itemUri != null) {
             return new CursorLoader(
                     getActivity(),
-                    itemUri,
+                    request,
                     DataContract.Movies.defaultProjection,
                     null,
                     null,
@@ -267,7 +233,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             );
         }
 
-        return null;*/
     }
 
     @Override

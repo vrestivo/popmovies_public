@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import junit.framework.Test;
+
+import java.util.ArrayList;
 
 /**
  * Created by devbox on 5/3/17.
@@ -59,6 +62,8 @@ public class ViewPagetTabFragment extends Fragment {
         Intent receivedIntent = activity.getIntent();
 
         Log.v(LOG_TAG, "_in onCreateView()");
+        Log.v(LOG_TAG, "_fragment id: " + this.getId());
+
 
 
         if (receivedIntent != null && itemUri == null && receivedIntent.getData() != null) {
@@ -90,6 +95,9 @@ public class ViewPagetTabFragment extends Fragment {
         NestedScrollView nestedScrollView = (NestedScrollView) rootView.findViewById(R.id.nested_scrollview);
         nestedScrollView.setFillViewport(true);
 
+        //TODO get Toolbar, set movie title, add back button
+
+
         //FragmentManager fm = getActivity().getSupportFragmentManager();
         mViewPager = (ViewPager) rootView.findViewById(R.id.detail_view_pager);
         FragmentManager fm = getChildFragmentManager();
@@ -98,22 +106,37 @@ public class ViewPagetTabFragment extends Fragment {
         mViewPager.setAdapter(adapter);
         //mViewPager.setCurrentItem(0);
 
-        //TODO ADD Tabs
-
+        //add tabs and hook up to ViewPager
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.pager_tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
 
         return rootView;
 
     }
 
+
     class DetailViewPagerAdapter extends FragmentStatePagerAdapter {
         private final String LOG_TAG = this.getClass().getSimpleName();
         private final int NUM_ITEMS = 3;
+        private ArrayList<String> TabTitles = new ArrayList<>();
+
 
         public DetailViewPagerAdapter(FragmentManager fm) {
             super(fm);
             Log.v(LOG_TAG, "_in constructor");
 
+            TabTitles.add(getString(R.string.tab_overview));
+            TabTitles.add(getString(R.string.tab_trailers));
+            TabTitles.add(getString(R.string.tab_reviews));
+
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            //return super.getPageTitle(position);
+
+            return TabTitles.get(position);
         }
 
         @Override
@@ -128,13 +151,17 @@ public class ViewPagetTabFragment extends Fragment {
                     Log.v(LOG_TAG, "_in case 0");
                     fragment = OverviewFragment.newInstance(mMovieIdLong);
 
+                    Log.v(LOG_TAG, "_fragment id: " + fragment.getId());
+
                     break;
                 }
                 case 1: {
                     //TODO return trailer fragment
                     Log.v(LOG_TAG, "_in case 1");
-
                     fragment = TrailerFragment.newInstance(mMovieIdLong);
+
+                    Log.v(LOG_TAG, "_fragment id: " + fragment.getId());
+
 
                     //return fragment;
                     break;
@@ -145,6 +172,8 @@ public class ViewPagetTabFragment extends Fragment {
 
                     //fragment = TestFragment.newInstance(position);
                     fragment = ReviewsFragment.newInstance(mMovieIdLong);
+                    Log.v(LOG_TAG, "_fragment id: " + fragment.getId());
+
 
                     //return fragment;
                     break;

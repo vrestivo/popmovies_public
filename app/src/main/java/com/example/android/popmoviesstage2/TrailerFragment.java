@@ -67,7 +67,9 @@ public class TrailerFragment extends Fragment
 
         listView.setAdapter(trailerAdapter);
 
+        Log.v(LOG_TAG, "_fragment id: " + this.getId());
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
+
 
         getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
@@ -78,9 +80,7 @@ public class TrailerFragment extends Fragment
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         if (bundle != null) {
-
             Uri request = DataContract.Trailers.buildTrailersByMovieIdUri(mMovieId);
-
 
             return new CursorLoader(
                     getActivity(),
