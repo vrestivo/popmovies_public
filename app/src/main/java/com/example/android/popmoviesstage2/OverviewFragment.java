@@ -128,7 +128,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //FIXME inflate lanscape overview fragment
-            rootView = inflater.inflate(R.layout.fragment_detail_landscape, container, false);
+            rootView = inflater.inflate(R.layout.fragment_overview_landscape, container, false);
 
         } else {
             rootView = inflater.inflate(R.layout.fragment_overview, container, false);

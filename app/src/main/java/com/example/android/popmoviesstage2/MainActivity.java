@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     }
 
 
+    //FIXME
     @Override
     public void setFragment(Uri uri, @Nullable View view) {
         if (mTwoPane && uri != null) {
