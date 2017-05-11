@@ -106,6 +106,7 @@ public class ViewPagetTabFragment extends Fragment {
         mViewPager.setAdapter(adapter);
         //mViewPager.setCurrentItem(0);
 
+
         //add tabs and hook up to ViewPager
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.pager_tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -185,11 +186,16 @@ public class ViewPagetTabFragment extends Fragment {
 
         }
 
+
         @Override
         public int getCount() {
             return NUM_ITEMS;
         }
+
+
+
     }
+
 
 
 }

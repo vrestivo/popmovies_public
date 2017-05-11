@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+
+    <!--TODO use dimens resources-->
 
 <com.example.android.popmoviesstage2.MaxWidthFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:MaxWidth="400dp"
+    app:MaxWidth="520dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:elevation="2dp"
     android:layout_gravity="center"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    android:background="@color/colorDetailBackground"
     >
 
     <ListView
         android:id="@+id/review_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:divider="@color/colorDetailText"
         android:paddingLeft="8dp"
@@ -28,4 +34,5 @@
         />
 
 </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
-<!--</FrameLayout>-->
+</FrameLayout>
+
