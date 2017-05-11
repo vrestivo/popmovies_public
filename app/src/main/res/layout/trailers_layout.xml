@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!--TODO add dimensions to dimens resources-->
 
-    <ListView
-        android:id="@+id/trailer_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:divider="@color/colorDetailText"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:dividerHeight="2dp"
-        android:layout_margin="8dp"
-        android:textAlignment="center"
-        android:nestedScrollingEnabled="true"
-        />
+
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorDetailBackground"
+        android:elevation="2dp"
+        app:MaxWidth="520dp">
+
+        <ListView
+            android:id="@+id/trailer_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:divider="@color/colorDetailText"
+            android:dividerHeight="2dp"
+            android:nestedScrollingEnabled="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textAlignment="center" />
+
+
+    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 </FrameLayout>
