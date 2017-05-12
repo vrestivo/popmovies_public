@@ -1,3 +1,18 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+
+
+    <!--Material keylines-->
+    <dimen name="material_16dp_keyline">16dp</dimen>
+    <dimen name="material_72dp_keyline">72dp</dimen>
+
+    <!--padding-->
+    <dimen name="material_appbar_title_paddint">72dp</dimen>
+    <dimen name="material_appbar_bottom_padding">20dp</dimen>
+    <dimen name="material_appbar_height">56dp</dimen>
+    <dimen name="material_appbar_icon_padding">16dp</dimen>
+
+    <dimen name="material_LR_content_padding">16dp</dimen>
+
+
 </resources>
