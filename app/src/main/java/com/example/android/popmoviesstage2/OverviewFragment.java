@@ -64,8 +64,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     private FragmentTabHost mTabHost = null;
 
-
-    //Mandatory empty constructore required by the fragment manager
+    //TODO check this
+    //Mandatory empty constructor required by the fragment manager
     public OverviewFragment() {
     }
 
@@ -232,6 +232,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+                ViewPagetTabFragment fragment = (ViewPagetTabFragment) getParentFragment();
+                fragment.setToolbarTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             }
 
             mReleaseDate.setText(

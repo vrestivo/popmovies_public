@@ -123,6 +123,13 @@ public class ViewPagetTabFragment extends Fragment {
     }
 
 
+    public void setToolbarTitle(String title){
+        if(mToolbarTitle!=null && title!=null){
+            mToolbarTitle.setText(title);
+        }
+    }
+
+
     class DetailViewPagerAdapter extends FragmentStatePagerAdapter {
         private final String LOG_TAG = this.getClass().getSimpleName();
         private final int NUM_ITEMS = 3;
