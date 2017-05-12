@@ -68,18 +68,7 @@ public class ReviewsFragment extends Fragment
         reviewAdapter = new ReviewAdapter(mContext, null, true);
 
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
-        //ListView listView = (ListView) rootView.findViewById(R.id.review_list);
-
         ListView listView = (ListView) rootView.findViewById(R.id.review_list);
-
-
-//        listView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                view.getParent().requestDisallowInterceptTouchEvent(true);
-//                return false;
-//            }
-//        });
 
         listView.setAdapter(reviewAdapter);
 

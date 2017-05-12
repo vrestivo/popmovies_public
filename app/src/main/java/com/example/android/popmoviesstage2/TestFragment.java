@@ -31,16 +31,6 @@ public class TestFragment extends Fragment {
         return fragment;
     }
 
-//    public static TestFragment newInstance(int position){
-//        TestFragment fragment = new TestFragment();
-//        Bundle args = new Bundle();
-//
-//        args.putInt(ARG_TEST, position);
-//        fragment.setArguments(args);
-//
-//        return fragment;
-//    }
-
 
     @Nullable
     @Override

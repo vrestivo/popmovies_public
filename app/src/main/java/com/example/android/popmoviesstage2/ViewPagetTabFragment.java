@@ -39,7 +39,6 @@ public class ViewPagetTabFragment extends Fragment {
     private ActionBar mActonBar;
     private TextView mToolbarTitle;
 
-
     private final String LOG_TAG = this.getClass().getSimpleName();
 
 
@@ -104,13 +103,11 @@ public class ViewPagetTabFragment extends Fragment {
             mActonBar.setDisplayShowHomeEnabled(true);
         }
 
-        //FragmentManager fm = getActivity().getSupportFragmentManager();
+        //setup ViewPager
         mViewPager = (ViewPager) rootView.findViewById(R.id.detail_view_pager);
         FragmentManager fm = getChildFragmentManager();
-        DetailViewPagerAdapter adapter  = new DetailViewPagerAdapter(fm);
-
+        DetailViewPagerAdapter adapter = new DetailViewPagerAdapter(fm);
         mViewPager.setAdapter(adapter);
-        //mViewPager.setCurrentItem(0);
 
 
         //add tabs and hook up to ViewPager

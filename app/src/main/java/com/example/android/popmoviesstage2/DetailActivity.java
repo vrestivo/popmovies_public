@@ -27,15 +27,16 @@ public class DetailActivity extends AppCompatActivity {
         //TODO delete when done
         Log.v(LOG_TAG, "_in onCreate()");
 
+        if(savedInstanceState  == null) {
+            //DetailFragment df = new DetailFragment();
+            ViewPagetTabFragment fptf = new ViewPagetTabFragment();
 
-        //DetailFragment df = new DetailFragment();
-        ViewPagetTabFragment fptf = new ViewPagetTabFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.view_pager_container, fptf).commit();
+            fragmentTransaction.add(R.id.view_pager_container, fptf).commit();
+        }
 
     }
 

@@ -64,12 +64,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     private FragmentTabHost mTabHost = null;
 
-    //TODO check this
-    //Mandatory empty constructor required by the fragment manager
-    public OverviewFragment() {
-    }
-
-
     public static OverviewFragment newInstance(long movieId) {
 
         Bundle args = new Bundle();
@@ -103,6 +97,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             getLoaderManager().restartLoader(LOADER_ID, bundle, this);
         }
     }
+
 
     @Nullable
     @Override
