@@ -1,21 +1,17 @@
 package com.example.android.popmoviesstage2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,9 +58,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     private CheckBox mCheckBox;
     private String mMovieId;
     private long mMovieIdLong;
-    private Toolbar mToolbar;
-    private ActionBar mActionbar;
-    private boolean mTowPane;
+    private boolean mTwoPane;
 
     private String mBundleUriKey = "uri";
 
@@ -116,7 +110,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        mTowPane = MainActivity.isTwoPane();
+        mTwoPane = MainActivity.isTwoPane();
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_MOVIE_ID)) {
@@ -170,19 +164,13 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         mOverview = (TextView) rootView.findViewById(R.id.detail_overview);
         mRuntime = (TextView) rootView.findViewById(R.id.detail_runtime_text_view);
         mCheckBox = (CheckBox) rootView.findViewById(R.id.detail_fav_button);
-        mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
 
         //set up title text view if using tabled layout
         //set up tool bar for detail activity if using phone layout
-        if (mTowPane) {
+        if (mTwoPane) {
             mTitle = (TextView) rootView.findViewById(R.id.detail_title_text_view);
-        } else {
-            //FIXME
-            //set up the toolbar
-            //activity.setSupportActionBar(mToolbar);
-            //mActionbar = activity.getSupportActionBar();
-            //mActionbar.setDisplayHomeAsUpEnabled(true);
         }
+
         mCheckBox.setOnCheckedChangeListener(this);
 
         return rootView;
@@ -245,7 +233,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
             Log.v(LOG_TAG, "_non null data returned");
 
-            if (mTowPane) {
+            if (mTwoPane) {
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));

@@ -17,11 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import junit.framework.Test;
 
 import java.util.ArrayList;
 
@@ -32,13 +27,13 @@ import java.util.ArrayList;
 public class ViewPagetTabFragment extends Fragment {
 
     private ViewPager mViewPager;
-    private boolean mTwoPane;
 
     private String mMovieId;
     private Toolbar mToolbar;
-    private boolean mTowPane;
+    private boolean mTwoPane;
     private Uri itemUri = null;
 
+    private ActionBar mActonBar;
     private long mMovieIdLong = 0l;
 
     private final String LOG_TAG = this.getClass().getSimpleName();
@@ -57,7 +52,7 @@ public class ViewPagetTabFragment extends Fragment {
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        mTowPane = MainActivity.isTwoPane();
+        mTwoPane = MainActivity.isTwoPane();
 
         Intent receivedIntent = activity.getIntent();
 
@@ -96,6 +91,10 @@ public class ViewPagetTabFragment extends Fragment {
         nestedScrollView.setFillViewport(true);
 
         //TODO get Toolbar, set movie title, add back button
+        mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
+        activity.setSupportActionBar(mToolbar);
+        mActonBar = activity.getSupportActionBar();
+        mActonBar.setDisplayHomeAsUpEnabled(true);
 
 
         //FragmentManager fm = getActivity().getSupportFragmentManager();
