@@ -7,12 +7,19 @@
     <dimen name="material_72dp_keyline">72dp</dimen>
 
     <!--padding-->
-    <dimen name="material_appbar_title_paddint">72dp</dimen>
+    <dimen name="material_appbar_title_start_margin">72dp</dimen>
     <dimen name="material_appbar_bottom_padding">20dp</dimen>
     <dimen name="material_appbar_height">56dp</dimen>
+
+    <!--the total icon size will add up to a material touch target size of 48dp-->
     <dimen name="material_appbar_icon_padding">16dp</dimen>
+    <dimen name="material_appbar_icon_size">24dp</dimen>
+
+    <!--Using dp in text spec to keep consistent text size independent of user preferences-->
+    <dimen name="material_appbar_title_height">20dp</dimen>
 
     <dimen name="material_LR_content_padding">16dp</dimen>
+
 
 
 </resources>

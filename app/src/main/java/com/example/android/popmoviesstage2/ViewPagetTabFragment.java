@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,12 +30,15 @@ public class ViewPagetTabFragment extends Fragment {
     private ViewPager mViewPager;
 
     private String mMovieId;
-    private Toolbar mToolbar;
     private boolean mTwoPane;
     private Uri itemUri = null;
-
-    private ActionBar mActonBar;
     private long mMovieIdLong = 0l;
+
+
+    private Toolbar mToolbar;
+    private ActionBar mActonBar;
+    private TextView mToolbarTitle;
+
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
@@ -90,12 +94,15 @@ public class ViewPagetTabFragment extends Fragment {
         NestedScrollView nestedScrollView = (NestedScrollView) rootView.findViewById(R.id.nested_scrollview);
         nestedScrollView.setFillViewport(true);
 
-        //TODO get Toolbar, set movie title, add back button
-        mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
-        activity.setSupportActionBar(mToolbar);
-        mActonBar = activity.getSupportActionBar();
-        mActonBar.setDisplayHomeAsUpEnabled(true);
-
+        if(!mTwoPane) {
+            //TODO get Toolbar, set movie title, add back button
+            mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
+            mToolbarTitle = (TextView) mToolbar.findViewById(R.id.detail_toolbar_title_text_view);
+            activity.setSupportActionBar(mToolbar);
+            mActonBar = activity.getSupportActionBar();
+            mActonBar.setDisplayHomeAsUpEnabled(true);
+            mActonBar.setDisplayShowHomeEnabled(true);
+        }
 
         //FragmentManager fm = getActivity().getSupportFragmentManager();
         mViewPager = (ViewPager) rootView.findViewById(R.id.detail_view_pager);
