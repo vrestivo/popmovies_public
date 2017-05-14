@@ -181,7 +181,7 @@ public class ImageDownloadAndSaveTest {
 //        final String LOG_TAG = "_dMultipleImagesTest: ";
 //        Context context = getTargetContext();
 //
-//        ArrayList<String> urlList = getAllImageUrlsFromDb(context);
+//        ArrayList<String> urlList = getPosterUrlsFromDb(context);
 //
 //        Assert.assertTrue("Url List is null", !urlList.isEmpty());
 //

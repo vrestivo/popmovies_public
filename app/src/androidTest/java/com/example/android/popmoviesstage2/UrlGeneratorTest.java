@@ -15,6 +15,7 @@ import org.junit.runners.JUnit4;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 
@@ -47,9 +48,26 @@ public class UrlGeneratorTest {
 
     @Test
     public void testYoutubeThumbnailUrlGenerator(){
-        Uri thumbnailUrl = DataContract.buildYoutubeThumbnailUrl(getTargetContext(), mInterstellarYouTubeId, "0.jpg");
+        Uri thumbnailUrl = DataContract.Trailers.buildYoutubeThumbnailUrl(getTargetContext(), mInterstellarYouTubeId, "0.jpg");
         Assert.assertEquals("Thubnail Uri generated incorrectly.", mInterstellarTrailerThumbnailUri, thumbnailUrl.toString());
     }
+
+
+    @Test
+    public void testThumbnailRetrievalFromDB(){
+        ArrayList<String> list = Utility.getThumbnailUrlsFromDb(getTargetContext());
+
+        Assert.assertNotNull("null list returned", list);
+
+        for(String link : list){
+            System.out.println(link);
+        }
+
+    }
+
+
+
+
 
     /**
      * test movie ID-based URL request generation for trailers and reviews

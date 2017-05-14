@@ -64,7 +64,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
                 else {
                     Log.v("_Adding Account: ", " accounts[] != 1: " + accounts.length);
-
                 }
             }
         }
@@ -120,7 +119,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             //pull list of poster URLs from the movies table
             ArrayList<String> posterDownloadList =
-                    Utility.getAllImageUrlsFromDb(context);
+                    Utility.getPosterUrlsFromDb(context);
 
             //download movie posters
             if(!posterDownloadList.isEmpty()){
@@ -168,7 +167,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         //pull list of poster URLs from the movies table
         ArrayList<String> posterDownloadList =
-                Utility.getAllImageUrlsFromDb(context);
+                Utility.getPosterUrlsFromDb(context);
 
         //download movie posters
         if(!posterDownloadList.isEmpty()){

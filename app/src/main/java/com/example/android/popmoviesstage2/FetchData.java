@@ -522,7 +522,6 @@ public class FetchData {
     public static void downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) throws IOException {
 
         final String LOG_TAG = "dMultImages: ";
-        final String dirName = "downloadImageTest";
 
         InputStream is = null;
         HttpURLConnection connection = null;
@@ -555,12 +554,29 @@ public class FetchData {
                     outputStream.close();
                 }
             }
+        }
+    }
+
+    public static void downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) throws IOException {
+
+        final String LOG_TAG = "downloadAndSaveTrailerThumbnail";
+
+        InputStream is = null;
+        HttpURLConnection connection = null;
+        FileOutputStream outputStream = null;
+
+        for (String thumbnailUrl: passedUrlList){
+            String imagename = null;
+            //TODO parse imagename out of url in the form of youtubeId_0.jpg
+
 
         }
+
+
 
     }
 
 
 
-}
+    }
 

@@ -100,6 +100,32 @@ public class DataContract {
             return trailersUri;
         }
 
+        /**
+         *
+         * @param context
+         * @param youtubeId Youtube video ID in string form
+         * @param pictureFileName file name to append to the end of the Uri
+         *                        Ex: 0.jpg is a defaulf value for an higher resolution thumbnail
+         * @return URL to the thumbnail
+         */
+
+        public static Uri buildYoutubeThumbnailUrl(Context context, String youtubeId, String pictureFileName){
+
+            if(youtubeId!=null && pictureFileName!=null) {
+                Uri.Builder builder = new Uri.Builder()
+                        .encodedPath(context.getString(R.string.youtube_thumbnail_base_url))
+                        .appendPath(youtubeId)
+                        .appendPath(pictureFileName);
+
+                return builder.build();
+            }
+
+            return null;
+
+        }
+
+
+
     }
 
     public static final class Reviews implements BaseColumns {
@@ -319,28 +345,5 @@ public class DataContract {
     }
 
 
-    /**
-     *
-     * @param context
-     * @param youtubeId Youtube video ID in string form
-     * @param pictureFileName file name to append to the end of the Uri
-     *                        Ex: 0.jpg is a defaulf value for an higher resolution thumbnail
-     * @return URL to the thumbnail
-     */
-
-    public static Uri buildYoutubeThumbnailUrl(Context context, String youtubeId, String pictureFileName){
-
-        if(youtubeId!=null && pictureFileName!=null) {
-            Uri.Builder builder = new Uri.Builder()
-                    .encodedPath(context.getString(R.string.youtube_thumbnail_base_url))
-                    .appendPath(youtubeId)
-                    .appendPath(pictureFileName);
-
-            return builder.build();
-        }
-
-        return null;
-
-    }
 
 }

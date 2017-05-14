@@ -284,7 +284,7 @@ public class Utility {
      * @param context
      * @return list of poster URLs in ArrayList<String> format
      */
-    public static ArrayList<String> getAllImageUrlsFromDb(Context context) {
+    public static ArrayList<String> getPosterUrlsFromDb(Context context) {
         final String LOG_TAG = "_getImageUrlFromDb: ";
 
         ArrayList<String> urlList = new ArrayList<String>();
@@ -292,7 +292,7 @@ public class Utility {
         String imageUrl = null;
 
         SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         if (db != null) {
             Cursor cursor = db.query(
@@ -322,6 +322,53 @@ public class Utility {
         db.close();
 
         return urlList;
+    }
+
+
+    public static ArrayList<String> getThumbnailUrlsFromDb(Context context){
+        final String LOG_TAG = "_getThumbnailUrlFromDb: ";
+
+        ArrayList<String> urlList = new ArrayList<String>();
+        String youtubeVideoId = null;
+
+        String fileSuffix = context.getString(R.string.youtube_thumbnail_zero_index);
+
+        Uri.Builder utiBuilder = new Uri.Builder();
+
+        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+
+        if (db != null) {
+            Cursor cursor = db.query(
+                    DataContract.TABLE_TRAILERS,
+                    new String[]{DataContract.Trailers.COL_KEY},
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    youtubeVideoId = cursor.getString(0);
+                    urlList.add(DataContract.Trailers.buildYoutubeThumbnailUrl(context, youtubeVideoId, fileSuffix).toString());
+                    //Log.v(LOG_TAG, "_path: " + thumbnailUrl);
+                } while (cursor.moveToNext());
+                cursor.close();
+
+            } else {
+                Log.v(LOG_TAG, "returned cursor is null");
+            }
+        } else {
+            Log.v(LOG_TAG, "returned database is null");
+        }
+
+        db.close();
+
+
+        return urlList;
+
     }
 
 
@@ -595,6 +642,7 @@ public class Utility {
 
         ArrayList<String> allJpgs = listAllJpgs(context);
         ArrayList<String> favoriteJpgs = new ArrayList<String>();
+        //TODO get favorite poster Jpgs
 
         Uri favoritesUri = DataContract.Movies.buildFavoritesUri();
         Uri hitListUri = DataContract.buildNotFavoritesUri();
@@ -618,6 +666,7 @@ public class Utility {
 
                 if (!favoriteJpgs.isEmpty()) {
                     allJpgs.removeAll(favoriteJpgs);
+                    //TODO subtract favorite posters from the list
                 }
                 cursor.close();
 
@@ -641,7 +690,7 @@ public class Utility {
             );
 
 
-        }  // if(!allJpgs.isEmpty())
+        }  // end of if(!allJpgs.isEmpty())
 
 
         return itemsDeleted;
