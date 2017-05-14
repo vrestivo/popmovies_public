@@ -418,6 +418,21 @@ public class Utility {
 
     }
 
+    public static String getThumbnailSaveName(String url){
+        if(url != null){
+            String[] segments = splitUrl(url);
+
+            if(segments.length>2) {
+                String filename = segments[segments.length - 2];
+                if (filename != null){
+                    return filename+ "_" + segments[segments.length-1];
+                }
+            }
+        }
+        return null;
+    }
+
+
 
     /**
      * this methods extracts ConventValues array with trailer information
@@ -647,7 +662,7 @@ public class Utility {
         Uri favoritesUri = DataContract.Movies.buildFavoritesUri();
         Uri hitListUri = DataContract.buildNotFavoritesUri();
 
-
+        //TODO add query for favorite trailers
         if (!allJpgs.isEmpty()) {
 
             Cursor cursor = context.getContentResolver().query(

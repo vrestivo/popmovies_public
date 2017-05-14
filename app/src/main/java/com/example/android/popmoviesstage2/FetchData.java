@@ -566,17 +566,47 @@ public class FetchData {
         FileOutputStream outputStream = null;
 
         for (String thumbnailUrl: passedUrlList){
-            String imagename = null;
-            //TODO parse imagename out of url in the form of youtubeId_0.jpg
 
+            if(thumbnailUrl!=null) {
+
+                String thumbnailSaveName = Utility.getThumbnailSaveName(thumbnailUrl);
+                System.out.println("_thub_save_name: " + thumbnailSaveName);
+
+                if(thumbnailSaveName!=null) {
+
+                    try {
+                        URL url = new URL(thumbnailUrl);
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setReadTimeout(10000);
+                        connection.setConnectTimeout(10000);
+                        connection.setRequestMethod("GET");
+                        connection.setDoInput(true);
+                        connection.connect();
+                        int response = connection.getResponseCode();
+                        Log.v(LOG_TAG, "response is: " + response);
+                        is = connection.getInputStream();
+
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                        outputStream = context.openFileOutput(thumbnailSaveName, context.MODE_PRIVATE);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+                    } finally {
+                        if (is != null) {
+                            is.close();
+                            connection.disconnect();
+                            outputStream.close();
+                        }
+                    }
+                } //end of if(thumbnailUrl!=null)
+
+             } //end of if(thumbnailUrl!=null)
 
         }
 
-
-
-    }
+    } // end of downloadAndSaveTrailerThumbnails()
 
 
 
-    }
+} //end of class
 

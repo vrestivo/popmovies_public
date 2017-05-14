@@ -46,93 +46,10 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 @RunWith(JUnit4.class)
 public class ImageDownloadAndSaveTest {
 
-    public ArrayList<String> jpgHitList = new ArrayList<String >();
+    public ArrayList<String> jpgHitList = new ArrayList<String>();
 
 
     private static final String cptAmericaMovieId = "271110";
-
-
-    public static String getImageUrlByMovieId(String movieId, Context context) {
-        final String LOG_TAG = "_getImageUrlFromDb: ";
-
-        String imageUrl = null;
-
-
-        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        if (movieId.matches("[0-9]+")) {
-            if (db != null) {
-                Cursor cursor = db.query(
-                        DataContract.TABLE_MOVIES,
-                        new String[]{DataContract.Movies.COL_POSTER_PATH},
-                        ContactsContract.Data._ID + "=?",
-                        new String[]{movieId},
-                        null,
-                        null,
-                        null
-                );
-                if (cursor.moveToFirst()) {
-                    imageUrl = cursor.getString(0);
-                    cursor.close();
-                    Log.v(LOG_TAG, "_path: " + imageUrl);
-
-                } else {
-                    Log.v(LOG_TAG, "returned cursor is null");
-                }
-            } else {
-                Log.v(LOG_TAG, "returned database is null");
-            }
-        }
-
-        db.close();
-
-        return imageUrl;
-    }
-
-
-    public static ArrayList<String> getAllImageUrlsFromDb(Context context) {
-        final String LOG_TAG = "_getImageUrlFromDb: ";
-
-        ArrayList<String> urlList = new ArrayList<String>();
-
-        String imageUrl = null;
-
-        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        if (db != null) {
-            Cursor cursor = db.query(
-                    DataContract.TABLE_MOVIES,
-                    new String[]{DataContract.Movies.COL_POSTER_PATH},
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-            if (cursor.moveToFirst()) {
-                do {
-                    imageUrl = cursor.getString(0);
-                    urlList.add(imageUrl);
-                    Log.v(LOG_TAG, "_path: " + imageUrl);
-                } while (cursor.moveToNext());
-                cursor.close();
-
-            } else {
-                Log.v(LOG_TAG, "returned cursor is null");
-            }
-        } else {
-            Log.v(LOG_TAG, "returned database is null");
-        }
-
-        db.close();
-
-        return urlList;
-    }
-
-
 
 
 //    @Test
@@ -203,8 +120,6 @@ public class ImageDownloadAndSaveTest {
 //    }
 
 
-
-
 //    @Test
 //    public void fileListTest(){
 //        final String LOG_TAG = "fileListTest: ";
@@ -225,89 +140,31 @@ public class ImageDownloadAndSaveTest {
 //
 //    }
 
+    public static void downloadAndSaveMultipleImages(ArrayList<String> passedUrlList, Context context) throws IOException {
+        //TODO update method
 
-    public static void downloadAndSaveImage(String passedUrl, Context context) throws IOException {
+    }
 
-        final String LOG_TAG = "_downloadImage: ";
-        final String dirName = "downloadImageTest";
-        final String imageName = Uri.parse(passedUrl).getLastPathSegment();
-
-        InputStream is = null;
-        HttpURLConnection connection = null;
-        FileOutputStream outputStream = null;
+    @Test
+    public void downloadAndSaveTrailerThumbnails() {
+        Context context = getTargetContext();
 
         try {
-            URL url = new URL(passedUrl);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setReadTimeout(10000);
-            connection.setConnectTimeout(10000);
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.connect();
-            int response = connection.getResponseCode();
-            Log.v(LOG_TAG, "response is: " + response);
-            is = connection.getInputStream();
-
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-            outputStream = context.openFileOutput(imageName, context.MODE_PRIVATE);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-        } finally {
-            if (is != null) {
-                is.close();
-                connection.disconnect();
-                outputStream.close();
-            }
-        }
-    }
-
-    public static void downloadAndSaveMultipleImages(ArrayList<String> passedUrlList, Context context) throws IOException {
-
-        final String LOG_TAG = "dMultImages: ";
-        final String dirName = "downloadImageTest";
-
-        InputStream is = null;
-        HttpURLConnection connection = null;
-        FileOutputStream outputStream = null;
-
-        for (String passedUrl : passedUrlList) {
-            String imageName = Uri.parse(passedUrl).getLastPathSegment();
-
-            try {
-                URL url = new URL(passedUrl);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(10000);
-                connection.setRequestMethod("GET");
-                connection.setDoInput(true);
-                connection.connect();
-                int response = connection.getResponseCode();
-                Log.v(LOG_TAG, "response is: " + response);
-                is = connection.getInputStream();
-
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-                outputStream = context.openFileOutput(imageName, context.MODE_PRIVATE);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-            } finally {
-                if (is != null) {
-                    is.close();
-                    connection.disconnect();
-                    outputStream.close();
-                }
-            }
-
+            FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context), context);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
     }
 
+/*
 
-    /**
-     * test deletion of movie posters and records for movies not marked
-     * as favorite
-     */
+    */
+/**
+ * test deletion of movie posters and records for movies not marked
+ * as favorite
+ *//*
+
     @Test
     public void deletNonFavoriteJpgandMoviesTest(){
         final String LOG_TAG = "deletNonFavJPGTest: ";
@@ -320,5 +177,7 @@ public class ImageDownloadAndSaveTest {
 
 
     }
+*/
+
 
 }

@@ -61,6 +61,7 @@ public class UrlGeneratorTest {
 
         for(String link : list){
             System.out.println(link);
+            System.out.println(Utility.splitUrl(link)[4]);
         }
 
     }
