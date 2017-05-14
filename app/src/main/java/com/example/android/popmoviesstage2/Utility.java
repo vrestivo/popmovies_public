@@ -10,23 +10,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.webkit.ValueCallback;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.example.android.popmoviesstage2.data.MovieDbHelper;
 
-import junit.framework.Assert;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
  * contatins utility methods that make life easier
@@ -659,14 +651,13 @@ public class Utility {
         ArrayList<String> favoriteJpgs = new ArrayList<String>();
         //TODO get favorite poster Jpgs
 
-        Uri favoritesUri = DataContract.Movies.buildFavoritesUri();
+        Uri favoriteMoviesUri = DataContract.Movies.buildFavoritesUri();
         Uri hitListUri = DataContract.buildNotFavoritesUri();
 
-        //TODO add query for favorite trailers
         if (!allJpgs.isEmpty()) {
 
             Cursor cursor = context.getContentResolver().query(
-                    favoritesUri,
+                    favoriteMoviesUri,
                     null,
                     null,
                     null,
@@ -684,6 +675,8 @@ public class Utility {
                     //TODO subtract favorite posters from the list
                 }
                 cursor.close();
+                //TODO add query for favorite trailers
+
 
             }  //end of if(cursor.moveToFirst());
             else {

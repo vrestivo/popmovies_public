@@ -28,6 +28,7 @@ public class DataContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIES = "movies";
     public static final String PATH_TRAILERS = "trailers";
+    public static final String PATH_TRAILERS_FAV = "trailers_fav";
     public static final String PATH_REVIEWS = "reviews";
     public static final String PATH_FAVORITES = "favorites";
     public static final String PATH_TOGGLE_FAVORITES = "toggle_favorites";
@@ -36,12 +37,11 @@ public class DataContract {
     public static final String PATH_MOVIE_RUNTIME = "runtime";
     public static final String PATH_CLEAN_SLATE_PROTOCOL = "clean_slate";
 
-
     //key for url query encoding for toggling favorites
     //see buildToggleFavoritesUri()
     public static final String KEY_FLAG = "flag";
 
-    //key for movid Id argument passed in a bundle
+    //key for movie Id argument passed in a bundle
     //to the TrailerFragment and ReviewsFragment
     public static final String KEY_MOVIE_ID = "movieId";
 
@@ -53,6 +53,15 @@ public class DataContract {
     public static final String CONTENT_DYPE_ITEM =
             ContentResolver.CURSOR_ITEM_BASE_TYPE + "/"
                     + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
+
+
+    //Raw Inner join query for favorite trailers
+    //"select key from movies JOIN trailers on movies._id=trailers.movie_id where favorite=1;";
+    public static final String RAW_FAVORITE_TRAILERS_INNER_JOIN =
+    "SELECT " + Trailers.COL_KEY + " FROM " + TABLE_MOVIES +
+            " JOIN " + TABLE_TRAILERS + " ON " +
+            TABLE_MOVIES+"."+Movies._ID + "=" +TABLE_TRAILERS+"."+Trailers.COL_MOVIE_ID +
+            " WHERE " + Movies.COL_FAVORITE +"=1;";
 
 
     public static final class Trailers implements BaseColumns {
@@ -87,7 +96,7 @@ public class DataContract {
         }
 
         /**
-         * build URI for requesting a list of trailers
+         * build content URI for requesting a list of trailers
          * by movie ID
          *
          * @return resulting uri
@@ -99,6 +108,21 @@ public class DataContract {
                     .build();
             return trailersUri;
         }
+
+
+        /**
+         * build content URI for requesting a list of trailers
+         * for favorite movies
+         * @return
+         */
+        public static Uri buildFavoriteTrailersUri(){
+            Uri favoriteTrailersUri = BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_TRAILERS_FAV)
+                    .build();
+
+            return favoriteTrailersUri;
+        }
+
 
         /**
          *

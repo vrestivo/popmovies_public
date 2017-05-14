@@ -557,6 +557,13 @@ public class FetchData {
         }
     }
 
+
+    /**
+     * this method downloads youtube video thumbnails and stores in the app's files directory
+     * @param passedUrlList arrays list of trailer thumbnails to download
+     * @param context context
+     * @throws IOException
+     */
     public static void downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) throws IOException {
 
         final String LOG_TAG = "downloadAndSaveTrailerThumbnail";

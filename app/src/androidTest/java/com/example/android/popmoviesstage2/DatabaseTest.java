@@ -3,16 +3,24 @@ package com.example.android.popmoviesstage2;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.android.popmoviesstage2.data.DataContract;
+import com.example.android.popmoviesstage2.data.MovieDbHelper;
+import com.example.android.popmoviesstage2.data.MovieProvider;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.RunListener;
 import org.junit.runners.JUnit4;
+
+import java.util.ArrayList;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 
@@ -112,11 +120,14 @@ public class DatabaseTest {
     }
 
 
-    /**
+/**
      * pull general movies data from TMDB and inserts it into empty movies table
      * NOTE: it will fail if the data already is in the table,
      * and zero insertions performed
      */
+
+/*
+
     @Test
     public void pullMoviesDataAndBulkInsertToMoviesTable() {
         Context context = getTargetContext();
@@ -135,47 +146,42 @@ public class DatabaseTest {
 
     }
 
+*/
 
 
+    /**
+     * Test pulling favorite trailers keys from the SQLite database
+     * through content provider.  Content provider uses raw query to
+     * perform an INNER JOIN on movies and trailers tables
+     */
+    @Test
+    public void pullFavoriteTrailersViaConentProviderTest(){
+        Context context =  getTargetContext();
+        ContentResolver contentResolver = context.getContentResolver();
+        ArrayList<String> trailerKeys = new ArrayList<>();
 
 
+        Cursor cursor = contentResolver.query(DataContract.Trailers.buildFavoriteTrailersUri(),
+                null,
+                null,
+                null,
+                null
+                );
 
-/*    @Test
-    public void trailerDbTest() {
-        final String LOG_TAG = "_getTrailersDbTest: ";
+        if(cursor!=null && cursor.moveToFirst()){
+            do{
+                trailerKeys.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
 
-        Context context = getTargetContext();
+        Assert.assertTrue(trailerKeys.size()>0);
 
-        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
+        for(String key : trailerKeys){
+            System.out.println("_TKEY: " + key);
+        }
 
-        HashMap<String, HashMap<String, ContentValues[]>> parsedResults;
+    }
 
-
-        String rawDetailData = FetchData.fetchDetailsByMovieId(movieId, context);
-        Assert.assertNotNull("Null JSON results", rawDetailData);
-
-        parsedResults = FetchData.parseRawDetails(movieId, rawDetailData, context);
-        Assert.assertNotNull("Null parsed JSON", rawDetailData);
-
-
-        ContentValues[] trailersCV = Utility.getTrailersCV(movieId, parsedResults, context);
-
-        Assert.assertNotNull("Null ContentValues[]", trailersCV);
-        Assert.assertTrue("ContentValues[] is zero or less", (trailersCV.length > 0));
-
-        ContentResolver contentProvider = context.getContentResolver();
-
-        Uri uri = DataContract.Trailers.buildTrailersByMovieIdUri(Long.parseLong(movieId));
-        Log.v(LOG_TAG, uri.toString());
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int count = bulkInsert(db, trailersCV, context);
-
-        db.close();
-
-        Assert.assertTrue("_bulk insert failed", count > 0);
-
-    }*/
 
 }

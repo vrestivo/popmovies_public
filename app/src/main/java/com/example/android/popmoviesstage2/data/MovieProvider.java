@@ -6,12 +6,8 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.Log;
 
 import com.example.android.popmoviesstage2.Utility;
@@ -49,7 +45,7 @@ public class MovieProvider extends ContentProvider {
     public final static int MOVIE_RUNTIME = 104;
 
     //this match will pull all favorites
-    public final static int MOVIES_FAVORITES = 200;
+    public final static int MOVIES_FAVORITE = 200;
 
     //this match will pull specific farorite record
     public final static int MOVIE_FAV_RECORD = 201;
@@ -66,6 +62,9 @@ public class MovieProvider extends ContentProvider {
     //this match will pull all trailers entries
     //for a specific movie it
     public final static int TRAILERS_BY_MOVIE_ID = 301;
+
+    //this match will pull trailers for all favorite movies
+    public final static int TRAILERS_FAVORITE = 302;
 
     //this match will pull all review entries
     public final static int REVIEWS = 400;
@@ -88,12 +87,13 @@ public class MovieProvider extends ContentProvider {
         matcher.addURI(authority, DataContract.PATH_MOVIES, MOVIES);
         matcher.addURI(authority, DataContract.PATH_MOVIE_IDS, MOVIE_IDS);
         matcher.addURI(authority, DataContract.PATH_MOVIES + "/#", MOVIE_RECORD);
-        matcher.addURI(authority, DataContract.PATH_FAVORITES, MOVIES_FAVORITES);
+        matcher.addURI(authority, DataContract.PATH_FAVORITES, MOVIES_FAVORITE);
         matcher.addURI(authority, DataContract.PATH_FAVORITES + "/#", MOVIE_FAV_RECORD);
         matcher.addURI(authority, DataContract.PATH_NOT_FAVORITES, DELETE_ALL_BUT_FAV);
         matcher.addURI(authority, DataContract.PATH_TOGGLE_FAVORITES + "/#", MOVIE_TOGGLE_FAV);
         matcher.addURI(authority, DataContract.PATH_TRAILERS, TRAILERS);
         matcher.addURI(authority, DataContract.PATH_TRAILERS + "/#", TRAILERS_BY_MOVIE_ID);
+        matcher.addURI(authority, DataContract.PATH_TRAILERS_FAV, TRAILERS_FAVORITE);
         matcher.addURI(authority, DataContract.PATH_REVIEWS, REVIEWS);
         matcher.addURI(authority, DataContract.PATH_REVIEWS + "/#", REVIEWS_BY_MOVIE_ID);
         matcher.addURI(authority, DataContract.PATH_MOVIE_RUNTIME, MOVIE_RUNTIMES);
@@ -194,6 +194,14 @@ public class MovieProvider extends ContentProvider {
                     break;
                 }
 
+                case TRAILERS_FAVORITE: {
+                    retValues = db.rawQuery(DataContract.RAW_FAVORITE_TRAILERS_INNER_JOIN,
+                            null // no arguments passed
+                    );
+
+                    break;
+                }
+
                 case REVIEWS_BY_MOVIE_ID: {
                     String movieId = uri.getLastPathSegment();
                     retValues = db.query(DataContract.TABLE_REVIEWS,
@@ -208,7 +216,7 @@ public class MovieProvider extends ContentProvider {
                     break;
                 }
 
-                case MOVIES_FAVORITES: {
+                case MOVIES_FAVORITE: {
                     retValues = db.query(DataContract.TABLE_MOVIES,
                             DataContract.Movies.defaultProjection,
                             DataContract.Movies.COL_FAVORITE +">0",
@@ -242,7 +250,7 @@ public class MovieProvider extends ContentProvider {
                 return DataContract.CONTENT_TYPE_DIR;
             case MOVIE_IDS:
                 return DataContract.CONTENT_TYPE_DIR;
-            case MOVIES_FAVORITES:
+            case MOVIES_FAVORITE:
                 return DataContract.CONTENT_TYPE_DIR;
             case MOVIE_RECORD:
                 return DataContract.CONTENT_DYPE_ITEM;
@@ -251,6 +259,8 @@ public class MovieProvider extends ContentProvider {
             case TRAILERS:
                 return DataContract.CONTENT_TYPE_DIR;
             case TRAILERS_BY_MOVIE_ID:
+                return DataContract.CONTENT_TYPE_DIR;
+            case TRAILERS_FAVORITE:
                 return DataContract.CONTENT_TYPE_DIR;
             case REVIEWS:
                 return DataContract.CONTENT_TYPE_DIR;
