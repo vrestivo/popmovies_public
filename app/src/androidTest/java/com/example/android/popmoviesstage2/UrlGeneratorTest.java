@@ -2,7 +2,10 @@ package com.example.android.popmoviesstage2;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.test.espresso.core.deps.guava.eventbus.AsyncEventBus;
 import android.util.Log;
+
+import com.example.android.popmoviesstage2.data.DataContract;
 
 import junit.framework.Assert;
 
@@ -28,6 +31,8 @@ public class UrlGeneratorTest {
     private final String mInterstellarYouTubeUrl = "https://www.youtube.com/watch?v=Rt2LHkSwdPQ";
     private final int mTMDBInterstellarId = 157336;
 
+    private final String mInterstellarTrailerThumbnailUri = "https://img.youtube.com/vi/Rt2LHkSwdPQ/0.jpg";
+
 
     /**
      * Tests generation of YouTube url referring to a trailer video
@@ -40,9 +45,17 @@ public class UrlGeneratorTest {
     }
 
 
+    @Test
+    public void testYoutubeThumbnailUrlGenerator(){
+        Uri thumbnailUrl = DataContract.buildYoutubeThumbnailUrl(getTargetContext(), mInterstellarYouTubeId, "0.jpg");
+        Assert.assertEquals("Thubnail Uri generated incorrectly.", mInterstellarTrailerThumbnailUri, thumbnailUrl.toString());
+    }
+
     /**
      * test movie ID-based URL request generation for trailers and reviews
      */
+/*
+
     @Test
     public void testTrailerAndReviewUrlGenerator(){
         Uri.Builder builder = new Uri.Builder();
@@ -69,6 +82,7 @@ public class UrlGeneratorTest {
         Assert.assertEquals("URLs don't match!!!", workingUrl, decodedResults);
     }
 
+*/
 
 
 

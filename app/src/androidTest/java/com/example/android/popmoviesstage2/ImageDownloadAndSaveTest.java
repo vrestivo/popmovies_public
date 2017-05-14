@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.example.android.popmoviesstage2.data.MovieDbHelper;
-import com.squareup.okhttp.internal.http.HttpConnection;
 
 import junit.framework.Assert;
 

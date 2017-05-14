@@ -1,10 +1,11 @@
 package com.example.android.popmoviesstage2.data;
 
 import android.content.ContentResolver;
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.content.Context;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
+
+import com.example.android.popmoviesstage2.R;
 
 
 /**
@@ -315,6 +316,31 @@ public class DataContract {
                 .appendPath(PATH_CLEAN_SLATE_PROTOCOL)
                 .build();
         return cleanSlateProtocolUri;
+    }
+
+
+    /**
+     *
+     * @param context
+     * @param youtubeId Youtube video ID in string form
+     * @param pictureFileName file name to append to the end of the Uri
+     *                        Ex: 0.jpg is a defaulf value for an higher resolution thumbnail
+     * @return URL to the thumbnail
+     */
+
+    public static Uri buildYoutubeThumbnailUrl(Context context, String youtubeId, String pictureFileName){
+
+        if(youtubeId!=null && pictureFileName!=null) {
+            Uri.Builder builder = new Uri.Builder()
+                    .encodedPath(context.getString(R.string.youtube_thumbnail_base_url))
+                    .appendPath(youtubeId)
+                    .appendPath(pictureFileName);
+
+            return builder.build();
+        }
+
+        return null;
+
     }
 
 }
