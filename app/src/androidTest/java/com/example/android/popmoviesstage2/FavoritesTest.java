@@ -34,12 +34,44 @@ public class FavoritesTest {
 
 
 
+    /**
+     * Covenience method sets favorite column value to 1 in the movies
+     * table for every record with the movie ID greater than the
+     * given movie ID
+     * @param valueToSet va
+     * @param baseMovieId baseline movie ID. anything greater will be set
+     *                    as favorite.
+     * @param context context
+     */
+    public static int toggleFavoriteWithMovieIdAboveGiven(int valueToSet, String baseMovieId, Context context){
+
+        ContentValues favoriteCv = new ContentValues();
+        favoriteCv.put(DataContract.Movies.COL_FAVORITE, valueToSet);
+
+        int valuesUpdated = 0;
+
+        final String favoriteSelection = DataContract.Movies._ID + ">?";
+
+        ContentResolver contentResolver = context.getContentResolver();
+
+        valuesUpdated = contentResolver.update(
+                DataContract.Movies.buildToggleFavoritesUri(baseMovieId, true),
+                favoriteCv,
+                favoriteSelection,
+                new String[]{baseMovieId}
+        );
+
+        return valuesUpdated;
+    }
+
+
 
 
     /**
      * sets favorite values in the movies table to 1
      * for records with _ID greater than movieIdLimit
      */
+/*
 
     @Test
     public void makeFavorites(){
@@ -56,6 +88,7 @@ public class FavoritesTest {
 
     }
 
+*/
 
 
 //    @Test
@@ -89,36 +122,15 @@ public class FavoritesTest {
 
 
 
-    /**
-     * Covenience method sets favorite column value to 1 in the movies
-     * table for every record with the movie ID greater than the
-     * given movie ID
-     * @param valueToSet va
-     * @param baseMovieId baseline movie ID. anything greater will be set
-     *                    as favorite.
-     * @param context context
-     */
-    public static int toggleFavoriteWithMovieIdAboveGiven(int valueToSet, String baseMovieId, Context context){
+    //TODO validate the results
+    @Test
+    public void deleteNonFavoriteJPGs(){
 
-        ContentValues favoriteCv = new ContentValues();
-        favoriteCv.put(DataContract.Movies.COL_FAVORITE, valueToSet);
+        Utility.deleteNonFavoriteJPGsAndMovieRecords(getTargetContext());
 
-        int valuesUpdated = 0;
 
-        final String favoriteSelection = DataContract.Movies._ID + ">?";
 
-        ContentResolver contentResolver = context.getContentResolver();
-
-        valuesUpdated = contentResolver.update(
-                DataContract.Movies.buildToggleFavoritesUri(baseMovieId, true),
-                favoriteCv,
-                favoriteSelection,
-                new String[]{baseMovieId}
-        );
-
-        return valuesUpdated;
     }
-
 
 
 }

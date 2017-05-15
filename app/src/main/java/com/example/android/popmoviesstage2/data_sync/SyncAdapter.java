@@ -55,14 +55,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             } else {
                 Log.v("_Adding Account: ", "acount exists, or something else happened!");
                 Log.v("_Adding Account: ", "attempting retrieve existing account");
-                Account[] accounts =  am.getAccountsByTypeForPackage(context.getString(R.string.account_type),
+                Account[] accounts = am.getAccountsByTypeForPackage(context.getString(R.string.account_type),
                         context.getString(R.string.content_authority));
-                if(accounts.length == 1){
+                if (accounts.length == 1) {
                     newAccount = accounts[0];
                     Log.v("_Adding Account: ", "account retrieved");
 
-                }
-                else {
+                } else {
                     Log.v("_Adding Account: ", " accounts[] != 1: " + accounts.length);
                 }
             }
@@ -121,18 +120,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ArrayList<String> posterDownloadList =
                     Utility.getPosterUrlsFromDb(context);
 
-            //download movie posters
-            if(!posterDownloadList.isEmpty()){
-                try {
-                    FetchData.downloadAndSaveMoviePosters(posterDownloadList,
-                            context);
-                }catch (IOException ioe){
-                    ioe.printStackTrace();
-                }
+            //download movie posters and trailer thumbnails
+            if (!posterDownloadList.isEmpty()) {
+                FetchData.downloadAndSaveMoviePosters(posterDownloadList,
+                        context);
+
+                FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
+                        context);
             }
 
-        }
-        else {
+        } else {
             Log.v(LOG_TAG, "not the first sync...");
 
             Utility.deleteNonFavoriteJPGsAndMovieRecords(context);
@@ -148,7 +145,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    private void sendBroadcast(){
+    private void sendBroadcast() {
         Log.v(LOG_TAG, "_sending broadcast");
         Intent intent = new Intent("sync_complete");
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -158,10 +155,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * convenience method for perfroming an initial data
      * request from the TMDB
+     *
      * @param context
      * @param firstrun
      */
-    private void initialDataPull(Context context, boolean firstrun){
+    private void initialDataPull(Context context, boolean firstrun) {
         Utility.pullMoviesAndBulkInsert(context, firstrun);
         Utility.pullDetailsDataAndBulkInsert(context);
 
@@ -169,14 +167,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ArrayList<String> posterDownloadList =
                 Utility.getPosterUrlsFromDb(context);
 
+        ArrayList<String> thumbnailDownloadList =
+                Utility.getThumbnailUrlsFromDb(context);
+
+
         //download movie posters
-        if(!posterDownloadList.isEmpty()){
-            try {
-                FetchData.downloadAndSaveMoviePosters(posterDownloadList,
-                        context);
-            }catch (IOException ioe){
-                ioe.printStackTrace();
-            }
+        if (!posterDownloadList.isEmpty()) {
+            FetchData.downloadAndSaveMoviePosters(posterDownloadList,
+                    context);
+        }
+        if(!thumbnailDownloadList.isEmpty()){
+            FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
+                    context);
         }
     }
 

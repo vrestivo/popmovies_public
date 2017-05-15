@@ -23,6 +23,7 @@ import org.junit.runners.JUnit4;
 import java.util.ArrayList;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static com.example.android.popmoviesstage2.Utility.getThumbnailUrlsFromDb;
 
 /**
  * Class containing tests for database operations
@@ -179,6 +180,18 @@ public class DatabaseTest {
 
         for(String key : trailerKeys){
             System.out.println("_TKEY: " + key);
+        }
+
+    }
+
+    @Test
+    public void pullTrailerThumbnails(){
+        ArrayList<String> links = Utility.getThumbnailUrlsFromDb(getTargetContext());
+
+        Assert.assertNotNull(links);
+
+        for(String link : links){
+            System.out.println(link);
         }
 
     }

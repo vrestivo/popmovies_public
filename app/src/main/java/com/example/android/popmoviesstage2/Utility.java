@@ -323,7 +323,7 @@ public class Utility {
         ArrayList<String> urlList = new ArrayList<String>();
         String youtubeVideoId = null;
 
-        String fileSuffix = context.getString(R.string.youtube_thumbnail_zero_index);
+        String fileSuffix = context.getString(R.string.youtube_thumbnail_default_file_suffix);
 
         Uri.Builder utiBuilder = new Uri.Builder();
 
@@ -643,12 +643,16 @@ public class Utility {
     public static int deleteNonFavoriteJPGsAndMovieRecords(Context context) {
         final String LOG_TAG = "deleteNonFavJPGs: ";
 
+        String thumbnailSuffix = "_" + context.getString(R.string.youtube_thumbnail_default_file_suffix);
+
         File filesDir = context.getFilesDir();
 
         int itemsDeleted = 0;
 
         ArrayList<String> allJpgs = listAllJpgs(context);
-        ArrayList<String> favoriteJpgs = new ArrayList<String>();
+        ArrayList<String> favoriteMoviePostersJpgs = new ArrayList<String>();
+        ArrayList<String> favoriteTrailerJpgs = new ArrayList<String>();
+
         //TODO get favorite poster Jpgs
 
         Uri favoriteMoviesUri = DataContract.Movies.buildFavoritesUri();
@@ -664,21 +668,46 @@ public class Utility {
                     null
             );
 
-            if (cursor.moveToFirst()) {
-
+            if (cursor!=null && cursor.moveToFirst()) {
                 do {
-                    favoriteJpgs.add((Uri.parse(cursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX)).getLastPathSegment()));
+                    favoriteMoviePostersJpgs.add((Uri.parse(cursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX)).getLastPathSegment()));
                 } while (cursor.moveToNext());
 
-                if (!favoriteJpgs.isEmpty()) {
-                    allJpgs.removeAll(favoriteJpgs);
-                    //TODO subtract favorite posters from the list
-                }
+            }  //end of if(cursor.moveToFirst());
+
+            if(cursor!=null) {
                 cursor.close();
+            }
                 //TODO add query for favorite trailers
 
+                Cursor trailerCursor = context.getContentResolver().query(
+                        DataContract.Trailers.buildFavoriteTrailersUri(),
+                        null,
+                        null,
+                        null,
+                        null);
 
-            }  //end of if(cursor.moveToFirst());
+
+            if(trailerCursor!=null && trailerCursor.moveToFirst()){
+                do {
+                    favoriteTrailerJpgs.add(trailerCursor.getString(0)+thumbnailSuffix);
+                }
+                while (trailerCursor.moveToNext());
+            }
+
+            if(trailerCursor!=null){
+                trailerCursor.close();
+            }
+
+
+                if (!favoriteMoviePostersJpgs.isEmpty()) {
+                    allJpgs.removeAll(favoriteMoviePostersJpgs);
+                    allJpgs.removeAll(favoriteTrailerJpgs);
+                }
+
+
+
+
             else {
                 Log.v(LOG_TAG, "_cursor is null");
             }

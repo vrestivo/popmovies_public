@@ -519,7 +519,7 @@ public class FetchData {
     }
 
 
-    public static void downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) throws IOException {
+    public static void downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
 
         final String LOG_TAG = "dMultImages: ";
 
@@ -547,11 +547,21 @@ public class FetchData {
                 outputStream = context.openFileOutput(imageName, context.MODE_PRIVATE);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-            } finally {
+            }
+            catch (IOException ioe){
+                ioe.printStackTrace();
+                continue;
+            }
+            finally {
                 if (is != null) {
-                    is.close();
-                    connection.disconnect();
-                    outputStream.close();
+                    try {
+                        is.close();
+                        connection.disconnect();
+                        outputStream.close();
+                    }
+                    catch (IOException ioe){
+                        ioe.printStackTrace();
+                    }
                 }
             }
         }
@@ -564,52 +574,65 @@ public class FetchData {
      * @param context context
      * @throws IOException
      */
-    public static void downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) throws IOException {
+    public static void downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) {
 
-        final String LOG_TAG = "downloadAndSaveTrailerThumbnail";
+        final String LOG_TAG = "downloadAndSaveTrailerThumbnails";
 
-        InputStream is = null;
-        HttpURLConnection connection = null;
-        FileOutputStream outputStream = null;
+        if(passedUrlList !=null) {
+            InputStream is = null;
+            HttpURLConnection connection = null;
+            FileOutputStream outputStream = null;
 
-        for (String thumbnailUrl: passedUrlList){
+            for (String thumbnailUrl : passedUrlList) {
 
-            if(thumbnailUrl!=null) {
+                if (thumbnailUrl != null) {
 
-                String thumbnailSaveName = Utility.getThumbnailSaveName(thumbnailUrl);
-                System.out.println("_thub_save_name: " + thumbnailSaveName);
+                    String thumbnailSaveName = Utility.getThumbnailSaveName(thumbnailUrl);
+                    System.out.println("_thub_save_name: " + thumbnailSaveName);
 
-                if(thumbnailSaveName!=null) {
+                    if (thumbnailSaveName != null) {
 
-                    try {
-                        URL url = new URL(thumbnailUrl);
-                        connection = (HttpURLConnection) url.openConnection();
-                        connection.setReadTimeout(10000);
-                        connection.setConnectTimeout(10000);
-                        connection.setRequestMethod("GET");
-                        connection.setDoInput(true);
-                        connection.connect();
-                        int response = connection.getResponseCode();
-                        Log.v(LOG_TAG, "response is: " + response);
-                        is = connection.getInputStream();
+                        try {
+                            URL url = new URL(thumbnailUrl);
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.setReadTimeout(10000);
+                            connection.setConnectTimeout(10000);
+                            connection.setRequestMethod("GET");
+                            connection.setDoInput(true);
+                            connection.connect();
+                            int response = connection.getResponseCode();
+                            Log.v(LOG_TAG, "response is: " + response);
+                            is = connection.getInputStream();
 
-                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                            Bitmap bitmap = BitmapFactory.decodeStream(is);
 
-                        outputStream = context.openFileOutput(thumbnailSaveName, context.MODE_PRIVATE);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            outputStream = context.openFileOutput(thumbnailSaveName, context.MODE_PRIVATE);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-                    } finally {
-                        if (is != null) {
-                            is.close();
-                            connection.disconnect();
-                            outputStream.close();
                         }
-                    }
+                        catch (IOException ioe){
+                            ioe.printStackTrace();
+                            continue;
+                        }
+                        finally {
+                            if (is != null) {
+                                try {
+                                    is.close();
+                                    connection.disconnect();
+                                    outputStream.close();
+                                }
+                                catch (IOException ioe){
+                                    ioe.printStackTrace();
+                                }
+                            }
+                        }
+
+                    } //end of if(thumbnailUrl!=null)
+
                 } //end of if(thumbnailUrl!=null)
 
-             } //end of if(thumbnailUrl!=null)
-
-        }
+            }
+        } // end of if(passedUrlList !=null)
 
     } // end of downloadAndSaveTrailerThumbnails()
 

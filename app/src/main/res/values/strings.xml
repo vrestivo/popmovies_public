@@ -91,7 +91,7 @@
 
     <string name="youtube_base_url">https://www.youtube.com/watch</string>
     <string name="youtube_thumbnail_base_url">https://img.youtube.com/vi</string>
-    <string name="youtube_thumbnail_zero_index">0.jpg</string>
+    <string name="youtube_thumbnail_default_file_suffix">0.jpg</string>
     <string name="intent_chooser_message">Make your choice wisely.</string>
 
 
