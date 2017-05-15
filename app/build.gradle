@@ -49,6 +49,7 @@ task printAPIKey {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
     compile 'com.squareup.picasso:picasso:2.5.2'
