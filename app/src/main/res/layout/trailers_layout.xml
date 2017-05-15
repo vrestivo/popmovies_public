@@ -30,7 +30,6 @@
             android:paddingRight="8dp"
             android:textAlignment="center" />
 
-
     </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 </FrameLayout>

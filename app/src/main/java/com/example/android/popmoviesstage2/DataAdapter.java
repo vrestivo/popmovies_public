@@ -55,28 +55,20 @@ public class DataAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
         //Get poster URL
         String posterUrl = cursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX);
-
         String imageName = null;
 
         if (!posterUrl.isEmpty()) {
             imageName = Uri.parse(posterUrl).getLastPathSegment();
-
-
-
             String filePath = context.getFilesDir().toString() + "/" + imageName;
-
             File posterFile = new File(filePath);
 
             if (view != null && (view instanceof ImageView) && posterFile.exists() && posterFile.isFile()) {
                 Picasso.with(context).load(posterFile)
                         .into((ImageView) view);
             }
-
         }
-
     }
 
     /**
