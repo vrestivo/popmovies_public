@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +37,8 @@ public class TrailerFragment extends Fragment
     private final int LOADER_ID = 1234;
     private Context mContext;
     private long mMovieId;
+    private TrailerRecycleViewAdapter mTrailerRvAdapter;
+    //TODO delete when done
     private TrailerAdapter trailerAdapter;
 
 
@@ -59,12 +63,19 @@ public class TrailerFragment extends Fragment
         Bundle arguments = getArguments();
         mMovieId = arguments.getLong(ARG_MOVIE_ID);
 
-        trailerAdapter = new TrailerAdapter(mContext, null);
+        //trailerAdapter = new TrailerAdapter(mContext, null);
 
-        View rootView = inflater.inflate(R.layout.trailers_layout, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
+        //View rootView = inflater.inflate(R.layout.trailers_layout, container, false);
+        //ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
+        //listView.setAdapter(trailerAdapter);
 
-        listView.setAdapter(trailerAdapter);
+        mTrailerRvAdapter = new TrailerRecycleViewAdapter();
+
+        View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
+        RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        trailerRv.setAdapter(mTrailerRvAdapter);
+        trailerRv.setLayoutManager(linearLayoutManager);
 
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
@@ -95,13 +106,13 @@ public class TrailerFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        trailerAdapter.swapCursor(cursor);
-
+        //trailerAdapter.swapCursor(cursor);
+        mTrailerRvAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        trailerAdapter.swapCursor(null);
-
+        //trailerAdapter.swapCursor(null);
+        mTrailerRvAdapter.swapCursor(null);
     }
 }
