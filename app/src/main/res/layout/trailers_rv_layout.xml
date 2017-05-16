@@ -16,15 +16,15 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:background="@color/colorDetailBackground"
-        android:elevation="2dp"
-        app:MaxWidth="520dp">
+        app:MaxWidth="520dp"
+        >
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/trailer_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        />
 
     </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
