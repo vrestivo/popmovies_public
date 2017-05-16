@@ -1,5 +1,6 @@
 package com.example.android.popmoviesstage2;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -74,6 +75,11 @@ public class TrailerFragment extends Fragment
         View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
         RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        }
+
         trailerRv.setAdapter(mTrailerRvAdapter);
         trailerRv.setLayoutManager(linearLayoutManager);
 
