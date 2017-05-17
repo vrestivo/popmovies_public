@@ -1,7 +1,6 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
 
-
     <!--Material keylines-->
     <dimen name="material_16dp_keyline">16dp</dimen>
     <dimen name="material_72dp_keyline">72dp</dimen>
@@ -24,5 +23,10 @@
     <dimen name="material_card_corner_radius">2dp</dimen>
     <dimen name="material_card_space">8dp</dimen>
 
+    <!--Element dimensions-->
+
+    <!--Trailer card dimensions per material theme in multiples of 80dp-->
+    <dimen name="trailer_card_height">240dp</dimen>
+    <dimen name="trailer_card_width">320dp</dimen>
 
 </resources>

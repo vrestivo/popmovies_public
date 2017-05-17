@@ -3,22 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/trailer_card_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/material_card_padding"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/trailer_card_height"
     app:cardCornerRadius="@dimen/material_card_corner_radius"
-    android:layout_marginBottom="@dimen/material_card_space"
+    android:layout_margin="@dimen/material_card_space"
+    android:elevation="@dimen/material_card_resting_elevation"
+    android:background="@android:color/holo_orange_dark"
     >
 
     <ImageView
         android:id="@+id/trailer_card_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/trailer_card_width"
+        android:layout_height="@dimen/trailer_card_height"
+        android:padding="@dimen/material_card_padding"
         />
-
-    <TextView
-        android:id="@+id/trailer_card_t_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </android.support.v7.widget.CardView>

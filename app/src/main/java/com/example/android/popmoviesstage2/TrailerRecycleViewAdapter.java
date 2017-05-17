@@ -77,7 +77,6 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
     implements View.OnClickListener {
 
         private ImageView mThumbnail;
-        private TextView mTrailerDescription;
         public long mMovieId;
         public String mTrailerKey;
 
@@ -85,7 +84,6 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
         public TrailerViewHolder(View itemView) {
             super(itemView);
             mThumbnail = (ImageView) itemView.findViewById(R.id.trailer_card_thumbnail);
-            mTrailerDescription = (TextView) itemView.findViewById(R.id.trailer_card_t_description);
         }
 
         @Override
