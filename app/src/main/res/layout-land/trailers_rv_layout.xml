@@ -10,6 +10,7 @@
 
     <!--<FrameLayout-->
 
+<!--
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,21 +19,24 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:background="@color/colorDetailBackground"
+        android:background="@android:color/holo_blue_dark"
         app:MaxWidth="520dp"
         >
+-->
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/trailer_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:background="@android:color/holo_orange_light"
         />
 
         <!--</FrameLayout>-->
 
-    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
+    <!--</com.example.android.popmoviesstage2.MaxWidthFrameLayout>-->
 
 
 </FrameLayout>

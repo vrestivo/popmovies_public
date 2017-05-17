@@ -2,7 +2,6 @@ package com.example.android.popmoviesstage2;
 
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -11,17 +10,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
@@ -38,9 +32,10 @@ public class TrailerFragment extends Fragment
     private final int LOADER_ID = 1234;
     private Context mContext;
     private long mMovieId;
+    private RecyclerView mTrailerRv;
+    private LinearLayoutManager mLinearLayoutManager;
     private TrailerRecycleViewAdapter mTrailerRvAdapter;
     //TODO delete when done
-    private TrailerAdapter trailerAdapter;
 
 
     public static TrailerFragment newInstance(long movieId) {
@@ -60,28 +55,40 @@ public class TrailerFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getActivity().getApplicationContext();
+        mContext = getContext();
         Bundle arguments = getArguments();
         mMovieId = arguments.getLong(ARG_MOVIE_ID);
 
-        //trailerAdapter = new TrailerAdapter(mContext, null);
+        //get a root view
+        View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
 
-        //View rootView = inflater.inflate(R.layout.trailers_layout, container, false);
-        //ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
-        //listView.setAdapter(trailerAdapter);
+        //find the recycler view
+        mTrailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
+        mTrailerRv.setHasFixedSize(true);
 
+        //create an adapter
         mTrailerRvAdapter = new TrailerRecycleViewAdapter();
 
-        View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
-        RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-
+        //get layout manager for the recycler view
+        //set horizontal scrolling on landscape orientation
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mLinearLayoutManager = new LinearLayoutManager(mContext,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                    );
+        }
+        else {
+            mLinearLayoutManager = new LinearLayoutManager(mContext);
         }
 
-        trailerRv.setAdapter(mTrailerRvAdapter);
-        trailerRv.setLayoutManager(linearLayoutManager);
+        //TODO delete
+        //NOTE if leave just a default constructor (vertical) the
+        //thumbnails are showing in a normal vertical orientation
+        //mLinearLayoutManager = new LinearLayoutManager(mContext);
+
+
+        mTrailerRv.setAdapter(mTrailerRvAdapter);
+        mTrailerRv.setLayoutManager(mLinearLayoutManager);
 
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
