@@ -25,6 +25,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,8 +34,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.android.popmoviesstage2.data.DataContract;
@@ -73,12 +73,17 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     //progress dialog
     private final String DIALOG_TAG = "DIALOG_TAG";
 
-    //CursorAdapter for the grid view
-    DataAdapter mDataAdapter;
+    //CursorAdapter for the recycler view
+    private MovieGridAdapter mGridAdapter;
+
+    private int mGridSpanNum;
+
+    //TODO delete
+    //DataAdapter mGridAdapter;
 
     //List Position variable used for scrolling to the last viewed item
     //in case of a configuration change
-    private int mPosition = GridView.INVALID_POSITION;
+    private int mPosition = RecyclerView.NO_POSITION;
 
     private Context mContext;
 
@@ -137,7 +142,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity().getApplicationContext();
-        mDataAdapter = new DataAdapter(getActivity(), null, 0);
+        mGridAdapter = new MovieGridAdapter(mContext);
 
 
         final MainActivity mainActivity = (MainActivity) getActivity();
@@ -147,21 +152,24 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             Log.v(LOG_TAG, "_two pane: " + String.valueOf(mTwoPane));
         }
 
-        View rootView;
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rootView = inflater.inflate(R.layout.fragment_main_landscape, container, false);
-        } else {
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                && !mTwoPane) {
+            mGridSpanNum = 4;
+        } else if (!mTwoPane) {
+            mGridSpanNum = 2;
         }
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.id_grid_view);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
 
-        //initializing grid view and populating with images
-        gridView.setAdapter(mDataAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(mGridAdapter);
 
         //FIXME check refactoring
-
+/*
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(
 
         ) {
@@ -179,8 +187,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
             }
         });
-
-
+*/
         return rootView;
     }
 
@@ -284,12 +291,12 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mDataAdapter.swapCursor(data);
+        mGridAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mDataAdapter.swapCursor(null);
+        mGridAdapter.swapCursor(null);
     }
 
 

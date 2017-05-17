@@ -29,4 +29,7 @@
     <dimen name="trailer_card_height">240dp</dimen>
     <dimen name="trailer_card_width">320dp</dimen>
 
+    <!--Movie Grid Poster dimensions-->
+    <dimen name="movie_grid_poster_height">220dp</dimen>
+
 </resources>

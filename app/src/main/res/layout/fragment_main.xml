@@ -6,14 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/id_grid_view"
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/movie_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="220dp"
-        android:numColumns="2"
-        android:horizontalSpacing="0dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp" />
+        />
 
 </FrameLayout>

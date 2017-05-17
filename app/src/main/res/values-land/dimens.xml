@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Movie Grid Poster dimensions-->
+    <dimen name="movie_grid_poster_height">180dp</dimen>
+
+</resources>
