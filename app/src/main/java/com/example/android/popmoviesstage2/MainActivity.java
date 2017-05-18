@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
                 );
 
                 //this method and account creation tends to trigger a sync
-                //however, it does not seem to be a reliable way to
-                // initiate the app with data on the first run
+                //however, it is not a reliable way to
+                //initialize the app with data on the first run
                 contentResolver.addPeriodicSync(
                         account,
                         CONTENT_AUTHORITY,
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         }
 
         //set default preferences for the activity
-        //if false is set, the system will only intialize values to
+        //if false is set, the system will only initialize values to
         //defaults if it has never been done before, or user has not changed
         //preferences
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -218,8 +218,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             Bundle fragmentArgs = new Bundle();
             fragmentArgs.putString(DETAIL_URI_TAG, uri.toString());
 
-            //FIXME change to match ViewPager implementation
-            DetailFragment detailFragment = new DetailFragment();
+            ViewPagetTabFragment detailFragment = new ViewPagetTabFragment();
             detailFragment.setArguments(fragmentArgs);
 
             //viewTwoPaneDetailContainer(true);

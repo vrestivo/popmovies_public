@@ -1,38 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?><!--
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/overview_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/detail_frame_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDetailBackground">
+    android:layout_weight="6"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/overview_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <ScrollView
+
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorDetailBackground"
+        android:elevation="2dp"
+        app:MaxWidth="520dp">
+
+        <TextView
+            android:id="@+id/detail_title_text_view_old"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_height="wrap_content"
+            style="@style/TabletDetailTitle"
+            />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/detail_outer_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:orientation="vertical"
-                tools:context="com.example.android.popmoviesstage2.com.example.android.popmoviesstage2.DetailActivity">
-
-                <TextView
-                    android:id="@+id/detail_title_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:maxLines="1"
-                    style="@style/TabletDetailTitle"
-                    />
+                android:orientation="vertical">
+                <!-- android:paddingBottom="@dimen/activity_vertical_margin" -->
+                <!-- android:paddingLeft="@dimen/activity_horizontal_margin" -->
+                <!-- android:paddingRight="@dimen/activity_horizontal_margin" -->
+                <!-- android:paddingTop="@dimen/activity_vertical_margin" -->
+                <!--tools:context="com.example.android.popmoviesstage2.com.example.android.popmoviesstage2.DetailActivity"-->
 
 
                 <LinearLayout
@@ -51,9 +67,9 @@
                         android:layout_marginLeft="32dp"
                         android:layout_marginRight="32dp"
                         android:layout_weight="1"
-                        android:minHeight="180dp"
+                        android:minHeight="260dp"
                         android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_launcher" />
+                        android:transitionName="@string/share_poster" />
 
                     <LinearLayout
                         android:id="@+id/detail_summary_linear_layout"
@@ -93,7 +109,9 @@
                             android:layout_height="wrap_content"
                             android:background="#00ffffff"
                             android:button="@drawable/star" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -104,47 +122,13 @@
                     android:layout_margin="16dp"
                     android:text="Summary here..."
                     android:textColor="@color/colorDetailText" />
+
+
             </LinearLayout>
 
-        </ScrollView>
+        </LinearLayout>
+
+    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 
-        <android.support.v4.app.FragmentTabHost
-            android:id="@android:id/tabhost"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="6"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark"
-            >
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@color/colorPrimary"
-                    android:orientation="horizontal"
-                    />
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-
-        </android.support.v4.app.FragmentTabHost>
-
-    </LinearLayout>
-
-</FrameLayout>
+</FrameLayout><!--</android.support.v4.widget.NestedScrollView>-->

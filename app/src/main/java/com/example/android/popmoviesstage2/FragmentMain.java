@@ -165,12 +165,18 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        int orientation = getResources().getConfiguration().orientation;
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
-                && !mTwoPane) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane) {
             mGridSpanNum = 4;
         } else if (!mTwoPane) {
             mGridSpanNum = 2;
+        }
+        else if(mTwoPane && orientation == Configuration.ORIENTATION_LANDSCAPE){
+            mGridSpanNum = 7;
+        }
+        else {
+            mGridSpanNum =4;
         }
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
@@ -179,26 +185,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mGridAdapter);
 
-        //FIXME check refactoring
-/*
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(
 
-        ) {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                mPosition = position;
-                mRowId = id;
-
-                //build uri for clicked movie item to be passed to detail view
-                Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(mRowId);
-                Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
-
-                mainActivity.setFragment(clickedItemUri, view);
-
-            }
-        });
-*/
         return rootView;
     }
 
