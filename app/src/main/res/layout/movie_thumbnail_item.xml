@@ -20,6 +20,7 @@
             android:layout_height="@dimen/movie_grid_poster_height"
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
+            android:transitionName="@string/share_poster"
             />
 
         <TextView

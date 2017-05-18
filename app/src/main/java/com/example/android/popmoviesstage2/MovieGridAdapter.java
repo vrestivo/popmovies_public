@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +28,34 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
     private Cursor mCursor;
     private Context mContext = null;
+    private GridItemClickListener mListener;
+
+    //interface to be implemented by FragmentMain
+
+    /**
+     * click listener interface for the main fragment
+     */
+    interface GridItemClickListener{
+        /**
+         *
+         * @param movieId used for uri generation for the activity intent/data query
+         * @param posterImageView used for transistion between activities
+         */
+        void onGridItemClick(long movieId, @Nullable View posterImageView);
+    }
 
 
-    public MovieGridAdapter(@NonNull Context context) {
+    public MovieGridAdapter(@NonNull Context context, GridItemClickListener listener) {
         super();
         mContext = context;
+        mListener = listener;
     }
 
     @Override
     public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.movie_thumbnail_item, parent, false);
-        MovieItemViewHolder movieItemViewHolder =  new MovieItemViewHolder(view);
+        MovieItemViewHolder movieItemViewHolder =  new MovieItemViewHolder(view, mListener);
         return movieItemViewHolder;
     }
 
@@ -60,6 +78,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
             }
 
             holder.mmTitle.setText(mCursor.getString(DataContract.Movies.COL_TITLE_INDEX));
+            holder.mmMovieId = mCursor.getLong(DataContract.Movies.COL_ID_INDEX);
 
         }
 
@@ -81,22 +100,36 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     }
 
 
-    class MovieItemViewHolder extends RecyclerView.ViewHolder{
+    class MovieItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+
+    {
+
+        private final String LOT_TAG = this.getClass().getSimpleName();
 
         private ImageView mmPoster;
         private TextView mmTitle;
+        //TODO use or delete
         private TextView mmRating;
+        private long mmMovieId;
+        private GridItemClickListener mmListener;
 
 
-        public MovieItemViewHolder(View itemView) {
+        public MovieItemViewHolder(View itemView, GridItemClickListener listener) {
             super(itemView);
-
+            mmListener = listener;
             mmPoster = (ImageView) itemView.findViewById(R.id.movie_thumbnail_item_poster);
             mmTitle = (TextView) itemView.findViewById(R.id.movie_thumbnail_item_title);
+            //TODO use or delete
             mmRating = (TextView) itemView.findViewById(R.id.movie_thumbnail_item_rating);
-
+            itemView.setOnClickListener(this);
         }
 
+
+        @Override
+        public void onClick(View v) {
+            mmListener.onGridItemClick(mmMovieId, mmPoster);
+            Log.v(LOT_TAG, "moviedID: " + mmMovieId);
+        }
     }
 
 

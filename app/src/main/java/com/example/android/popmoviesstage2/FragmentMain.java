@@ -43,10 +43,8 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
  * Created by devbox on 11/7/16.
  */
 
-public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
+public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieGridAdapter.GridItemClickListener {
     public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
-
     private BroadcastReceiver mBroadcastReceiver;
     private final String SYNC_DONE = "sync_complete";
     private boolean firstRun;
@@ -91,6 +89,17 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     public interface FragmentMainCallback {
         public void setFragment(Uri uri, @Nullable View view);
     }
+
+    @Override
+    public void onGridItemClick(long movieId, View posterImageView) {
+        Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(movieId);
+        Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        mainActivity.setFragment(clickedItemUri, posterImageView);
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,11 +147,13 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity().getApplicationContext();
-        mGridAdapter = new MovieGridAdapter(mContext);
+        mGridAdapter = new MovieGridAdapter(mContext, this);
 
 
         final MainActivity mainActivity = (MainActivity) getActivity();

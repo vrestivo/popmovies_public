@@ -210,8 +210,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     public static boolean isTwoPane() {
         return mTwoPane;
     }
-
-
     //FIXME
     @Override
     public void setFragment(Uri uri, @Nullable View view) {
