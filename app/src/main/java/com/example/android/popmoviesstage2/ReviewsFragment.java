@@ -58,9 +58,6 @@ public class ReviewsFragment extends Fragment
 
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
 
-
-        //mMovieId = bundle.getString(DataContract.KEY_MOVIE_ID);
-
         if (arguments.containsKey(ARG_MOVIE_ID)){
             mMovieId = arguments.getLong(ARG_MOVIE_ID);
         }

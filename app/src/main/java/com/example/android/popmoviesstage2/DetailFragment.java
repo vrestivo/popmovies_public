@@ -157,29 +157,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         });
 
 
-
-
-        //TODO DELETE WHEN DONE
-        /***** OLD  TABHOST STUFF *****/
-/*
-
-        //Create a bundle with movie ID and pass it to tabs
-        Bundle tabContentArgs = new Bundle();
-        tabContentArgs.putString(DataContract.KEY_MOVIE_ID, mMovieId);
-
-        //create and settup tabs for selection between viewing trailers and reviews
-        //in the detail view
-        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
-        //connect tabhost to the FrameLayout which will hold the content
-        mTabHost.setup(activity, getChildFragmentManager(), android.R.id.tabcontent);
-        //add trailers tab
-        mTabHost.addTab(mTabHost.newTabSpec("trailers").setIndicator("Trailers"),
-                TrailerFragment.class, tabContentArgs);
-        //add reviews tab
-        mTabHost.addTab(mTabHost.newTabSpec("reviews").setIndicator("Reviews"),
-                ReviewsFragment.class, tabContentArgs);
-*/
-
         return rootView;
 
     }

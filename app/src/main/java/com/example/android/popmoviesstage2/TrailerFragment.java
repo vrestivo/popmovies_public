@@ -1,8 +1,10 @@
 package com.example.android.popmoviesstage2;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -32,7 +34,7 @@ import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
  */
 
 public class TrailerFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>, TrailerRecycleViewAdapter.TrailerOnClickListener {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final int LOADER_ID = 1234;
@@ -70,13 +72,13 @@ public class TrailerFragment extends Fragment
         //ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
         //listView.setAdapter(trailerAdapter);
 
-        mTrailerRvAdapter = new TrailerRecycleViewAdapter();
+        mTrailerRvAdapter = new TrailerRecycleViewAdapter(this);
 
         View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
         RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         }
 
@@ -89,8 +91,35 @@ public class TrailerFragment extends Fragment
 
         getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
+        //TODO on click listener
+
         return rootView;
     }
+
+    @Override
+    public void onTrailerClick(@NonNull String trailerKey) {
+
+        String youtubeLink = Utility.getTrailerYoutubeLink(trailerKey, mContext);
+
+        if (youtubeLink != null) {
+            Intent trailerIntent = new Intent();
+            trailerIntent.setAction(Intent.ACTION_VIEW);
+            trailerIntent.setData(Uri.parse(youtubeLink));
+
+            Intent chooser = Intent.createChooser(trailerIntent,
+                    mContext.getString(R.string.intent_chooser_message));
+
+            chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            if (chooser.resolveActivity(mContext.getPackageManager()) != null) {
+                mContext.startActivity(chooser);
+            }
+
+        }
+
+
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {

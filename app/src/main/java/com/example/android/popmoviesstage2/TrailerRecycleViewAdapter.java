@@ -2,18 +2,17 @@ package com.example.android.popmoviesstage2;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 /**
  * Created by devbox on 5/15/17.
@@ -23,6 +22,17 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
 
     private Cursor mCursor;
     private Context mContext;
+    private TrailerOnClickListener mListener;
+
+    public TrailerRecycleViewAdapter(TrailerOnClickListener listener) {
+        super();
+        mListener = listener;
+    }
+
+    interface TrailerOnClickListener {
+        void onTrailerClick(@NonNull String trailerKey);
+    }
+
 
     @Override
     public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -30,7 +40,7 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
         mContext = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View trailerCard = inflater.inflate(R.layout.trailer_card, parent, false);
-        TrailerViewHolder trailerViewHolder = new TrailerViewHolder(trailerCard);
+        TrailerViewHolder trailerViewHolder = new TrailerViewHolder(trailerCard, mListener);
 
         return trailerViewHolder;
     }
@@ -39,17 +49,17 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
         if(mCursor!=null && mCursor.moveToPosition(position)) {
             //TODO
-            holder.mMovieId = mCursor.getLong(DataContract.Trailers.COL_MOVIE_ID_INDEX);
-            holder.mTrailerKey = mCursor.getString(DataContract.Trailers.COL_KEY_INDEX);
+            holder.mmMovieId = mCursor.getLong(DataContract.Trailers.COL_MOVIE_ID_INDEX);
+            holder.mmTrailerKey = mCursor.getString(DataContract.Trailers.COL_KEY_INDEX);
 
-            if (holder.mTrailerKey != null) {
-                String fileName = holder.mTrailerKey + "_" + mContext.getString(R.string.youtube_thumbnail_default_file_suffix);
+            if (holder.mmTrailerKey != null) {
+                String fileName = holder.mmTrailerKey + "_" + mContext.getString(R.string.youtube_thumbnail_default_file_suffix);
                 String filePath = mContext.getFilesDir().toString() + "/" + fileName;
 
                 File thumbnailFile = new File(filePath);
 
                 if (thumbnailFile.exists() && thumbnailFile.isFile()) {
-                    Picasso.with(mContext).load(thumbnailFile).into(holder.mThumbnail);
+                    Picasso.with(mContext).load(thumbnailFile).into(holder.mmThumbnail);
                 }
                 //TODO else set default placeholder
 
@@ -76,24 +86,25 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
     class TrailerViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
-        private ImageView mThumbnail;
-        public long mMovieId;
-        public String mTrailerKey;
+        private ImageView mmThumbnail;
+        public long mmMovieId;
+        public String mmTrailerKey;
+        private TrailerOnClickListener mmListener;
 
 
-        public TrailerViewHolder(View itemView) {
+        public TrailerViewHolder(View itemView, TrailerOnClickListener listener) {
             super(itemView);
-            mThumbnail = (ImageView) itemView.findViewById(R.id.trailer_card_thumbnail);
+            mmThumbnail = (ImageView) itemView.findViewById(R.id.trailer_card_thumbnail);
+            mmListener = listener;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             //TODO launch activity to watch trailer
+            mmListener.onTrailerClick(mmTrailerKey);
         }
-
-
     }
-
 
 
 }

@@ -124,29 +124,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
 
 
-        //TODO DELETE WHEN DONE
-/*
-        Intent receivedIntent = getActivity().getIntent();
-
-        if (receivedIntent != null && itemUri == null && receivedIntent.getData() != null) {
-            itemUri = receivedIntent.getData();
-            mMovieId = itemUri.getLastPathSegment();
-
-        } else {
-            //TODO decide if needed
-            if (args != null) {
-                String uri = args.getString(MainActivity.DETAIL_URI_TAG);
-                if (uri != null) {
-                    itemUri = itemUri.parse(uri);
-                    mMovieId = itemUri.getLastPathSegment();
-                }
-            } else {
-                Log.v(LOG_TAG, "_no arguments passed");
-            }
-        }
-*/
-
-
         //get the view references for binding to data
         mMoviePoster = (ImageView) rootView.findViewById(R.id.detail_poster_image_view);
         mReleaseDate = (TextView) rootView.findViewById(R.id.detail_release_date_text_view);
