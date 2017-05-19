@@ -71,10 +71,9 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     //progress dialog
     private final String DIALOG_TAG = "DIALOG_TAG";
 
-    //CursorAdapter for the recycler view
     private MovieGridAdapter mGridAdapter;
-
     private int mGridSpanNum;
+    private GridLayoutManager mGridLayoutManager;
 
     //TODO delete
     //DataAdapter mGridAdapter;
@@ -165,7 +164,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        int orientation = getResources().getConfiguration().orientation;
+/*        int orientation = getResources().getConfiguration().orientation;
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane) {
             mGridSpanNum = 4;
@@ -177,12 +176,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         }
         else {
             mGridSpanNum =4;
-        }
+        }*/
+
+        mGridSpanNum = getResources().getInteger(R.integer.grid_span);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        mGridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
+        recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setAdapter(mGridAdapter);
 
 
@@ -298,6 +299,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
+    public void setmGridSpanNum(int newSpan){
+     mGridLayoutManager.setSpanCount(newSpan);
+    }
+
+
     /**
      * perform manual sync immediately
      *
@@ -332,6 +338,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             return progressDialog;
         }
     }
+
 
 }
 

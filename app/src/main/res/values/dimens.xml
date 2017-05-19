@@ -32,4 +32,7 @@
     <!--Movie Grid Poster dimensions-->
     <dimen name="movie_grid_poster_height">220dp</dimen>
 
+    <integer name="grid_span">2</integer>
+
+
 </resources>
