@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
 
     private View mDetailContainer;
 
+    private FragmentMain mMainFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //superclass constructor
@@ -108,7 +110,14 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         //receive network status
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
-        FragmentMain fragmentMain = new FragmentMain();
+        FragmentManager fm = getSupportFragmentManager();
+
+        if(savedInstanceState==null) {
+            mMainFragment = new FragmentMain();
+        }
+        else {
+            mMainFragment = (FragmentMain) fm.findFragmentByTag(MAIN_FRAGMENT_TAG);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -120,8 +129,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
         //inflate layout based on orientation and screen size
         if (findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_fragment_main, fragmentMain, MAIN_FRAGMENT_TAG).commit();
-
+            fm.beginTransaction().replace(R.id.layout_fragment_main, mMainFragment, MAIN_FRAGMENT_TAG).commit();
         } else {
             mTwoPane = false;
         }
@@ -164,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
                 viewTwoPaneDetailContainer(false);
+                ((FragmentMain)fm.findFragmentByTag(MAIN_FRAGMENT_TAG)).setmGridSpanNum(false);
             } else {
                 super.onBackPressed();
             }
@@ -237,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
                         detailFragment, DETAIL_FRAGMENT_TAG)
                         .commit();
                 viewTwoPaneDetailContainer(true);
-
+                ((FragmentMain) fm.findFragmentByTag(MAIN_FRAGMENT_TAG)).setmGridSpanNum(true);
             }
 
 

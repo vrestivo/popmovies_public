@@ -45,6 +45,7 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 
 public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieGridAdapter.GridItemClickListener {
     public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
+    private final String ARG_GRID_COLLAPSED = "ARG_GRID_COLLAPSED";
     private BroadcastReceiver mBroadcastReceiver;
     private final String SYNC_DONE = "sync_complete";
     private boolean firstRun;
@@ -73,7 +74,9 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     private MovieGridAdapter mGridAdapter;
     private int mGridSpanNum;
+    private int mCollapsedSpanNum;
     private GridLayoutManager mGridLayoutManager;
+    private boolean mGridCollapsed = false;
 
     //TODO delete
     //DataAdapter mGridAdapter;
@@ -94,14 +97,15 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(movieId);
         Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
         MainActivity mainActivity = (MainActivity) getActivity();
-
         mainActivity.setFragment(clickedItemUri, posterImageView);
-
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setRetainInstance(true);
+
+
         super.onCreate(savedInstanceState);
         mContext = getActivity().getApplicationContext();
         mPreferences = getActivity().getPreferences(mContext.MODE_PRIVATE);
@@ -136,7 +140,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                     mainActivity.restartFragmentMainLoader();
                     Toast.makeText(mainActivity, "Done Refreshing", Toast.LENGTH_SHORT).show();
                     ProgressFragment pf = (ProgressFragment) mainActivity.getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
-                    if(pf != null){
+                    if (pf != null) {
                         pf.dismiss();
                     }
                 }
@@ -147,13 +151,18 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity().getApplicationContext();
         mGridAdapter = new MovieGridAdapter(mContext, this);
 
+        if(savedInstanceState!=null){
+            mGridCollapsed = savedInstanceState.getBoolean(ARG_GRID_COLLAPSED);
+        }
+        else {
+            Log.v(LOG_TAG, "_instance stat is null");
+        }
 
         final MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -177,12 +186,20 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         else {
             mGridSpanNum =4;
         }*/
-
         mGridSpanNum = getResources().getInteger(R.integer.grid_span);
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
+        if(mTwoPane){
+            mCollapsedSpanNum = getResources().getInteger(R.integer.collapsed_span);
+        }
 
-        mGridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
+        if(mGridCollapsed) {
+            mGridLayoutManager = new GridLayoutManager(mContext, mCollapsedSpanNum);
+        }
+        else {
+            mGridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
+        }
+
         recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setAdapter(mGridAdapter);
 
@@ -214,16 +231,18 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        //"this" parameter referes to the class implemeting loader callbacks,
-        //which is the current class
+
         super.onActivityCreated(savedInstanceState);
         //getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(ARG_GRID_COLLAPSED, mGridCollapsed);
         super.onSaveInstanceState(outState);
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -299,8 +318,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
-    public void setmGridSpanNum(int newSpan){
-     mGridLayoutManager.setSpanCount(newSpan);
+    public void setmGridSpanNum(boolean collapsed) {
+        mGridCollapsed=collapsed;
+        if (mGridCollapsed) {
+            mGridLayoutManager.setSpanCount(mCollapsedSpanNum);
+        }
+        else {
+            mGridLayoutManager.setSpanCount(mGridSpanNum);
+        }
     }
 
 
@@ -326,7 +351,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         ContentResolver.requestSync(account, getString(R.string.content_authority), syncSettings);
     }
 
-    public static class ProgressFragment extends DialogFragment{
+    public static class ProgressFragment extends DialogFragment {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
