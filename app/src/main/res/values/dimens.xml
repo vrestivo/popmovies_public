@@ -35,4 +35,20 @@
     <integer name="grid_span">2</integer>
 
 
+    <!--material spec dimension-->
+    <dimen name="material_title_height">72dp</dimen>
+    <dimen name="material_title_text_size">24sp</dimen>
+    <dimen name="material_title_padding_top">24dp</dimen>
+    <dimen name="material_content_padding_general">16dp</dimen>
+    <dimen name="material_content_padding_bottom">24dp</dimen>
+
+    <!--column span dimensions-->
+    <integer name="collapsed_span">2</integer>
+
+
+    <dimen name="movie_overview_poster_min_height">260dp</dimen>
+    <dimen name="movie_overview_poster_width">160dp</dimen>
+
+
+
 </resources>
