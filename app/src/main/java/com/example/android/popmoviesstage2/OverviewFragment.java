@@ -136,7 +136,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         //set up tool bar for detail activity if using phone layout
         //FIXME
         if (mTwoPane) {
-            //mTitle = (TextView) rootView.findViewById(R.id.detail_title_text_view);
+            mTitle = (TextView) rootView.findViewById(R.id.overview_title);
         }
 
         mCheckBox.setOnCheckedChangeListener(this);
@@ -203,7 +203,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
             if (mTwoPane) {
                 //FIXME
-                //mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
+                mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
                 ViewPagetTabFragment fragment = (ViewPagetTabFragment) getParentFragment();

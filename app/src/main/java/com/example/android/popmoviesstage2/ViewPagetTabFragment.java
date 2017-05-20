@@ -58,7 +58,6 @@ public class ViewPagetTabFragment extends Fragment {
         mTwoPane = MainActivity.isTwoPane();
 
         Intent receivedIntent = activity.getIntent();
-
         Log.v(LOG_TAG, "_in onCreateView()");
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
 
