@@ -87,11 +87,7 @@ public class ViewPagetTabFragment extends Fragment {
 
         //inflate the layout
         View rootView = inflater.inflate(R.layout.view_pager_fragment, container, false);
-
-        //needed for the ViewPager render correctly
-        NestedScrollView nestedScrollView = (NestedScrollView) rootView.findViewById(R.id.nested_scrollview);
-        nestedScrollView.setFillViewport(true);
-
+        
         if(!mTwoPane) {
             //TODO get Toolbar, set movie title, add back button
             mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);

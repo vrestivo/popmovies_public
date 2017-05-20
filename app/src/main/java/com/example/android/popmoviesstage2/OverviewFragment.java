@@ -80,8 +80,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         Bundle bundle = new Bundle();
 
-        //FIXME
-        //DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.movie_detail_container);
 
         Log.v(LOG_TAG, "_in onclick listener: fragment not null");
 
