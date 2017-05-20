@@ -21,7 +21,8 @@
     <dimen name="material_card_resting_elevation">2dp</dimen>
     <dimen name="material_card_padding">16dp</dimen>
     <dimen name="material_card_corner_radius">2dp</dimen>
-    <dimen name="material_card_space">8dp</dimen>
+    <!--space will add up to 4dp material spec between adjacent elements-->
+    <dimen name="material_card_space">2dp</dimen>
 
     <!--Element dimensions-->
 
@@ -30,7 +31,7 @@
     <dimen name="trailer_card_width">320dp</dimen>
 
     <!--Movie Grid Poster dimensions-->
-    <dimen name="movie_grid_poster_height">220dp</dimen>
+    <dimen name="movie_grid_poster_height">300dp</dimen>
 
     <integer name="grid_span">2</integer>
 

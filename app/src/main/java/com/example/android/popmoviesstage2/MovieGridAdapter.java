@@ -119,8 +119,6 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
             mmListener = listener;
             mmPoster = (ImageView) itemView.findViewById(R.id.movie_thumbnail_item_poster);
             mmTitle = (TextView) itemView.findViewById(R.id.movie_thumbnail_item_title);
-            //TODO use or delete
-            mmRating = (TextView) itemView.findViewById(R.id.movie_thumbnail_item_rating);
             itemView.setOnClickListener(this);
         }
 

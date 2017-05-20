@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="@dimen/material_card_padding"
+        android:paddingBottom="@dimen/material_card_padding"
         android:layout_gravity="center_horizontal"
         >
 
@@ -27,15 +27,14 @@
             android:id="@+id/movie_thumbnail_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/material_16dp_keyline"
+            android:paddingEnd="@dimen/material_16dp_keyline"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_below="@id/movie_thumbnail_item_poster"
             />
 
-        <TextView
-            android:id="@+id/movie_thumbnail_item_rating"
-            android:layout_below="@id/movie_thumbnail_item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+
 
     </RelativeLayout>
 

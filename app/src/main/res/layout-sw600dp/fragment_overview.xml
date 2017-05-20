@@ -23,8 +23,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     >
+
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorDetailBackground"
+        android:elevation="2dp"
+        app:MaxWidth="520dp">
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/overview_fragment"
@@ -145,6 +156,8 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 </android.support.v4.widget.NestedScrollView>
 
