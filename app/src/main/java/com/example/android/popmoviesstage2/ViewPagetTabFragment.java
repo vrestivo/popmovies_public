@@ -87,7 +87,7 @@ public class ViewPagetTabFragment extends Fragment {
 
         //inflate the layout
         View rootView = inflater.inflate(R.layout.view_pager_fragment, container, false);
-        
+
         if(!mTwoPane) {
             //TODO get Toolbar, set movie title, add back button
             mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);

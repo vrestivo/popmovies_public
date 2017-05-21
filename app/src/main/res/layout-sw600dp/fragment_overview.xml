@@ -25,7 +25,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:fitsSystemWindows="true"
     >
 
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
@@ -37,17 +36,19 @@
         android:layout_marginTop="@dimen/material_16dp_keyline"
         android:background="@color/colorDetailBackground"
         android:elevation="2dp"
-        app:MaxWidth="400dp">
+        app:MaxWidth="400dp"
+        android:fitsSystemWindows="true"
+        >
 
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/overview_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <!--            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp"-->
 
             <TextView
                 android:id="@+id/overview_title"
@@ -120,15 +121,18 @@
                 android:id="@+id/detail_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="@dimen/material_16dp_keyline"
                 android:layout_marginStart="@dimen/material_16dp_keyline"
                 android:layout_marginTop="32dp"
                 android:paddingBottom="@dimen/material_content_padding_bottom"
                 android:text="Summary here..."
                 android:textColor="@color/colorDetailText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view" />
+                app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view"
+                app:layout_constraintVertical_bias="0.0" />
 
 
         </android.support.constraint.ConstraintLayout>
