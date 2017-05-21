@@ -9,42 +9,53 @@
     android:layout_weight="6"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/overview_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    >
 
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
-
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/colorDetailBackground"
-        android:elevation="2dp"
-        app:MaxWidth="520dp">
+        app:MaxWidth="400dp"
+        >
 
-
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:tag="OVF"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginTop="@dimen/material_16dp_keyline"
+            android:layout_marginBottom="@dimen/material_16dp_keyline"
+            >
 
 
             <android.support.constraint.ConstraintLayout
-
+                android:id="@+id/overview_fragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/material_16dp_keyline"
+                >
 
+                <!--            tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp"-->
+
+                <TextView
+                    android:id="@+id/overview_title"
+                    style="@style/TabletDetailTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_title_height"
+                    android:layout_marginBottom="@dimen/material_content_padding_general"
+                    android:paddingTop="@dimen/material_title_padding_top"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
                     android:id="@+id/detail_poster_image_view"
@@ -55,7 +66,7 @@
                     android:scaleType="fitCenter"
                     android:transitionName="@string/share_poster"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_title_text_view_old" />
+                    app:layout_constraintTop_toBottomOf="@+id/overview_title" />
 
 
                 <TextView
@@ -63,8 +74,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="8dp"
                     android:gravity="start"
                     android:text="2016-01-19"
@@ -107,6 +116,7 @@
                     android:id="@+id/detail_overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginEnd="@dimen/material_16dp_keyline"
                     android:layout_marginStart="@dimen/material_16dp_keyline"
                     android:layout_marginTop="32dp"
@@ -115,42 +125,14 @@
                     android:textColor="@color/colorDetailText"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="209dp"
-                    tools:layout_editor_absoluteX="209dp"
-                    tools:layout_editor_absoluteY="0dp" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="20dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="20dp" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="23dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="23dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
             </android.support.constraint.ConstraintLayout>
 
-
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v7.widget.CardView>
 
     </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
-
-</FrameLayout>
+</android.support.v4.widget.NestedScrollView>
