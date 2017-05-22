@@ -31,7 +31,8 @@
             android:scaleType="fitCenter"
             android:transitionName="@string/share_poster"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_title_text_view_old" />
+            app:layout_constraintTop_toBottomOf="parent"
+            />
 
 
         <TextView

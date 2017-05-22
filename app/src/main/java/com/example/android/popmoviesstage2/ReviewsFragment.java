@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -62,12 +64,12 @@ public class ReviewsFragment extends Fragment
             mMovieId = arguments.getLong(ARG_MOVIE_ID);
         }
 
-        reviewAdapter = new ReviewAdapter(mContext, null, true);
 
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.review_list);
-
-        listView.setAdapter(reviewAdapter);
+        RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
+        reviewAdapter = new ReviewAdapter(mContext);
+        reviewList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        reviewList.setAdapter(reviewAdapter);
 
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
 

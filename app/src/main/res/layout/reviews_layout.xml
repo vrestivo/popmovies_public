@@ -1,38 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reviews_rv_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <!--TODO use dimens resources-->
-
-<com.example.android.popmoviesstage2.MaxWidthFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:MaxWidth="520dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp"
-    android:elevation="2dp"
-    android:layout_gravity="center"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    android:background="@color/colorDetailBackground"
-    >
-
-    <ListView
-        android:id="@+id/review_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <!--
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:MaxWidth="520dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="2dp"
         android:layout_gravity="center"
-        android:divider="@color/colorDetailText"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:dividerHeight="2dp"
-        android:layout_margin="8dp"
-        android:textAlignment="center"
-        android:nestedScrollingEnabled="true"
-        />
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:background="@color/colorDetailBackground"
+        >
+        -->
 
-</com.example.android.popmoviesstage2.MaxWidthFrameLayout>
+    =
+
+
+
+        <com.example.android.popmoviesstage2.MaxWidthFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/holo_orange_dark"
+            app:MaxWidth="520dp">
+
+            <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                >
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="true" />
+
+            <!--
+                <ListView
+                    android:id="@+id/review_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:divider="@color/colorDetailText"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:dividerHeight="2dp"
+                    android:layout_margin="8dp"
+                    android:textAlignment="center"
+                    android:nestedScrollingEnabled="true"
+                    />
+
+                -->
+
+            </android.support.v4.widget.NestedScrollView>
+
+
+        </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
+
+
+
 </FrameLayout>
 

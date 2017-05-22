@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/review_list_item_relative_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/material_16dp_keyline"
+    android:elevation="2dp"
+    >
 
-    <TextView
-        android:id="@+id/review_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:textIsSelectable="true"
+    <!--todo delete hard coded text-->
+    <!--<TextView-->
+    <!--android:id="@+id/review_text_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scrollbars="vertical"-->
+    <!--android:clickable="true"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:text="Revew one liner goes here"-->
+    <!--android:maxLines="1"-->
+    <!--android:ellipsize="end"-->
+    <!--/>-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/review_list_item_expand_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/arrow_down_float"-->
+    <!--android:layout_alignEnd="@id/review_text_view"-->
+    <!--/>-->
+
+
+    <at.blogc.android.views.ExpandableTextView
+        android:id="@+id/expandable_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        android:paddingBottom="8dp"
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="TESTING"
+        app:animation_duration="200"
         />
 
-</LinearLayout>
+    <!-- Optional parameter animation_duration: sets the duration of the expand animation -->
+
+    <ImageButton
+        android:id="@+id/button_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/arrow_down_float"
+        android:layout_alignEnd="@id/expandable_text_view"
+        />
+
+
+</RelativeLayout>

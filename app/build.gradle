@@ -30,13 +30,13 @@ android {
         it.buildConfigField("String", 'TMDB_API_KEY', project.properties.get("API_KEY"))
     }
 
-    lintOptions{
+    lintOptions {
         abortOnError false
 
     }
 }
 
-ext{
+ext {
     supportLibraryVersion = "25.3.1"
     espressoVersion = "2.2.2"
 }
@@ -57,6 +57,9 @@ dependencies {
 
     //added for image caching
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+    //add expandable text view library for reviews
+    compile 'at.blogc:expandabletextview:1.0.3'
 
     //Android Testing Support Library runner and rules
     androidTestCompile "com.android.support.test:runner:0.5"
