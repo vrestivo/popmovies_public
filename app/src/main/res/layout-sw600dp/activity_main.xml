@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <FrameLayout
+        <com.example.android.popmoviesstage2.DismissableFrameLayout
             android:id="@+id/movie_detail_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -36,15 +36,7 @@
             android:visibility="gone"
             >
 
-            <!--<TextView-->
-                <!--android:id="@+id/select_movie_tv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="@string/message_select_movie"-->
-                <!--style="@style/SelectMovieMessage"-->
-                <!--/>-->
-
-        </FrameLayout>
+        </com.example.android.popmoviesstage2.DismissableFrameLayout>
 
 
     </LinearLayout>
