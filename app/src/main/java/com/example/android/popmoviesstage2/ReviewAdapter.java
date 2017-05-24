@@ -19,11 +19,6 @@ import com.example.android.popmoviesstage2.data.DataContract;
 /**
  * Created by devbox on 12/15/16.
  */
-//
-//public class ReviewAdapter extends CursorAdapter {
-//    public ReviewAdapter(Context context, Cursor c, boolean autoRequery) {
-//        super(context, c, autoRequery);
-//    }
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
 
@@ -31,36 +26,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     private Cursor mCursor = null;
     private Context mContext = null;
 
-/*
-
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-
-        return LayoutInflater.from(context).inflate(R.layout.review_item_layout,
-                parent, false);
-
-
-    }
-*/
-
-/*
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        TextView textView = (TextView) view.findViewById(R.id.review_text_view);
-        ImageButton imageButton = (ImageButton) view.findViewById(R.id.review_list_item_expand_button);
-
-
-        String review = cursor.getString(DataContract.Reviews.COL_CONTENT_INDEX);
-        textView.setText(review);
-
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-        */
 
 
     public ReviewAdapter(Context context) {

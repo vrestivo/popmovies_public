@@ -13,12 +13,10 @@ import android.widget.FrameLayout;
 
 public class MaxWidthFrameLayout extends FrameLayout {
 
-    private final int mMaxWidth;
+    private int mMaxWidth = Integer.MAX_VALUE;
 
     public MaxWidthFrameLayout(@NonNull Context context) {
         super(context);
-        mMaxWidth = 0;
-
     }
 
     public MaxWidthFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
