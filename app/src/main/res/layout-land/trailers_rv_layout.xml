@@ -7,18 +7,16 @@
     >
 
 
-
-    <!--<FrameLayout-->
-
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="520dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/material_16dp_keyline"
+        android:layout_marginTop="@dimen/material_16dp_keyline"
         android:background="@color/colorDetailBackground"
+        app:MaxWidth="@dimen/max_width"
         >
 
 

@@ -42,7 +42,6 @@ public class TrailerFragment extends Fragment
     private long mMovieId;
     private TrailerRecycleViewAdapter mTrailerRvAdapter;
     //TODO delete when done
-    private TrailerAdapter trailerAdapter;
 
 
     public static TrailerFragment newInstance(long movieId) {

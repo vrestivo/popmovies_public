@@ -5,6 +5,9 @@
     <dimen name="material_16dp_keyline">16dp</dimen>
     <dimen name="material_72dp_keyline">72dp</dimen>
 
+    <!--MaxWidthFrameLaout MaxWidth attribute-->
+    <dimen name="max_width">520dp</dimen>
+
     <!--padding-->
     <dimen name="material_appbar_title_start_margin">72dp</dimen>
     <dimen name="material_appbar_bottom_padding">20dp</dimen>
@@ -32,7 +35,6 @@
 
     <!--Movie Grid Poster dimensions-->
     <dimen name="movie_grid_poster_height">300dp</dimen>
-
     <integer name="grid_span">2</integer>
 
 
