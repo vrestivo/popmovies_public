@@ -73,5 +73,6 @@ dependencies {
 
     //Espresso UI testing dependencies
     androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
 
