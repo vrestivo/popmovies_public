@@ -12,14 +12,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.transition.Transition;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 
@@ -168,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     @Override
     public void onBackPressed() {
         if (mTwoPane) {
+            Log.v(LOG_TAG, "_in onBackPressed two pane");
             FragmentManager fm = getSupportFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
@@ -230,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             ViewPagetTabFragment detailFragment = new ViewPagetTabFragment();
             detailFragment.setArguments(fragmentArgs);
 
+
+
             //viewTwoPaneDetailContainer(true);
 
 
@@ -291,8 +300,18 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     private void viewTwoPaneDetailContainer(boolean show) {
         if (mDetailContainer != null) {
             if (show) {
+
+//                Slide slideTransition = new Slide();
+//                slideTransition.setSlideEdge(Gravity.END);
+
+                ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+                TransitionManager.beginDelayedTransition(root);
+
                 mDetailContainer.setVisibility(View.VISIBLE);
             } else {
+
+                ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+                TransitionManager.beginDelayedTransition(root);
                 mDetailContainer.setVisibility(View.GONE);
 
             }

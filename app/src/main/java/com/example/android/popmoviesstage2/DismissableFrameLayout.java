@@ -33,13 +33,14 @@ public class DismissableFrameLayout extends FrameLayout {
     /*****  DISMISSAL SWIPE CRITERIAL   *****/
     //the swipe has to at least 3000 pixels/second
     private final int mMyMinFling = 3000;
-    //the swipe gesture has to cover at leaset 27.5%
-    //of the view
-    private final float SWIPE_THRESHOLD = 0.275f;
+    //the swipe gesture has to cover at least 50%
+    //of the view, IOT prevent double triggers
+    private final float SWIPE_THRESHOLD = 0.2f;
     //the swipe gesture has to start in the left most
     //20% of the screen
     private final float SWIPE_START_THRESHOLD = 0.20f;
     private boolean mStartThresholdMet = false;
+    private boolean mDismissed = false;
 
     private int mSlop;
 
@@ -69,6 +70,8 @@ public class DismissableFrameLayout extends FrameLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //return super.onInterceptTouchEvent(ev);
         if(this.getVisibility() == View.VISIBLE) {
+
+            mDismissed=false;
 
             int action = ev.getAction();
             switch (action) {
@@ -126,6 +129,7 @@ public class DismissableFrameLayout extends FrameLayout {
                             if( screenThreshold > SWIPE_THRESHOLD && mStartThresholdMet) {
                                 //intercept gesture if criteria are met
                                 return true;
+                                //return false;
                             }
                         }
                     }
@@ -153,10 +157,14 @@ public class DismissableFrameLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.v(LOG_TAG, "_in onTouchEvent " + mDismissed);
+
         MainActivity mainActivity = (MainActivity) getContext();
-        //ensure that the pane is visible before dismissing
-        if(getVisibility() == VISIBLE) {
+
+        //catch double triggers
+        if(getVisibility() == VISIBLE && !mDismissed) {
             mainActivity.onBackPressed();
+            mDismissed = true;
             return  true;
         }
         else {
