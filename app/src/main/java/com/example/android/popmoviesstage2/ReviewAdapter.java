@@ -70,8 +70,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     class ReviewViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
-
         private final String LOG_TAG = this.getClass().getSimpleName();
+        private final float ROTATE_BY = 180f;
 
         public ExpandableTextView mmReviewTextView;
         public ImageButton mmExpandButton;
@@ -90,6 +90,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
         @Override
         public void onClick(View v) {
+            v.animate().rotationBy(ROTATE_BY);
             mmReviewTextView.toggle();
         }
     }
