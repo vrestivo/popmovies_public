@@ -5,37 +5,49 @@
     android:layout_height="match_parent">
 
 
-        <com.example.android.popmoviesstage2.MaxWidthFrameLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        app:MaxWidth="@dimen/max_width">
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            app:MaxWidth="@dimen/max_width">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trailers_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/tab_reviews" />
+
 
             <android.support.v4.widget.NestedScrollView
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                >
+                android:fitsSystemWindows="true">
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/review_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true"
-                />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/review_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true" />
 
 
             </android.support.v4.widget.NestedScrollView>
 
 
-        </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
+        </LinearLayout>
 
+    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 
 </FrameLayout>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/trailer_rv_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/material_16dp_keyline"
-    >
+    android:padding="@dimen/material_16dp_keyline">
 
 
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
@@ -16,16 +14,31 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/material_16dp_keyline"
         android:layout_marginTop="@dimen/material_16dp_keyline"
-        android:background="@color/colorDetailBackground"
-        app:MaxWidth="@dimen/max_width"
-        >
+        android:background="@android:color/transparent"
+        app:MaxWidth="@dimen/max_width">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <TextView
+            android:id="@+id/trailers_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_trailers"
+            android:background="@android:color/transparent"
+            />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/trailer_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailer_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        </LinearLayout>
 
     </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
