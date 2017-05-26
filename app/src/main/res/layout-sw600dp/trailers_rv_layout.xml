@@ -3,7 +3,7 @@
     android:id="@+id/trailer_rv_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/material_16dp_keyline">
+    >
 
 
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
@@ -37,6 +37,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+
+            <TextView
+                android:id="@+id/msg_no_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_no_trailers"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                />
+
 
         </LinearLayout>
 

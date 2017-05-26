@@ -13,14 +13,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
-
-import java.util.List;
 
 import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
 
@@ -36,7 +32,7 @@ public class ReviewsFragment extends Fragment
     private final int LOADER_ID = 12345;
     private Context mContext;
     private long mMovieId = 0;
-    private ReviewAdapter reviewAdapter = null;
+    private ReviewAdapter mReviewAdapter = null;
 
 
     public static ReviewsFragment newInstance(long movieId) {
@@ -67,9 +63,9 @@ public class ReviewsFragment extends Fragment
 
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
         RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
-        reviewAdapter = new ReviewAdapter(mContext);
+        mReviewAdapter = new ReviewAdapter(mContext);
         reviewList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        reviewList.setAdapter(reviewAdapter);
+        reviewList.setAdapter(mReviewAdapter);
 
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
 
@@ -102,11 +98,15 @@ public class ReviewsFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        reviewAdapter.swapCursor(cursor);
-    }
+        if(cursor!=null && cursor.moveToFirst()) {
+            mReviewAdapter.swapCursor(cursor);
+        }
+        else {
+            //TODO make the no data message visible
+        }    }
 
     @Override
     public void onLoaderReset(Loader loader) {
-        reviewAdapter.swapCursor(null);
+        mReviewAdapter.swapCursor(null);
     }
 }

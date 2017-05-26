@@ -83,18 +83,17 @@ public class DetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         //create fragments
-        //if(savedInstanceState == null){
+        if(savedInstanceState == null) {
             mOverviewFragment = OverviewFragment.newInstance(mMovieIdLong);
             mTrailerFragment = TrailerFragment.newInstance(mMovieIdLong);
             mReviewsFragment = ReviewsFragment.newInstance(mMovieIdLong);
-        //}
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.overview_container, mOverviewFragment, OVERVIEW_FRAGMENT_TAG).commit();
-        fragmentManager.beginTransaction().replace(R.id.trailers_container, mTrailerFragment, TRAILERS_FRAGMENT_TAG).commit();
-        fragmentManager.beginTransaction().replace(R.id.reviews_container, mReviewsFragment, REVIEWS_FRAGMENT_TAG).commit();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.overview_container, mOverviewFragment, OVERVIEW_FRAGMENT_TAG).commit();
+            fragmentManager.beginTransaction().replace(R.id.trailers_container, mTrailerFragment, TRAILERS_FRAGMENT_TAG).commit();
+            fragmentManager.beginTransaction().replace(R.id.reviews_container, mReviewsFragment, REVIEWS_FRAGMENT_TAG).commit();
 
-
+        }
         //TODO fix toolbar title change
         if(!mTwoPane) {
             //TODO get Toolbar, set movie title, add back button

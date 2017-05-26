@@ -20,5 +20,7 @@
     <dimen name="trailer_card_height">180dp</dimen>
     <dimen name="trailer_card_width">240dp</dimen>
 
+    <dimen name="max_width">520dp</dimen>
+
 
 </resources>

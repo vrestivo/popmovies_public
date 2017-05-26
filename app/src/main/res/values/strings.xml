@@ -22,6 +22,12 @@
     <string name="tab_reviews">Reviews</string>
 
 
+    <!--Messages When Data Not Available-->
+    <string name="msg_no_trailers">No trailers available for this item.</string>
+    <string name="msg_no_reviews">No reviews available for this item</string>
+
+
+
     <!--
                 ***************************
                     TMDB Strings

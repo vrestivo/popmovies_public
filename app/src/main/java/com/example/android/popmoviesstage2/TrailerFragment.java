@@ -77,9 +77,13 @@ public class TrailerFragment extends Fragment
         RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        //TODO delete when done
+/*        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        }
+        }*/
+
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
 
         trailerRv.setAdapter(mTrailerRvAdapter);
         trailerRv.setLayoutManager(linearLayoutManager);
@@ -141,7 +145,12 @@ public class TrailerFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         //trailerAdapter.swapCursor(cursor);
-        mTrailerRvAdapter.swapCursor(cursor);
+        if(cursor!=null && cursor.moveToFirst()) {
+            mTrailerRvAdapter.swapCursor(cursor);
+        }
+        else {
+            //TODO make the no data message visible
+        }
     }
 
     @Override

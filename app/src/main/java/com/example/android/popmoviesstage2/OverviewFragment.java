@@ -59,6 +59,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     private long mMovieIdLong;
     private boolean mTwoPane;
 
+    private Context mContext;
+
     private String mBundleUriKey = "uri";
 
     private FragmentTabHost mTabHost = null;
@@ -103,6 +105,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         mTwoPane = MainActivity.isTwoPane();
+        Log.v(LOG_TAG, "_mTwoPane: " + mTwoPane);
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_MOVIE_ID)) {
@@ -193,7 +196,13 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //        //Bind dataa to fields
 
-        Context context = getActivity().getApplicationContext();
+        Context context;
+        if(mTwoPane){
+            context = getContext();
+        }
+        else {
+            context = getActivity().getApplicationContext();
+        }
 
         if (data != null && data.moveToFirst()) {
 
