@@ -13,7 +13,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
-            app:MaxWidth="400dp">
+            app:MaxWidth="@dimen/max_width">
 
             <android.support.v4.widget.NestedScrollView
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,6 @@
                 android:id="@+id/review_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/material_16dp_keyline"
                 android:nestedScrollingEnabled="true"
                 />
 

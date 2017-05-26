@@ -12,15 +12,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -226,7 +223,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     public static boolean isTwoPane() {
         return mTwoPane;
     }
-    //FIXME
+
+
     @Override
     public void setFragment(Uri uri, @Nullable View view) {
         if (mTwoPane && uri != null) {
@@ -234,13 +232,13 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             Bundle fragmentArgs = new Bundle();
             fragmentArgs.putString(DETAIL_URI_TAG, uri.toString());
 
-            ViewPagetTabFragment detailFragment = new ViewPagetTabFragment();
+            /*
+            ViewPagerTabFragment detailFragment = new ViewPagerTabFragment();
             detailFragment.setArguments(fragmentArgs);
+            */
 
-
-
-            //viewTwoPaneDetailContainer(true);
-
+            DetailFragment detailFragment = new DetailFragment();
+            detailFragment.setArguments(fragmentArgs);
 
             FragmentManager fm = getSupportFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {

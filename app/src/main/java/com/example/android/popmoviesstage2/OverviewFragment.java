@@ -1,7 +1,6 @@
 package com.example.android.popmoviesstage2;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -174,7 +173,8 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         //in this case the bundle will contain a Uri to update the favorite
         //flag in SQLite database according to the button state
         else {
-            request = Uri.parse(args.getString(mBundleUriKey));
+            //request = Uri.parse(args.getString(mBundleUriKey));
+            request = DataContract.Movies.buildMovieWithIdUri(mMovieIdLong);
             Log.v(LOG_TAG, "_request: " + request);
 
             return new CursorLoader(
@@ -204,7 +204,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
-                ViewPagetTabFragment fragment = (ViewPagetTabFragment) getParentFragment();
+                ViewPagerTabFragment fragment = (ViewPagerTabFragment) getParentFragment();
                 fragment.setToolbarTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             }
 

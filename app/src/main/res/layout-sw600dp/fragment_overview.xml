@@ -30,10 +30,10 @@
     >
 
     <com.example.android.popmoviesstage2.MaxWidthFrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:MaxWidth="400dp"
+        app:MaxWidth="@dimen/max_width"
         >
 
         <android.support.v7.widget.CardView
@@ -51,8 +51,6 @@
             android:layout_marginBottom="@dimen/material_16dp_keyline"
             >
 
-            <!--            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="0dp"-->
 
             <TextView
                 android:id="@+id/overview_title"
@@ -146,5 +144,3 @@
 
 </android.support.v4.widget.NestedScrollView>
 
-    <!--
-    </FrameLayout>&lt;!&ndash;</android.support.v4.widget.NestedScrollView>&ndash;&gt;-->

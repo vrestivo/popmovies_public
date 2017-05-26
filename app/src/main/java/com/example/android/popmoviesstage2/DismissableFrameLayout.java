@@ -30,7 +30,7 @@ public class DismissableFrameLayout extends FrameLayout {
     private int mMinFlingVelocity;
     private int mMaxFlingVelocity;
 
-    /*****  DISMISSAL SWIPE CRITERIAL   *****/
+    /*****   SWIPE DISMISSAL CRITERIA   *****/
     //the swipe has to at least 3000 pixels/second
     private final int mMyMinFling = 3000;
     //the swipe gesture has to cover at least 50%

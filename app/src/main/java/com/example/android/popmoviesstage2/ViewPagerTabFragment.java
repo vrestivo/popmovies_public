@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,13 +24,13 @@ import java.util.ArrayList;
  * Created by devbox on 5/3/17.
  */
 
-public class ViewPagetTabFragment extends Fragment {
+public class ViewPagerTabFragment extends Fragment {
 
     private ViewPager mViewPager;
 
     private String mMovieId;
     private boolean mTwoPane;
-    private Uri itemUri = null;
+    private Uri mItemUri = null;
     private long mMovieIdLong = 0l;
 
 
@@ -63,9 +62,9 @@ public class ViewPagetTabFragment extends Fragment {
 
 
 
-        if (receivedIntent != null && itemUri == null && receivedIntent.getData() != null) {
-            itemUri = receivedIntent.getData();
-            mMovieId = itemUri.getLastPathSegment();
+        if (receivedIntent != null && mItemUri == null && receivedIntent.getData() != null) {
+            mItemUri = receivedIntent.getData();
+            mMovieId = mItemUri.getLastPathSegment();
             mMovieIdLong = Long.parseLong(mMovieId);
 
         } else {
@@ -75,8 +74,8 @@ public class ViewPagetTabFragment extends Fragment {
             if (args != null) {
                 String uri = args.getString(MainActivity.DETAIL_URI_TAG);
                 if (uri != null) {
-                    itemUri = itemUri.parse(uri);
-                    mMovieId = itemUri.getLastPathSegment();
+                    mItemUri = mItemUri.parse(uri);
+                    mMovieId = mItemUri.getLastPathSegment();
                     mMovieIdLong = Long.parseLong(mMovieId);
                 }
             } else {

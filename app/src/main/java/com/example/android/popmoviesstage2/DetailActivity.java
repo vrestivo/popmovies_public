@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if(savedInstanceState  == null) {
             //DetailFragment df = new DetailFragment();
-            ViewPagetTabFragment fptf = new ViewPagetTabFragment();
+            ViewPagerTabFragment fptf = new ViewPagerTabFragment();
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
