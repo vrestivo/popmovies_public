@@ -66,11 +66,8 @@ public class ViewPagerTabFragment extends Fragment {
             mItemUri = receivedIntent.getData();
             mMovieId = mItemUri.getLastPathSegment();
             mMovieIdLong = Long.parseLong(mMovieId);
-
         } else {
-
             Bundle args = getArguments();
-
             if (args != null) {
                 String uri = args.getString(MainActivity.DETAIL_URI_TAG);
                 if (uri != null) {

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="max_width">520dp</dimen>
+
     <!--Movie Grid Poster dimensions-->
     <dimen name="movie_grid_poster_height">240dp</dimen>
     <integer name="grid_span">4</integer>
+
 
 
 </resources>

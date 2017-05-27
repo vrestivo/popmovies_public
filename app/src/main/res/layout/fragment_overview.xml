@@ -6,121 +6,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:tag="OVF"
+    android:layout_gravity="fill_vertical"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     >
 
-
-    <android.support.constraint.ConstraintLayout
-
+    <com.example.android.popmoviesstage2.MaxWidthFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/material_16dp_keyline"
+        app:MaxWidth="@dimen/max_width"
+        >
 
-
-
-        <ImageView
-            android:id="@+id/detail_poster_image_view"
-            android:layout_width="@dimen/movie_overview_poster_width"
+        <android.support.v7.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/material_16dp_keyline"
-            android:minHeight="@dimen/movie_overview_poster_min_height"
-            android:scaleType="fitCenter"
-            android:transitionName="@string/share_poster"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
-            />
-
-
-        <TextView
-            android:id="@+id/detail_release_date_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="8dp"
-            android:gravity="start"
-            android:text="2016-01-19"
-            android:textColor="@color/colorDetailText"
-            android:textSize="24sp"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintLeft_toRightOf="@+id/detail_poster_image_view"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/detail_poster_image_view" />
-
-        <TextView
-            android:id="@+id/detail_runtime_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textColor="@color/colorDetailText"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/detail_release_date_text_view" />
-
-        <TextView
-            android:id="@+id/detail_rating_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8/10"
-            android:textColor="@color/colorDetailTextBlack"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/detail_runtime_text_view" />
-
-        <CheckBox
-            android:id="@+id/detail_fav_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00ffffff"
-            android:button="@drawable/star"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/detail_rating_text_view" />
-
-
-        <TextView
-            android:id="@+id/detail_overview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/material_16dp_keyline"
-            android:layout_marginStart="@dimen/material_16dp_keyline"
-            android:layout_marginTop="32dp"
-            android:text="Summary here..."
-            android:textColor="@color/colorDetailText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view" />
+            android:layout_marginTop="@dimen/material_16dp_keyline"
+            android:layout_marginBottom="@dimen/material_16dp_keyline"
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="209dp"
-            tools:layout_editor_absoluteX="209dp"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="20dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="23dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="23dp" />
+            >
 
 
-    </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/overview_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
 
+                <ImageView
+                    android:id="@+id/detail_poster_image_view"
+                    android:layout_width="@dimen/movie_overview_poster_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/material_16dp_keyline"
+                    android:minHeight="@dimen/movie_overview_poster_min_height"
+                    android:scaleType="fitCenter"
+                    android:transitionName="@string/share_poster"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/overview_title" />
+
+
+                <TextView
+                    android:id="@+id/detail_release_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="start"
+                    android:text="2016-01-19"
+                    android:textColor="@color/colorDetailText"
+                    android:textSize="24sp"
+                    app:layout_constraintDimensionRatio="w,1:1"
+                    app:layout_constraintLeft_toRightOf="@+id/detail_poster_image_view"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/detail_poster_image_view" />
+
+                <TextView
+                    android:id="@+id/detail_runtime_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textColor="@color/colorDetailText"
+                    app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_release_date_text_view" />
+
+                <TextView
+                    android:id="@+id/detail_rating_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8/10"
+                    android:textColor="@color/colorDetailTextBlack"
+                    app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_runtime_text_view" />
+
+                <CheckBox
+                    android:id="@+id/detail_fav_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ffffff"
+                    android:button="@drawable/star"
+                    app:layout_constraintLeft_toLeftOf="@+id/detail_release_date_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_rating_text_view" />
+
+
+                <TextView
+                    android:id="@+id/detail_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/material_16dp_keyline"
+                    android:layout_marginStart="@dimen/material_16dp_keyline"
+                    android:layout_marginTop="32dp"
+                    android:paddingBottom="@dimen/material_content_padding_bottom"
+                    android:text="Summary here..."
+                    android:textColor="@color/colorDetailText"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_poster_image_view"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </com.example.android.popmoviesstage2.MaxWidthFrameLayout>
 
 </android.support.v4.widget.NestedScrollView>
