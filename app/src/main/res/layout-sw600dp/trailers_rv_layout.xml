@@ -12,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/material_16dp_keyline"
-        android:layout_marginTop="@dimen/material_16dp_keyline"
         android:background="@android:color/transparent"
         app:MaxWidth="@dimen/max_width">
 
@@ -25,10 +23,8 @@
 
         <TextView
             android:id="@+id/trailers_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/SubheaderStyle"
             android:text="@string/tab_trailers"
-            android:background="@android:color/transparent"
             />
 
 
