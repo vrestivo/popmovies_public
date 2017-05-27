@@ -32,8 +32,8 @@
     <!--Element dimensions-->
 
     <!--Trailer card dimensions per material theme in multiples of 80dp-->
-    <dimen name="trailer_card_height">240dp</dimen>
-    <dimen name="trailer_card_width">320dp</dimen>
+    <dimen name="trailer_card_height">180dp</dimen>
+    <dimen name="trailer_card_width">240dp</dimen>
 
     <!--Movie Grid Poster dimensions-->
     <dimen name="movie_grid_poster_height">300dp</dimen>
