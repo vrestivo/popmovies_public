@@ -29,13 +29,13 @@ public class DetailActivity extends AppCompatActivity {
 
         if(savedInstanceState  == null) {
             //DetailFragment df = new DetailFragment();
-            ViewPagerTabFragment fptf = new ViewPagerTabFragment();
+            //ViewPagerTabFragment fragment = new ViewPagerTabFragment();
 
+            DetailFragment fragment = new DetailFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            fragmentTransaction.add(R.id.view_pager_container, fptf).commit();
+            fragmentTransaction.add(R.id.view_pager_container, fragment).commit();
         }
 
     }

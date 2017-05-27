@@ -213,7 +213,10 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
-                ViewPagerTabFragment fragment = (ViewPagerTabFragment) getParentFragment();
+                //ViewPagerTabFragment fragment = (ViewPagerTabFragment) getParentFragment();
+
+
+                DetailFragment fragment = (DetailFragment) getParentFragment();
                 fragment.setToolbarTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             }
 

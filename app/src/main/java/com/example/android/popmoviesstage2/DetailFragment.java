@@ -88,7 +88,7 @@ public class DetailFragment extends Fragment {
             mTrailerFragment = TrailerFragment.newInstance(mMovieIdLong);
             mReviewsFragment = ReviewsFragment.newInstance(mMovieIdLong);
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = getChildFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.overview_container, mOverviewFragment, OVERVIEW_FRAGMENT_TAG).commit();
             fragmentManager.beginTransaction().replace(R.id.trailers_container, mTrailerFragment, TRAILERS_FRAGMENT_TAG).commit();
             fragmentManager.beginTransaction().replace(R.id.reviews_container, mReviewsFragment, REVIEWS_FRAGMENT_TAG).commit();
