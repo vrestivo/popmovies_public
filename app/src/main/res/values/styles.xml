@@ -57,4 +57,15 @@
         <item name="android:padding">16dp</item>
     </style>
 
+    <style name="SubheaderStyle">
+        <item name="android:layout_height">@dimen/material_subheader_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/material_subheader_text_size</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+
 </resources>
