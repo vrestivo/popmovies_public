@@ -23,6 +23,15 @@
                 style="@style/SubheaderStyle"
                 android:text="@string/tab_trailers" />
 
+            <TextView
+                android:id="@+id/msg_no_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/NoDataMsg"
+                android:text="@string/msg_no_trailers"
+                />
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_rv"

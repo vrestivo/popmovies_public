@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/msg_no_reviews"
                 android:background="@android:color/transparent"
+                style="@style/NoDataMsg"
                 android:visibility="gone"
                 />
 

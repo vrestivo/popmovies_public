@@ -32,6 +32,7 @@
                 android:text="@string/msg_no_reviews"
                 android:background="@android:color/transparent"
                 android:visibility="gone"
+                style="@style/NoDataMsg"
                 />
 
             <android.support.v4.widget.NestedScrollView

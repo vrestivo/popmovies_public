@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
@@ -33,6 +34,7 @@ public class ReviewsFragment extends Fragment
     private Context mContext;
     private long mMovieId = 0;
     private ReviewAdapter mReviewAdapter = null;
+    private TextView mNoReviewsMsg;
 
 
     public static ReviewsFragment newInstance(long movieId) {
@@ -62,6 +64,7 @@ public class ReviewsFragment extends Fragment
 
 
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
+        mNoReviewsMsg = (TextView) rootView.findViewById(R.id.msg_no_reviews);
         RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
         mReviewAdapter = new ReviewAdapter(mContext);
         reviewList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -99,11 +102,16 @@ public class ReviewsFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if(cursor!=null && cursor.moveToFirst()) {
+            if(mNoReviewsMsg.getVisibility() == View.VISIBLE){
+                mNoReviewsMsg.setVisibility(View.GONE);
+            }
             mReviewAdapter.swapCursor(cursor);
         }
         else {
             //TODO make the no data message visible
-        }    }
+            mNoReviewsMsg.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onLoaderReset(Loader loader) {

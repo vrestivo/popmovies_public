@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
@@ -41,7 +42,7 @@ public class TrailerFragment extends Fragment
     private Context mContext;
     private long mMovieId;
     private TrailerRecycleViewAdapter mTrailerRvAdapter;
-    //TODO delete when done
+    private TextView mNoTrailersMsg;
 
 
     public static TrailerFragment newInstance(long movieId) {
@@ -65,25 +66,14 @@ public class TrailerFragment extends Fragment
         Bundle arguments = getArguments();
         mMovieId = arguments.getLong(ARG_MOVIE_ID);
 
-        //trailerAdapter = new TrailerAdapter(mContext, null);
-
-        //View rootView = inflater.inflate(R.layout.trailers_layout, container, false);
-        //ListView listView = (ListView) rootView.findViewById(R.id.trailer_list);
-        //listView.setAdapter(trailerAdapter);
-
         mTrailerRvAdapter = new TrailerRecycleViewAdapter(this);
 
         View rootView = inflater.inflate(R.layout.trailers_rv_layout, container, false);
         RecyclerView trailerRv = (RecyclerView) rootView.findViewById(R.id.trailer_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-
-        //TODO delete when done
-/*        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        }*/
+        mNoTrailersMsg = (TextView) rootView.findViewById(R.id.msg_no_trailers);
 
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
 
         trailerRv.setAdapter(mTrailerRvAdapter);
         trailerRv.setLayoutManager(linearLayoutManager);
@@ -146,10 +136,13 @@ public class TrailerFragment extends Fragment
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         //trailerAdapter.swapCursor(cursor);
         if(cursor!=null && cursor.moveToFirst()) {
+            if(mNoTrailersMsg.getVisibility() == View.VISIBLE){
+                mNoTrailersMsg.setVisibility(View.GONE);
+            }
             mTrailerRvAdapter.swapCursor(cursor);
         }
         else {
-            //TODO make the no data message visible
+            mNoTrailersMsg.setVisibility(View.VISIBLE);
         }
     }
 
