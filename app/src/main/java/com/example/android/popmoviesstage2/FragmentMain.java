@@ -47,17 +47,14 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieGridAdapter.GridItemClickListener {
     public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
     private final String ARG_GRID_COLLAPSED = "ARG_GRID_COLLAPSED";
-    private BroadcastReceiver mBroadcastReceiver;
+    public static final int LOADER_ID = 123;
     private final String SYNC_DONE = "sync_complete";
+
+    private BroadcastReceiver mBroadcastReceiver;
     private boolean firstRun;
     private ConnectivityManager mConnectivityManager;
     private String LOG_TAG = "FragmentMain";
-    //CursorLoader ID
-    public static final int LOADER_ID = 123;
-    //Extra tag for position
-    private static final String POS_EXTRA = "POSITION";
-    //intent tag for passed Uri
-    private static final String POS_URI = "POSITION";
+
     //stores cursor's rowId of a clicked item
     private long mRowId;
     private SharedPreferences mPreferences;
@@ -113,7 +110,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         PREF_KEY_FIRSTRUN = getString(R.string.pref_firstrun_key);
 
         firstRun = mPreferences.getBoolean(PREF_KEY_FIRSTRUN, true);
-
 
         if (firstRun) {
             Toast.makeText(mContext,
@@ -203,20 +199,18 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onResume() {
         super.onResume();
-
         //resiter broadcast receiver to listen for callbacks
-        //used to signal the end of sync and refresh the view
+        //used to signal the end of data sync
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(SYNC_DONE));
 
-        //restarting loader to refelect sort setting changes
+        //restarting loader to reflect sort setting changes
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
         //getLoaderManager().initLoader(LOADER_ID, null, this);
     }
@@ -245,7 +239,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Context context = getActivity().getApplicationContext();
         String seletction = null;
-
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -286,15 +279,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 getActivity(),
                 DataContract.Movies.buildMoviesUri(), //Uri
                 DataContract.Movies.defaultProjection, //projection
-                seletction,   //selection
-                null,   //selection arguments
-                sortOrder //sort order
+                seletction,         //selection
+                null,               //selection arguments
+                sortOrder           //sort order
         );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         if(data!=null && data.moveToFirst()) {
             if(mNoDataMessage.getVisibility() == View.VISIBLE){
                 mNoDataMessage.setVisibility(View.GONE);

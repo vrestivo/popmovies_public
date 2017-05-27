@@ -38,15 +38,11 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
 
     public static final String FRAGMENT_TAG = "OVERVIEW_FRAGMENT";
+    private String KEY_BUNDLE_URI = "uri";
 
     private Uri itemUri = null;
-
-    //private final String URI_TAG = ""
-
     private static final int LOADER_ID = 123;
-
     private final String LOG_TAG = this.getClass().getSimpleName();
-
 
     //Define Data Fields for the fragment
     private TextView mTitle;
@@ -61,8 +57,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     private boolean mTwoPane;
 
     private Context mContext;
-
-    private String KEY_BUNDLE_URI = "uri";
 
     private FragmentTabHost mTabHost = null;
 
@@ -189,12 +183,11 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                     null
             );
         }
-
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //        //Bind data to fields
+        //Bind data to fields
 
         Context context;
         if(mTwoPane){
@@ -212,9 +205,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                 //FIXME
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
-                //mActionbar.setTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
-
-                //ViewPagerTabFragment fragment = (ViewPagerTabFragment) getParentFragment();
                 DetailFragment fragment = (DetailFragment) getParentFragment();
                 fragment.setToolbarTitle(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             }
@@ -245,27 +235,21 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             //load the movie poster if exists
             if (!posterPath.isEmpty()) {
                 String imageName = Uri.parse(posterPath).getLastPathSegment();
-
                 String posterFilePath = context.getFilesDir().toString() + "/" + imageName;
-
                 File posterFile = new File(posterFilePath);
-
 
                 if (posterFile.isFile() && posterFile.exists()) {
                     Picasso.with(context).load(posterFile).into((ImageView) mMoviePoster);
                 }
             }
-
         } else {
             Log.v(LOG_TAG, "_null data returned");
         }
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        return;
     }
-
 
 }
