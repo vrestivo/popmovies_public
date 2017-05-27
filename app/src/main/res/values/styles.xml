@@ -71,8 +71,13 @@
     <style name="NoDataMsg">
         <item name="android:paddingEnd">@dimen/material_24dp_keyline</item>
         <item name="android:layout_marginBottom">@dimen/material_24dp_keyline</item>
-
     </style>
 
+    <style name="NoDataMainFragment">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 
 </resources>

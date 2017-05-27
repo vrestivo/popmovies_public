@@ -34,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popmoviesstage2.data.DataContract;
@@ -77,15 +78,10 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     private int mCollapsedSpanNum;
     private GridLayoutManager mGridLayoutManager;
     private boolean mGridCollapsed = false;
-
-    //TODO delete
-    //DataAdapter mGridAdapter;
-
-    //List Position variable used for scrolling to the last viewed item
-    //in case of a configuration change
     private int mPosition = RecyclerView.NO_POSITION;
-
     private Context mContext;
+    private TextView mNoDataMessage;
+    private RecyclerView mRecyclerView;
 
     //callback interface
     public interface FragmentMainCallback {
@@ -172,27 +168,16 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         }
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mNoDataMessage = (TextView) rootView.findViewById(R.id.msg_no_content_main_fragment);
 
-/*        int orientation = getResources().getConfiguration().orientation;
 
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane) {
-            mGridSpanNum = 4;
-        } else if (!mTwoPane) {
-            mGridSpanNum = 2;
-        }
-        else if(mTwoPane && orientation == Configuration.ORIENTATION_LANDSCAPE){
-            mGridSpanNum = 7;
-        }
-        else {
-            mGridSpanNum =4;
-        }*/
         mGridSpanNum = getResources().getInteger(R.integer.grid_span);
 
         if(mTwoPane){
             mCollapsedSpanNum = getResources().getInteger(R.integer.collapsed_span);
         }
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
         if(mGridCollapsed) {
             mGridLayoutManager = new GridLayoutManager(mContext, mCollapsedSpanNum);
         }
@@ -200,8 +185,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             mGridLayoutManager = new GridLayoutManager(mContext, mGridSpanNum);
         }
 
-        recyclerView.setLayoutManager(mGridLayoutManager);
-        recyclerView.setAdapter(mGridAdapter);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setAdapter(mGridAdapter);
 
 
         return rootView;
@@ -309,7 +294,18 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mGridAdapter.swapCursor(data);
+
+        if(data!=null && data.moveToFirst()) {
+            if(mNoDataMessage.getVisibility() == View.VISIBLE){
+                mNoDataMessage.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
+            mGridAdapter.swapCursor(data);
+        }
+        else {
+            mRecyclerView.setVisibility(View.GONE);
+            mNoDataMessage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

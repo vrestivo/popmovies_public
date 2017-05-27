@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     private Context mContext;
 
-    private String mBundleUriKey = "uri";
+    private String KEY_BUNDLE_URI = "uri";
 
     private FragmentTabHost mTabHost = null;
 
@@ -87,12 +88,12 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         if (isChecked) {
             //update favorite flag to 1 if favorite button is selected
             toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, isChecked);
-            bundle.putString(mBundleUriKey, toggleUri.toString());
+            bundle.putString(KEY_BUNDLE_URI, toggleUri.toString());
             getLoaderManager().restartLoader(LOADER_ID, bundle, this);
         } else {
             //update favorite flag to 0 if favorite button is not selected
             toggleUri = DataContract.Movies.buildToggleFavoritesUri(mMovieId, isChecked);
-            bundle.putString(mBundleUriKey, toggleUri.toString());
+            bundle.putString(KEY_BUNDLE_URI, toggleUri.toString());
             getLoaderManager().restartLoader(LOADER_ID, bundle, this);
         }
     }
@@ -176,8 +177,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         //in this case the bundle will contain a Uri to update the favorite
         //flag in SQLite database according to the button state
         else {
-            //request = Uri.parse(args.getString(mBundleUriKey));
-            request = DataContract.Movies.buildMovieWithIdUri(mMovieIdLong);
+            request = Uri.parse(args.getString(KEY_BUNDLE_URI));
             Log.v(LOG_TAG, "_request: " + request);
 
             return new CursorLoader(
@@ -194,7 +194,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //        //Bind dataa to fields
+        //        //Bind data to fields
 
         Context context;
         if(mTwoPane){
