@@ -3,6 +3,7 @@ package com.example.android.popmoviesstage2;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.annotation.BoolRes;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,10 @@ import at.blogc.android.views.ExpandableTextView;
 import android.widget.TextView;
 import com.example.android.popmoviesstage2.data.DataContract;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Created by devbox on 12/15/16.
  */
@@ -25,6 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     private final String LOG_TAG = this.getClass().getSimpleName();
     private Cursor mCursor = null;
     private Context mContext = null;
+    private ArrayList<Boolean> mExpansionTracker;
 
 
 
@@ -43,12 +49,22 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void onBindViewHolder(ReviewAdapter.ReviewViewHolder holder, int position) {
         if(mCursor!=null && mCursor.moveToPosition(position)){
             String reviewText = mCursor.getString(DataContract.Reviews.COL_CONTENT_INDEX);
-            //TODO delete logs
+            //TODO delete logging
             Log.v(LOG_TAG, "_review text: " + reviewText);
 
             //set text view on container, since setting text o the inner
             //TextView will not work as per documentation
             holder.mmReviewTextView.setText(reviewText);
+            holder.mmPosition = position;
+            holder.mmIsExpanded = mExpansionTracker.get(position);
+            Log.v(LOG_TAG, "_item: " + holder.mmPosition + " " + holder.mmIsExpanded);
+
+            if(holder.mmIsExpanded) {
+                holder.mmReviewTextView.expand();
+                holder.mmExpandButton.animate().rotationBy(holder.ROTATE_BY);
+
+            }
+
         }
 
     }
@@ -63,9 +79,31 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     public void swapCursor(Cursor cursor){
         mCursor=cursor;
+        if(mCursor!=null && mCursor.moveToFirst()){
+            if(mExpansionTracker==null) {
+                mExpansionTracker = new ArrayList<Boolean>(Arrays.asList(new Boolean[mCursor.getCount()]));
+                Collections.fill(mExpansionTracker, Boolean.FALSE);
+                //TODO delete logging
+                Log.v(LOG_TAG, "_in swapCursor()" + " new array size:" + mExpansionTracker.size());
+            }
+            //TODO delete logging
+            else {
+                Log.v(LOG_TAG, "_in swapCursor()" + " old array size:" + mExpansionTracker.size());
+
+            }
+        }
+
         notifyDataSetChanged();
     }
 
+
+    public ArrayList<Boolean> getExpansionTracker(){
+        return mExpansionTracker;
+    }
+
+    public void setExpansionTracker(ArrayList<Boolean> expansionTracker){
+        mExpansionTracker = expansionTracker;
+    }
 
     class ReviewViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
@@ -75,16 +113,16 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
         public ExpandableTextView mmReviewTextView;
         public ImageButton mmExpandButton;
-
-        //TODO set onClickListener
+        private boolean mmIsExpanded = false;
+        private int mmPosition;
 
         public ReviewViewHolder(View itemView) {
             super(itemView);
+            //TODO delete logging
             Log.v(LOG_TAG, "_in ReviewViewHolder");
 
             mmReviewTextView = (ExpandableTextView) itemView.findViewById(R.id.expandable_text_view);
             mmExpandButton = (ImageButton) itemView.findViewById(R.id.button_toggle);
-
             mmExpandButton.setOnClickListener(this);
         }
 
@@ -92,6 +130,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         public void onClick(View v) {
             v.animate().rotationBy(ROTATE_BY);
             mmReviewTextView.toggle();
+            mmIsExpanded = !mmIsExpanded;
+            mExpansionTracker.set(mmPosition, mmIsExpanded);
+
+            //TODO delete logging
+            for(boolean expanded : mExpansionTracker){
+                Log.v(LOG_TAG, "_item: " + mmPosition + " " + expanded);
+            }
         }
     }
 

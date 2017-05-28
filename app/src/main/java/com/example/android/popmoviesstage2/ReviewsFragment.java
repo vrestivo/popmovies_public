@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 
+import java.util.ArrayList;
+
 import static com.example.android.popmoviesstage2.FragmentMain.ARG_MOVIE_ID;
 
 /**
@@ -31,11 +33,12 @@ public class ReviewsFragment extends Fragment
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final int LOADER_ID = 12345;
+    private final String KEY_REVIEW_EXPANSION_TRACKER = "KEY_REVIEW_EXPANSION_TRACKER";
     private Context mContext;
     private long mMovieId = 0;
     private ReviewAdapter mReviewAdapter = null;
     private TextView mNoReviewsMsg;
-
+    private ArrayList<Boolean> mReviewListExpansionTracker = null;
 
     public static ReviewsFragment newInstance(long movieId) {
 
@@ -67,6 +70,11 @@ public class ReviewsFragment extends Fragment
         mNoReviewsMsg = (TextView) rootView.findViewById(R.id.msg_no_reviews);
         RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
         mReviewAdapter = new ReviewAdapter(mContext);
+
+        if(savedInstanceState!= null && savedInstanceState.containsKey(KEY_REVIEW_EXPANSION_TRACKER)) {
+            mReviewAdapter.setExpansionTracker((ArrayList<Boolean>) savedInstanceState.getSerializable(KEY_REVIEW_EXPANSION_TRACKER));
+        }
+
         reviewList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         reviewList.setAdapter(mReviewAdapter);
 
@@ -98,6 +106,14 @@ public class ReviewsFragment extends Fragment
         return null;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(mReviewAdapter!=null){
+            mReviewListExpansionTracker = mReviewAdapter.getExpansionTracker();
+            outState.putSerializable(KEY_REVIEW_EXPANSION_TRACKER, mReviewListExpansionTracker);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
