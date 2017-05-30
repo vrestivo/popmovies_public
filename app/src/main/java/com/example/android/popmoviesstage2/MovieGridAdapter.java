@@ -35,10 +35,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     /**
      * click listener interface for the main fragment
      */
-    interface GridItemClickListener{
+    interface GridItemClickListener {
         /**
-         *
-         * @param movieId used for uri generation for the activity intent/data query
+         * @param movieId         used for uri generation for the activity intent/data query
          * @param posterImageView used for transistion between activities
          */
         void onGridItemClick(long movieId, @Nullable View posterImageView);
@@ -55,24 +54,23 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.movie_thumbnail_item, parent, false);
-        MovieItemViewHolder movieItemViewHolder =  new MovieItemViewHolder(view, mListener);
+        MovieItemViewHolder movieItemViewHolder = new MovieItemViewHolder(view, mListener);
         return movieItemViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MovieItemViewHolder holder, int position) {
-        if(mCursor!=null && mCursor.moveToPosition(position)){
+        if (mCursor != null && mCursor.moveToPosition(position)) {
             //Get movie poster url and load it into image view
             String posterUrl = mCursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX);
-            if(posterUrl!=null && !posterUrl.isEmpty()){
-                String filePath = mContext.getFilesDir().toString()+ "/"
+            if (posterUrl != null && !posterUrl.isEmpty()) {
+                String filePath = mContext.getFilesDir().toString() + "/"
                         + Uri.parse(posterUrl).getLastPathSegment();
                 File imageFile = new File(filePath);
 
-                if(imageFile.exists() && imageFile.isFile()){
+                if (imageFile.exists() && imageFile.isFile()) {
                     Picasso.with(mContext).load(imageFile).into(holder.mmPoster);
-                }
-                else {
+                } else {
                     //TODO load a placeholder
                 }
             }
@@ -87,7 +85,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
     @Override
     public int getItemCount() {
 
-        if(mCursor!=null){
+        if (mCursor != null) {
             return mCursor.getCount();
         }
         return 0;
@@ -99,6 +97,13 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
         notifyDataSetChanged();
     }
 
+    public int getCurrentPosition() {
+        if (mCursor != null && mCursor.getCount() > 0) {
+            return mCursor.getPosition();
+
+        }
+        return 0;
+    }
 
     class MovieItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 

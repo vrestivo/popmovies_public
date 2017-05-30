@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -46,7 +45,8 @@ import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 
 public class FragmentMain extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieGridAdapter.GridItemClickListener {
     public static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
-    private final String ARG_GRID_COLLAPSED = "ARG_GRID_COLLAPSED";
+    private final String KEY_GRID_COLLAPSED = "KEY_GRID_COLLAPSED";
+    private final String KEY_SCROLL_POS = "KEY_SCROLL_POS";
     public static final int LOADER_ID = 123;
     private final String SYNC_DONE = "sync_complete";
 
@@ -150,10 +150,15 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         mGridAdapter = new MovieGridAdapter(mContext, this);
 
         if(savedInstanceState!=null){
-            mGridCollapsed = savedInstanceState.getBoolean(ARG_GRID_COLLAPSED);
+            if(savedInstanceState.containsKey(KEY_GRID_COLLAPSED)) {
+                mGridCollapsed = savedInstanceState.getBoolean(KEY_GRID_COLLAPSED);
+            }
+            if(savedInstanceState.containsKey(KEY_SCROLL_POS)){
+                mPosition = savedInstanceState.getInt(KEY_SCROLL_POS);
+            }
         }
         else {
-            Log.v(LOG_TAG, "_instance stat is null");
+            Log.v(LOG_TAG, "_saved instance state is null");
         }
 
         final MainActivity mainActivity = (MainActivity) getActivity();
@@ -199,7 +204,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onResume() {
         super.onResume();
-        //resiter broadcast receiver to listen for callbacks
+        //register broadcast receiver to listen for callbacks
         //used to signal the end of data sync
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(SYNC_DONE));
@@ -212,12 +217,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(ARG_GRID_COLLAPSED, mGridCollapsed);
+        outState.putBoolean(KEY_GRID_COLLAPSED, mGridCollapsed);
+        int curPos = mGridLayoutManager.findFirstVisibleItemPosition();
+        Log.v(LOG_TAG, "_in onSaveInstanceState() mpos/curpost: " + mPosition + "/ curPos");
+        outState.putInt(KEY_SCROLL_POS, curPos);
         super.onSaveInstanceState(outState);
     }
 
@@ -293,6 +300,11 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 mRecyclerView.setVisibility(View.VISIBLE);
             }
             mGridAdapter.swapCursor(data);
+            if(mPosition!= RecyclerView.NO_POSITION && mPosition < data.getCount()){
+                Log.v(LOG_TAG, "_in onLoadFinished() pos: " + mPosition);
+                //mRecyclerView.getLayoutManager().scrollToPosition(mPosition);
+                mGridLayoutManager.scrollToPositionWithOffset(mPosition,0);
+            }
         }
         else {
             mRecyclerView.setVisibility(View.GONE);

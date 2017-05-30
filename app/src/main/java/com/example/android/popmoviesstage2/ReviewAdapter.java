@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.annotation.BoolRes;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,14 +32,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     private final String LOG_TAG = this.getClass().getSimpleName();
     private Cursor mCursor = null;
     private Context mContext = null;
+    private DetailFragment mDetailFragment;
     private ArrayList<Boolean> mExpansionTracker;
 
 
 
-    public ReviewAdapter(Context context) {
+    public ReviewAdapter(Context context, DetailFragment detailFragment) {
         super();
         mContext = context;
+        mDetailFragment = detailFragment;
     }
+
 
     @Override
     public ReviewAdapter.ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,11 +67,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             if(holder.mmIsExpanded) {
                 holder.mmReviewTextView.expand();
                 holder.mmExpandButton.animate().rotationBy(holder.ROTATE_BY);
-
             }
 
         }
-
     }
 
     @Override
@@ -89,10 +92,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             //TODO delete logging
             else {
                 Log.v(LOG_TAG, "_in swapCursor()" + " old array size:" + mExpansionTracker.size());
-
             }
         }
-
         notifyDataSetChanged();
     }
 
@@ -126,6 +127,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             mmExpandButton.setOnClickListener(this);
         }
 
+
+
         @Override
         public void onClick(View v) {
             v.animate().rotationBy(ROTATE_BY);
@@ -133,10 +136,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             mmIsExpanded = !mmIsExpanded;
             mExpansionTracker.set(mmPosition, mmIsExpanded);
 
+            //tell the DetailFragment that the layout change was caused by
+            //the user and not config change.
+            //see documentation DetailFragment.onResume() for details
+            mDetailFragment.setAffectedByUser();
+
             //TODO delete logging
             for(boolean expanded : mExpansionTracker){
                 Log.v(LOG_TAG, "_item: " + mmPosition + " " + expanded);
             }
+
+
         }
     }
 

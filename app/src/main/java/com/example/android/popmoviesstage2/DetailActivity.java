@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.android.popmoviesstage2.data.DataContract;
+
 /**
  * Displays detailed movie information
  */
@@ -34,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            fragmentTransaction.add(R.id.view_pager_container, fragment).commit();
+            fragmentTransaction.add(R.id.view_pager_container, fragment, MainActivity.DETAIL_FRAGMENT_TAG).commit();
         }
 
     }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -49,7 +50,10 @@ public class ReviewsFragment extends Fragment
         return fragment;
     }
 
-
+    //TODO delete
+    interface  ReviewsDoneLoading{
+        public void doTheScroll();
+    }
 
 
     @Nullable
@@ -69,7 +73,8 @@ public class ReviewsFragment extends Fragment
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
         mNoReviewsMsg = (TextView) rootView.findViewById(R.id.msg_no_reviews);
         RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
-        mReviewAdapter = new ReviewAdapter(mContext);
+        DetailFragment detailFragment = (DetailFragment) getParentFragment();
+        mReviewAdapter = new ReviewAdapter(mContext, detailFragment);
 
         if(savedInstanceState!= null && savedInstanceState.containsKey(KEY_REVIEW_EXPANSION_TRACKER)) {
             mReviewAdapter.setExpansionTracker((ArrayList<Boolean>) savedInstanceState.getSerializable(KEY_REVIEW_EXPANSION_TRACKER));
@@ -122,11 +127,16 @@ public class ReviewsFragment extends Fragment
                 mNoReviewsMsg.setVisibility(View.GONE);
             }
             mReviewAdapter.swapCursor(cursor);
+            //TODO delete
+/*            DetailFragment detailFragment = (DetailFragment) getParentFragment();
+            detailFragment.doTheScroll();*/
         }
         else {
             //TODO make the no data message visible
             mNoReviewsMsg.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
