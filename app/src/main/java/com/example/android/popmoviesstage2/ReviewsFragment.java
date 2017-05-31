@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class ReviewsFragment extends Fragment
         View rootView = inflater.inflate(R.layout.reviews_layout, container, false);
         mNoReviewsMsg = (TextView) rootView.findViewById(R.id.msg_no_reviews);
         RecyclerView reviewList = (RecyclerView) rootView.findViewById(R.id.review_list);
-        DetailFragment detailFragment = (DetailFragment) getParentFragment();
+        final DetailFragment detailFragment = (DetailFragment) getParentFragment();
         mReviewAdapter = new ReviewAdapter(mContext, detailFragment);
 
         if(savedInstanceState!= null && savedInstanceState.containsKey(KEY_REVIEW_EXPANSION_TRACKER)) {
@@ -87,6 +88,16 @@ public class ReviewsFragment extends Fragment
 
         getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
+        DetailFragment detailFragment1 = (DetailFragment) getParentFragment();
+
+        //notify layout change caused by the user
+        reviewList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                detailFragment.setAffectedByUser();
+                return false;
+            }
+        });
 
         return rootView;
     }

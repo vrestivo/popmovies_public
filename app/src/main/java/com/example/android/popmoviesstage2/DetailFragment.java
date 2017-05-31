@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -42,6 +43,7 @@ public class DetailFragment extends Fragment
     //used to for setAffectedByUser()
     //see the method for details
     private boolean mAffectedByUser =false;
+    private boolean mConfigChange = false;
 
 
     //fragment variables
@@ -96,6 +98,7 @@ public class DetailFragment extends Fragment
 
         //create fragments
         if (savedInstanceState == null) {
+            mConfigChange = false;
             mOverviewFragment = OverviewFragment.newInstance(mMovieIdLong);
             mTrailerFragment = TrailerFragment.newInstance(mMovieIdLong);
             mReviewsFragment = ReviewsFragment.newInstance(mMovieIdLong);
@@ -104,6 +107,9 @@ public class DetailFragment extends Fragment
             fragmentManager.beginTransaction().replace(R.id.reviews_container, mReviewsFragment, REVIEWS_FRAGMENT_TAG).commit();
             fragmentManager.beginTransaction().replace(R.id.trailers_container, mTrailerFragment, TRAILERS_FRAGMENT_TAG).commit();
             fragmentManager.beginTransaction().replace(R.id.overview_container, mOverviewFragment, OVERVIEW_FRAGMENT_TAG).commit();
+        }
+        else {
+            mConfigChange = true;
         }
 
         //TODO fix toolbar title change
@@ -132,6 +138,7 @@ public class DetailFragment extends Fragment
      */
      public void setAffectedByUser() {
         mAffectedByUser = true;
+         Log.v(LOG_TAG, "_y is affected by user: " + mAffectedByUser);
     }
 
 
@@ -160,6 +167,14 @@ public class DetailFragment extends Fragment
         mAffectedByUser = false;
         final View child  = mNestedScrollView.getChildAt(0);
 
+        mNestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                setAffectedByUser();
+                return false;
+            }
+        });
+
         mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -184,8 +199,10 @@ public class DetailFragment extends Fragment
 
             }
         };
-        //set the above defined observer
-        child.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalLayoutListener);
+        //set the above defined observer only after config change
+        if(mConfigChange) {
+            child.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalLayoutListener);
+        }
 
     }
 

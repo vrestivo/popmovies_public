@@ -6,7 +6,7 @@
                 **************************
     -->
 
-    <string name="app_name">Popular Movies Stage2</string>
+    <string name="app_name">Popular Movies</string>
     <string name="content_authority">com.example.android.popmoviesstage2</string>
     <string name="button_refresh">Refresh</string>
     <string name="message_refresh_wait">Downloading movie data\nPlease wait...</string>

@@ -81,10 +81,17 @@ public class TrailerFragment extends Fragment
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
         Log.v(LOG_TAG, "_movie id: " + mMovieId);
 
-
         getLoaderManager().initLoader(LOADER_ID, arguments, this);
 
-        //TODO on click listener
+        final DetailFragment detailFragment = (DetailFragment) getParentFragment();
+
+        trailerRv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                detailFragment.setAffectedByUser();
+                return false;
+            }
+        });
 
         return rootView;
     }

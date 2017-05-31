@@ -75,8 +75,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         Uri toggleUri;
 
         Bundle bundle = new Bundle();
-
-
+        
         Log.v(LOG_TAG, "_in onclick listener: fragment not null");
 
         if (isChecked) {
