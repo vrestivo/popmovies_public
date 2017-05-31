@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
         if(mCursor!=null && mCursor.moveToPosition(position)) {
-            //TODO
+
             holder.mmMovieId = mCursor.getLong(DataContract.Trailers.COL_MOVIE_ID_INDEX);
             holder.mmTrailerKey = mCursor.getString(DataContract.Trailers.COL_KEY_INDEX);
 
@@ -56,13 +57,33 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
                 String fileName = holder.mmTrailerKey + "_" + mContext.getString(R.string.youtube_thumbnail_default_file_suffix);
                 String filePath = mContext.getFilesDir().toString() + "/" + fileName;
 
-                File thumbnailFile = new File(filePath);
+                final File thumbnailFile = new File(filePath);
 
                 if (thumbnailFile.exists() && thumbnailFile.isFile()) {
-                    Picasso.with(mContext).load(thumbnailFile).into(holder.mmThumbnail);
-                }
-                //TODO else set default placeholder
 
+                    //final variable needed for the inner callback class
+                    final TrailerViewHolder innerHolder = holder;
+
+                    Picasso.with(mContext)
+                            .load(thumbnailFile)
+                            .noPlaceholder()
+                            .into(innerHolder.mmThumbnail, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Picasso.with(mContext)
+                                            .load(thumbnailFile)
+                                            .into(innerHolder.mmThumbnail);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(mContext)
+                                            .load(R.drawable.ic_play_circle_outline_48px)
+                                            .into(innerHolder.mmThumbnail);
+                                }
+                            });
+
+                }
             }
         }
     }
@@ -101,7 +122,6 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
 
         @Override
         public void onClick(View v) {
-            //TODO launch activity to watch trailer
             mmListener.onTrailerClick(mmTrailerKey);
         }
     }

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -235,10 +236,28 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             if (!posterPath.isEmpty()) {
                 String imageName = Uri.parse(posterPath).getLastPathSegment();
                 String posterFilePath = context.getFilesDir().toString() + "/" + imageName;
-                File posterFile = new File(posterFilePath);
+                final File posterFile = new File(posterFilePath);
 
                 if (posterFile.isFile() && posterFile.exists()) {
-                    Picasso.with(context).load(posterFile).into((ImageView) mMoviePoster);
+
+                    Picasso.with(mContext)
+                            .load(posterFile)
+                            .noPlaceholder()
+                            .into(mMoviePoster, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Picasso.with(mContext)
+                                            .load(posterFile)
+                                            .into(mMoviePoster);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(mContext)
+                                            .load(R.drawable.ic_broken_image_48px)
+                                            .into(mMoviePoster);
+                                }
+                            });
                 }
             }
         } else {

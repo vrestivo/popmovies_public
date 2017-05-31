@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popmoviesstage2.data.DataContract;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -66,12 +67,31 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
             if (posterUrl != null && !posterUrl.isEmpty()) {
                 String filePath = mContext.getFilesDir().toString() + "/"
                         + Uri.parse(posterUrl).getLastPathSegment();
-                File imageFile = new File(filePath);
+                final File imageFile = new File(filePath);
 
                 if (imageFile.exists() && imageFile.isFile()) {
-                    Picasso.with(mContext).load(imageFile).into(holder.mmPoster);
-                } else {
-                    //TODO load a placeholder
+                    //final variable of inner Callback class
+                    final MovieItemViewHolder innerHolder = holder;
+
+                    Picasso.with(mContext)
+                            .load(imageFile)
+                            .noPlaceholder()
+                            .into(holder.mmPoster, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Picasso.with(mContext)
+                                            .load(imageFile)
+                                            .into(innerHolder.mmPoster);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(mContext)
+                                            .load(R.drawable.ic_broken_image_48px)
+                                            .into(innerHolder.mmPoster);
+                                }
+                            });
+
                 }
             }
 
