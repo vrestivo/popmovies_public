@@ -136,10 +136,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                         pf.dismiss();
                     }
                 }
-
             }
         };
-
     }
 
 

@@ -60,6 +60,7 @@ public class Utility {
         String rawJSON = null;
 
         //change firstrun setting to false on the first fun
+        //TODO replace string
         if(firstrun) {
             sharedPreferences.edit().putBoolean("firstrun", false).commit();
         }

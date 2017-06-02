@@ -7,5 +7,4 @@
     android:supportsUploading="false"
     android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"
-
 />

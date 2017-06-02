@@ -56,7 +56,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     //added for image caching
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
 
     //add expandable text view library for reviews
     compile 'at.blogc:expandabletextview:1.0.3'

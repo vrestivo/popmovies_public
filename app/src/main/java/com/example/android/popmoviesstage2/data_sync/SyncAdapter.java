@@ -20,6 +20,7 @@ import com.example.android.popmoviesstage2.Utility;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -30,13 +31,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     //log tag
     private final String LOG_TAG = this.getClass().getSimpleName();
-
-    //context storage
     private Context mContext;
-
     private String mFirstRunKey;
-
-    //storage for a content resolver
     private ContentResolver mContentResolver;
 
     public static Account createSyncAccount(Context context) {
@@ -67,7 +63,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
 
-
         return newAccount;
     }
 
@@ -88,7 +83,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mContext = context;
         mFirstRunKey = mContext.getString(R.string.pref_firstrun_key);
 
-
     }
 
     @Override
@@ -100,45 +94,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         Context context = getContext();
 
-
         boolean firstrun = getContext().getSharedPreferences(mFirstRunKey, mContext.MODE_PRIVATE)
                 .getBoolean(mFirstRunKey, true);
 
+        //TODO handle network errors
 
         SharedPreferences preferences = context.getSharedPreferences(
                 context.getString(R.string.app_name), MODE_PRIVATE);
 
-        //if it is the first run pull all data from scratch
-        //TODO replace with initialDataPull(context, firstrun)
-        if (firstrun) {
-            Log.v(LOG_TAG, "_first sync ever...");
-
-            Utility.pullMoviesAndBulkInsert(context, firstrun);
-            Utility.pullDetailsDataAndBulkInsert(context);
-
-            //pull list of poster URLs from the movies table
-            ArrayList<String> posterDownloadList =
-                    Utility.getPosterUrlsFromDb(context);
-
-            //download movie posters and trailer thumbnails
-            if (!posterDownloadList.isEmpty()) {
-                FetchData.downloadAndSaveMoviePosters(posterDownloadList,
-                        context);
-
-                FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
-                        context);
-            }
-
-        } else {
-            Log.v(LOG_TAG, "not the first sync...");
-
-            Utility.deleteNonFavoriteJPGsAndMovieRecords(context);
-
-            Log.v(LOG_TAG, "not first data pull");
-            initialDataPull(context, firstrun);
-
-
-        }
+        //download data
+        initialDataPull(context, firstrun);
 
         //notify broadcast receiver that the data sync is complete
         sendBroadcast();
@@ -146,6 +111,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void sendBroadcast() {
+        //TODO replace strings
         Log.v(LOG_TAG, "_sending broadcast");
         Intent intent = new Intent("sync_complete");
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -159,6 +125,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context
      * @param firstrun
      */
+    //TODO refactor to return a result code
     private void initialDataPull(Context context, boolean firstrun) {
         Utility.pullMoviesAndBulkInsert(context, firstrun);
         Utility.pullDetailsDataAndBulkInsert(context);
@@ -167,6 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ArrayList<String> posterDownloadList =
                 Utility.getPosterUrlsFromDb(context);
 
+        //pull a list of movie trailers URLs from the database
         ArrayList<String> thumbnailDownloadList =
                 Utility.getThumbnailUrlsFromDb(context);
 
@@ -176,6 +144,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             FetchData.downloadAndSaveMoviePosters(posterDownloadList,
                     context);
         }
+
+        //download movie trailers thumbnails
         if(!thumbnailDownloadList.isEmpty()){
             FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
                     context);

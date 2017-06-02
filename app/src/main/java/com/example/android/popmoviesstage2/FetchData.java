@@ -2,6 +2,7 @@ package com.example.android.popmoviesstage2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -49,7 +50,7 @@ public class FetchData {
     private String apiKey;
     private String baseUrl;
     private String videosAndReviews;
-
+    public static int CONNECTION_TIMEOUT_MS = 3000;
 
 
     /**
@@ -533,8 +534,8 @@ public class FetchData {
             try {
                 URL url = new URL(passedUrl);
                 connection = (HttpURLConnection) url.openConnection();
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(CONNECTION_TIMEOUT_MS);
+                connection.setConnectTimeout(CONNECTION_TIMEOUT_MS);
                 connection.setRequestMethod("GET");
                 connection.setDoInput(true);
                 connection.connect();
@@ -550,7 +551,6 @@ public class FetchData {
             }
             catch (IOException ioe){
                 ioe.printStackTrace();
-                continue;
             }
             finally {
                 if (is != null) {
@@ -595,8 +595,8 @@ public class FetchData {
                         try {
                             URL url = new URL(thumbnailUrl);
                             connection = (HttpURLConnection) url.openConnection();
-                            connection.setReadTimeout(10000);
-                            connection.setConnectTimeout(10000);
+                            connection.setReadTimeout(CONNECTION_TIMEOUT_MS);
+                            connection.setConnectTimeout(CONNECTION_TIMEOUT_MS);
                             connection.setRequestMethod("GET");
                             connection.setDoInput(true);
                             connection.connect();
@@ -612,7 +612,6 @@ public class FetchData {
                         }
                         catch (IOException ioe){
                             ioe.printStackTrace();
-                            continue;
                         }
                         finally {
                             if (is != null) {
