@@ -10,10 +10,12 @@ Key Features:
 3) Aggressive data pre-fetching
 4) Custom image download and local storage mechanism (mostly for learning purposes)
 5) Flexible Fragment-based UI design
-6) UI optimization for multiple screens (phones/tablets)
-7) Animated dynamic layout changes for tablet interface
-8) Fragment visibility state retention across config changes for tablet layouts
-9) Ability to add movies to your local favorites collection
+6) Custom swipe dismissible Fragment for Tablet detail pane
+7) Expandable reviws list with expansion and scroll state retention
+8) UI optimization for multiple screens (phones/tablets)
+9) Animated UI transitions
+10) Ability to add movies to your local favorites collection
+
 
 
 ## Try it yourself
@@ -26,36 +28,17 @@ Once you have obtained an API key, create a gradle.properties file under /app mo
 and place your key inside the quotes:
 API_KEY="your_key_hex_value_goes_here"
 
-## Phone UI Screenshots
+## UI Screenshots
 
-##### Portrait main screen (left) and detail screen (right)
+##### Phone Demo
 <div>
-<img align="left" src="screenshots/main_screen_port_phone.png" width="45%">
-<img aligh="right" src="screenshots/arrival_detail_port_phone.png" width="45%">
-<hr>
+<img align="left" src="screenshots/phone_demo.gif" width="94%">
 </div>
 
 
-#### Landscape main screen (top) detail screen (bottom)
+#### Tablet Demo
 <div>
-<img src="screenshots/main_screen_land_phone.png" width="94%">
-<img src="screenshots/arrival_detail_land_phone.png" width="94%">
+<img src="screenshots/tablet_config_change_demo.gif" width="94%">
 </div>
 
-## Tablet UI Screenshots
-
-
-##### Portrait main screen (left) and main screen with detail fragment (right)
-<div>
-<img aligh="left" src="screenshots/main_screen_port_tablet.png" width="45%">
-<img align="right" src="screenshots/civil_war_fav_port_reviews_tablet.png" width="45%">
-<hr>
-</div>
-
-
-#### Landscape main screen (top) main screen with detail fragment (bottom)
-<div>
-<img src="screenshots/pop_movies_land_tablet.png" width="94%">
-<img src="screenshots/interstellar_detail_land_tablet.png" width="94%">
-</div>
 
