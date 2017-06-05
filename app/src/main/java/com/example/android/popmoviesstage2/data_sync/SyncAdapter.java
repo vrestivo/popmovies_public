@@ -35,6 +35,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private String mFirstRunKey;
     private ContentResolver mContentResolver;
 
+    public static final String EXTRA_STATUS_CODE = "EXTRA_STATUS_CODE";
+
     //status code constants
     public static final int STATUS_OK = 0;
     public static final int STATUS_RESOURCE_UNAVAILABLE = -1;
@@ -112,17 +114,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), MODE_PRIVATE);
 
         //download data
-        initialDataPull(context, firstrun);
+        int statusCode = initialDataPull(context, firstrun);
 
         //notify broadcast receiver that the data sync is complete
-        sendBroadcast();
+        sendBroadcast(statusCode);
 
     }
 
-    private void sendBroadcast() {
+    private void sendBroadcast(int statusCode) {
         //TODO replace strings
         Log.v(LOG_TAG, "_sending broadcast");
-        Intent intent = new Intent("sync_complete");
+        Intent intent = new Intent("sync_complete").putExtra(EXTRA_STATUS_CODE, statusCode);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
@@ -135,8 +137,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * @param firstrun
      */
     //TODO refactor to return a result code
-    private void initialDataPull(Context context, boolean firstrun) {
-        Utility.pullMoviesAndBulkInsert(context, firstrun);
+    private int initialDataPull(Context context, boolean firstrun) {
+        int statusCode = STATUS_UNKNOWN_ERROR;
+
+        int tempStatus = Utility.pullMoviesAndBulkInsert(context, firstrun);
+        if(tempStatus<0){
+            statusCode = tempStatus;
+            if(statusCode == STATUS_UNKNOWN_ERROR){
+                return statusCode;
+            }
+        }
+
+        //TODO get status code
         Utility.pullDetailsDataAndBulkInsert(context);
 
         //pull list of poster URLs from the movies table
@@ -159,6 +171,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
                     context);
         }
+
+        return statusCode;
     }
 
 }
