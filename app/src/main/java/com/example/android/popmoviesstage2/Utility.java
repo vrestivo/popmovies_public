@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.example.android.popmoviesstage2.data.MovieDbHelper;
+import com.example.android.popmoviesstage2.data_sync.TmdbResults;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -66,8 +67,11 @@ public class Utility {
         }
 
         //pull movies by vote_average
-        rawJSON = FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
+        TmdbResults moviesResults =  FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
                 c.getString(R.string.pref_setting_vote)));
+
+        rawJSON = moviesResults.getJsonString();
+
 
         //convert movie data to ContentValue Array
         if (rawJSON != null) {
@@ -81,8 +85,10 @@ public class Utility {
         }
 
         //pull movies by popularity
-        rawJSON = FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
+        moviesResults = FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
                 c.getString(R.string.pref_setting_popularity)));
+
+        rawJSON = moviesResults.getJsonString();
 
         //convert movie data to ContentValue Array
         if (rawJSON != null) {
@@ -114,6 +120,8 @@ public class Utility {
      */
     public static void pullDetailsDataAndBulkInsert(Context context) {
 
+        //TODO return result code
+
         int retValues = 0;
 
         String rawJSONDetails = null;
@@ -131,8 +139,12 @@ public class Utility {
 
         ArrayList<String> movieIds = Utility.getMovieIdsFromDB(context);
 
+        TmdbResults movieResults = new TmdbResults();
+
         for (String movieId : movieIds) {
-            rawJSONDetails = FetchData.fetchDetailsByMovieId(movieId, context);
+            movieResults = FetchData.fetchDetailsByMovieId(movieId, context);
+            rawJSONDetails = movieResults.getJsonString();
+
             if (rawJSONDetails != null) {
                 details = FetchData.parseRawDetails(movieId, rawJSONDetails, context);
                 if (!details.isEmpty()) {

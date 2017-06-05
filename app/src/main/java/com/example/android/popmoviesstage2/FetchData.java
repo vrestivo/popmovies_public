@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.example.android.popmoviesstage2.data.DataContract.Movies;
+import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
+import com.example.android.popmoviesstage2.data_sync.TmdbResults;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +27,9 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.NetPermission;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -185,9 +191,11 @@ public class FetchData {
      * or null on error
      */
 
-    public static String getJsonData(String urlString) {
+    public static TmdbResults getJsonData(String urlString) {
         String LOG_TAG = "_getJsonData";
         URL url = null;
+
+        int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
 
         //variable to store unformatted JSON com.example.android.popmoviesstage2.data
         String ufJSONData = null;
@@ -237,7 +245,8 @@ public class FetchData {
                         buffer.append(line).append("\n");
                     }
                     if (buffer.length() == 0) {
-                        return null;
+                        //return null;
+                        ufJSONData = null;
                     } else {
                         ufJSONData = buffer.toString();
                     }
@@ -245,21 +254,32 @@ public class FetchData {
 
             }//end of try clause
 
-
             catch (MalformedURLException mue) {
                 mue.printStackTrace();
                 Log.e(LOG_TAG, mue.toString());
-                return null;
-            } catch (UnknownHostException uhe) {
+                statusCode = SyncAdapter.STATUS_INVALID_URL;
+                ufJSONData = null;
+            }
+            catch (SocketTimeoutException ste){
+                ste.printStackTrace();
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+                ufJSONData = null;
+            }
+            catch (SocketException se){
+                //TODO in final block return status and close resources
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+                ufJSONData = null;
+            }
+            //TODO check filenotfound ecxeption
+ catch (UnknownHostException uhe) {
                 uhe.printStackTrace();
-                return null;
-            } catch (ConnectException ce) {
-                ce.printStackTrace();
-                return null;
-            } catch (IOException ioe) {
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+                ufJSONData = null;
+            }  catch (IOException ioe) {
                 ioe.printStackTrace();
                 Log.v(LOG_TAG, " in_catch IOException" + ioe.toString());
-                return null;
+                ufJSONData = null;
+                statusCode = SyncAdapter.STATUS_IO_ERROR;
             } finally {
                 //ensure connection and buffered reader are closed
                 if (httpConnection != null) {
@@ -268,18 +288,24 @@ public class FetchData {
                 if (reader != null) {
                     try {
                         reader.close();
+                        statusCode = SyncAdapter.STATUS_OK;
                     } catch (IOException readerCantClose) {
                         Log.e(LOG_TAG, "reader closing", readerCantClose);
                         readerCantClose.printStackTrace();
+                        statusCode = SyncAdapter.STATUS_IO_ERROR;
                     }
                 }
+                //TODO return status code on network error
 
             }//end of finally clause
 
         }//end of if urlString != null block
+        TmdbResults results = new TmdbResults();
 
+        results.setStatusCode(statusCode);
+        results.setJsonString(ufJSONData);
 
-        return ufJSONData;
+        return results;
     }
 
 
@@ -500,9 +526,10 @@ public class FetchData {
      * @param c
      * @return
      */
-    public static String fetchDetailsByMovieId(String movieId, Context c) {
+    public static TmdbResults fetchDetailsByMovieId(String movieId, Context c) {
         final String LOG_TAG = "_fetchDetailsByMovieId: ";
         Context context = c;
+        TmdbResults results = new TmdbResults();
 
         if (movieId == null) {
             Log.d(LOG_TAG, "null movie Id passed");
@@ -511,11 +538,11 @@ public class FetchData {
 
         String rawJsonDetails = null;
 
-        rawJsonDetails = FetchData.getJsonData(
+        results = FetchData.getJsonData(
                 FetchData.generateDetailUrl(Integer.parseInt(movieId),
                         context));
 
-        return rawJsonDetails;
+        return results;
 
     }
 

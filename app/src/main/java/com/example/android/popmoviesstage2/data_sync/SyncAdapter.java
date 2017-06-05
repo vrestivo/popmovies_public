@@ -35,6 +35,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private String mFirstRunKey;
     private ContentResolver mContentResolver;
 
+    //status code constants
+    public static final int STATUS_OK = 0;
+    public static final int STATUS_RESOURCE_UNAVAILABLE = -1;
+    public static final int STATUS_IO_ERROR = -2;
+    public static final int STATUS_NETWORK_CONNECTION_ERROR = -3;
+    public static final int STATUS_INVALID_URL = -4;
+    public static final int STATUS_UNKNOWN_ERROR = -5;
+
+
     public static Account createSyncAccount(Context context) {
         Account newAccount = new Account("MySyncAccount",
                 context.getString(R.string.account_type));
