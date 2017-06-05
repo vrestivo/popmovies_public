@@ -194,6 +194,8 @@ public class FetchData {
         String LOG_TAG = "_getJsonData";
         URL url = null;
 
+        Log.v(LOG_TAG, "_y in getJsonData");
+
         int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
 
         //variable to store unformatted JSON com.example.android.popmoviesstage2.data
@@ -222,8 +224,12 @@ public class FetchData {
 
                 //create a HTTPURLConnection
                 httpConnection = (HttpURLConnection) url.openConnection();
+
+                //set connection timeout
+                httpConnection.setReadTimeout(CONNECTION_TIMEOUT_MS);
+                httpConnection.setConnectTimeout(CONNECTION_TIMEOUT_MS);
+
                 //set request method to GET
-                httpConnection.setRequestMethod("GET");
                 //connect to the web site
                 httpConnection.connect();
 
@@ -245,9 +251,10 @@ public class FetchData {
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line).append("\n");
                     }
-                    if (buffer.length() == 0) {
+                    if (buffer.length() <= 0) {
                         //return null;
                         ufJSONData = null;
+                        statusCode = SyncAdapter.STATUS_IO_ERROR;
                     } else {
                         ufJSONData = buffer.toString();
                         statusCode = SyncAdapter.STATUS_OK;
@@ -257,6 +264,7 @@ public class FetchData {
             }//end of try clause
 
             catch(FileNotFoundException fnfe){
+                fnfe.printStackTrace();
                 ufJSONData = null;
                 statusCode = SyncAdapter.STATUS_TOO_MANY_REQUESTS;
             }
@@ -298,6 +306,7 @@ public class FetchData {
                         statusCode = SyncAdapter.STATUS_IO_ERROR;
                     }
                 }
+
                 //TODO return status code on network error
 
             }//end of finally clause
@@ -540,8 +549,6 @@ public class FetchData {
             return null;
         }
 
-        String rawJsonDetails = null;
-
         results = FetchData.getJsonData(
                 FetchData.generateDetailUrl(Integer.parseInt(movieId),
                         context));
@@ -578,9 +585,15 @@ public class FetchData {
                 is = connection.getInputStream();
 
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-                outputStream = context.openFileOutput(imageName, context.MODE_PRIVATE);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                //catch NPE
+                if(bitmap!=null) {
+                    outputStream = context.openFileOutput(imageName, context.MODE_PRIVATE);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    statusCode = SyncAdapter.STATUS_OK;
+                }
+                else {
+                    statusCode = SyncAdapter.STATUS_RESOURCE_UNAVAILABLE;
+                }
 
             }
             catch (MalformedURLException mue) {
@@ -662,9 +675,21 @@ public class FetchData {
 
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
 
-                            outputStream = context.openFileOutput(thumbnailSaveName, context.MODE_PRIVATE);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            //catch NPE
+                            if(bitmap!=null) {
+                                outputStream = context.openFileOutput(thumbnailSaveName, context.MODE_PRIVATE);
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                statusCode = SyncAdapter.STATUS_OK;
+                            }
+                            else {
+                                statusCode = SyncAdapter.STATUS_RESOURCE_UNAVAILABLE;
+                            }
 
+
+                        }
+                        catch (UnknownHostException uhe){
+                            uhe.printStackTrace();
+                            statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                         }
                         catch (MalformedURLException mue) {
                             mue.printStackTrace();

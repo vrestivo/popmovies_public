@@ -145,6 +145,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+       //TODO delete logging when done
+
+        Log.v(LOG_TAG, "_y before pullMoviesAndBulkInsert");
+
+
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             tempStatus = Utility.pullMoviesAndBulkInsert(context, firstrun);
             if (tempStatus < 0) {
@@ -160,13 +165,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             return STATUS_NETWORK_CONNECTION_ERROR;
         }
 
+        Log.v(LOG_TAG, "_y status code after pullMoviesAndBulkInsert " + statusCode);
+
+        Log.v(LOG_TAG, "_y before pullDetailsDataAndBulkInsert");
+
 
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             //TODO get status code
             tempStatus = Utility.pullDetailsDataAndBulkInsert(context);
+
+            if(tempStatus == STATUS_NETWORK_CONNECTION_ERROR){
+                return tempStatus;
+            }
         } else {
             return STATUS_NETWORK_CONNECTION_ERROR;
         }
+
+        Log.v(LOG_TAG, "_y status code after pullDetailsDataAndBulkInsert " + statusCode);
+
 
         //pull list of poster URLs from the movies table
         ArrayList<String> posterDownloadList =
@@ -176,11 +192,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ArrayList<String> thumbnailDownloadList =
                 Utility.getThumbnailUrlsFromDb(context);
 
+        Log.v(LOG_TAG, "_y before downloadAndSaveMoviePosters");
 
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             //download movie posters
             if (!posterDownloadList.isEmpty()) {
-                FetchData.downloadAndSaveMoviePosters(posterDownloadList,
+                statusCode = FetchData.downloadAndSaveMoviePosters(posterDownloadList,
                         context);
             }
 
@@ -188,18 +205,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             statusCode = STATUS_NETWORK_CONNECTION_ERROR;
 
         }
+        Log.v(LOG_TAG, "_y status code after downloadAndSaveMoviePosters " + statusCode);
+
+        Log.v(LOG_TAG, "_y before downloadAndSaveTrailerThumbnails");
 
 
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             //download movie trailers thumbnails
             if (!thumbnailDownloadList.isEmpty()) {
-                FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
+                statusCode = FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
                         context);
             }
         } else {
             statusCode = STATUS_NETWORK_CONNECTION_ERROR;
 
         }
+
+        Log.v(LOG_TAG, "_y status code after downloadAndSaveTrailerThumbnails " + statusCode);
 
         return statusCode;
     }

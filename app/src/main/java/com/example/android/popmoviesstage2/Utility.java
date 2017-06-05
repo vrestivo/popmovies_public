@@ -158,7 +158,21 @@ public class Utility {
         int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
 
         for (String movieId : movieIds) {
+            if(movieId == null){
+                continue;
+            }
+
+            Log.v("detialbulkinsert", "_y movieId: " + movieId);
+
+
             movieResults = FetchData.fetchDetailsByMovieId(movieId, context);
+
+            Log.v("detialbulkinsert", "_y done fetching for: " + movieId);
+
+            if(movieResults == null){
+                Log.v("detialbulkinsert", "_y null results");
+                continue;
+            }
 
             statusCode = movieResults.getStatusCode();
 
@@ -170,7 +184,8 @@ public class Utility {
 
             if (rawJSONDetails != null) {
                 details = FetchData.parseRawDetails(movieId, rawJSONDetails, context);
-                if (!details.isEmpty()) {
+                Log.v("detialbulkinsert", "_y detail_size: " + details.size());
+                if (!details.isEmpty() && details.size()>0) {
                     reviews = Utility.getReviewsCv(movieId, details, context);
                     trailers = Utility.getTrailersCV(movieId, details, context);
                     runtimes = Utility.getRuntimeCv(movieId, details, context);
@@ -180,6 +195,9 @@ public class Utility {
                         if (reviewsInserted >= 0) {
                             retValues += reviewsInserted;
                         }
+
+                    }
+                    else {
 
                     }
                     if (trailers != null && trailers.length > 0) {
@@ -207,7 +225,7 @@ public class Utility {
                     }
                 }
             }
-            retValues = 0;
+            retValues = SyncAdapter.STATUS_RESOURCE_UNAVAILABLE;
         }
 
         return retValues;
