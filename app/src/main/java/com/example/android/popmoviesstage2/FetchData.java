@@ -249,6 +249,7 @@ public class FetchData {
                         ufJSONData = null;
                     } else {
                         ufJSONData = buffer.toString();
+                        statusCode = SyncAdapter.STATUS_OK;
                     }
                 }
 
@@ -288,7 +289,6 @@ public class FetchData {
                 if (reader != null) {
                     try {
                         reader.close();
-                        statusCode = SyncAdapter.STATUS_OK;
                     } catch (IOException readerCantClose) {
                         Log.e(LOG_TAG, "reader closing", readerCantClose);
                         readerCantClose.printStackTrace();
@@ -547,6 +547,7 @@ public class FetchData {
     }
 
 
+    //TODO add return status code and stop on network error
     public static void downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
 
         final String LOG_TAG = "dMultImages: ";

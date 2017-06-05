@@ -140,33 +140,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     //TODO refactor to return a result code
     private int initialDataPull(Context context, boolean firstrun) {
         int statusCode = STATUS_UNKNOWN_ERROR;
+        int tempStatus = STATUS_UNKNOWN_ERROR;
 
         ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        int tempStatus = STATUS_UNKNOWN_ERROR;
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             tempStatus = Utility.pullMoviesAndBulkInsert(context, firstrun);
             if (tempStatus < 0) {
                 statusCode = tempStatus;
-                if (statusCode == STATUS_UNKNOWN_ERROR) {
+                if (statusCode == STATUS_NETWORK_CONNECTION_ERROR) {
                     return statusCode;
                 }
-            }
-            else {
+            } else {
                 statusCode = STATUS_OK;
             }
 
-        }else
-        {
+        } else {
             return STATUS_NETWORK_CONNECTION_ERROR;
         }
 
 
         if (connectivityManager.getActiveNetworkInfo().isConnected()) {
             //TODO get status code
-            Utility.pullDetailsDataAndBulkInsert(context);
-        }
-        else {
+            tempStatus = Utility.pullDetailsDataAndBulkInsert(context);
+        } else {
             return STATUS_NETWORK_CONNECTION_ERROR;
         }
 
@@ -186,8 +183,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         context);
             }
 
-        }
-        else {
+        } else {
             statusCode = STATUS_NETWORK_CONNECTION_ERROR;
 
         }
@@ -199,8 +195,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
                         context);
             }
-        }
-        else {
+        } else {
             statusCode = STATUS_NETWORK_CONNECTION_ERROR;
 
         }

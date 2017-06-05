@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.android.popmoviesstage2.data.DataContract;
 import com.example.android.popmoviesstage2.data.MovieDbHelper;
+import com.example.android.popmoviesstage2.data_sync.SyncAdapter;
 import com.example.android.popmoviesstage2.data_sync.TmdbResults;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class Utility {
      * It performs TMDB API calls,
      * one for post popular movies,
      * the second is for top rated.
-     *
+     * <p>
      * The purpose for 2 sequential api calls is to facilitate
      * data pre-fetching
      *
@@ -51,6 +52,7 @@ public class Utility {
         final String LOG_TAG = "pullMoviesBulkInsert";
 
         int returnCount = 0;
+        int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
 
@@ -62,13 +64,19 @@ public class Utility {
 
         //change firstrun setting to false on the first fun
         //TODO replace string
-        if(firstrun) {
+        if (firstrun) {
             sharedPreferences.edit().putBoolean("firstrun", false).commit();
         }
 
         //pull movies by vote_average
-        TmdbResults moviesResults =  FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
+        TmdbResults moviesResults = FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
                 c.getString(R.string.pref_setting_vote)));
+
+        statusCode = moviesResults.getStatusCode();
+
+        if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+            return statusCode;
+        }
 
         rawJSON = moviesResults.getJsonString();
 
@@ -87,6 +95,12 @@ public class Utility {
         //pull movies by popularity
         moviesResults = FetchData.getJsonData(FetchData.generateUrlByGivenPreference(c,
                 c.getString(R.string.pref_setting_popularity)));
+
+        statusCode = moviesResults.getStatusCode();
+
+        if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+            return statusCode;
+        }
 
         rawJSON = moviesResults.getJsonString();
 
@@ -118,7 +132,7 @@ public class Utility {
      *
      * @param context
      */
-    public static void pullDetailsDataAndBulkInsert(Context context) {
+    public static int pullDetailsDataAndBulkInsert(Context context) {
 
         //TODO return result code
 
@@ -141,8 +155,17 @@ public class Utility {
 
         TmdbResults movieResults = new TmdbResults();
 
+        int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
+
         for (String movieId : movieIds) {
             movieResults = FetchData.fetchDetailsByMovieId(movieId, context);
+
+            statusCode = movieResults.getStatusCode();
+
+            if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+                return statusCode;
+            }
+
             rawJSONDetails = movieResults.getJsonString();
 
             if (rawJSONDetails != null) {
@@ -154,12 +177,19 @@ public class Utility {
                     if (reviews != null && reviews.length > 0) {
                         reviewsInserted = cr.bulkInsert(DataContract.Reviews.buildReviewsByMovieIdUri(Long.parseLong(movieId)),
                                 reviews);
+                        if (reviewsInserted >= 0) {
+                            retValues += reviewsInserted;
+                        }
 
                     }
                     if (trailers != null && trailers.length > 0) {
                         trailersInserted = cr.bulkInsert(DataContract.
                                         Trailers.buildTrailersByMovieIdUri(Long.parseLong(movieId)),
                                 trailers);
+
+                        if(trailersInserted>=0) {
+                            retValues += trailersInserted;
+                        }
 
                     }
                     //Note ContentValues[] stores only 1 runtime key-value pair
@@ -170,12 +200,17 @@ public class Utility {
                                 DataContract.Movies._ID + "=?",
                                 new String[]{movieId}
                         );
+                        if(runtimesInserted>=0) {
+                            retValues += runtimesInserted;
+                        }
 
                     }
                 }
             }
+            retValues = 0;
         }
 
+        return retValues;
 
     }
 
@@ -330,7 +365,7 @@ public class Utility {
     }
 
 
-    public static ArrayList<String> getThumbnailUrlsFromDb(Context context){
+    public static ArrayList<String> getThumbnailUrlsFromDb(Context context) {
         final String LOG_TAG = "_getThumbnailUrlFromDb: ";
 
         ArrayList<String> urlList = new ArrayList<String>();
@@ -423,20 +458,19 @@ public class Utility {
 
     }
 
-    public static String getThumbnailSaveName(String url){
-        if(url != null){
+    public static String getThumbnailSaveName(String url) {
+        if (url != null) {
             String[] segments = splitUrl(url);
 
-            if(segments.length>2) {
+            if (segments.length > 2) {
                 String filename = segments[segments.length - 2];
-                if (filename != null){
-                    return filename+ "_" + segments[segments.length-1];
+                if (filename != null) {
+                    return filename + "_" + segments[segments.length - 1];
                 }
             }
         }
         return null;
     }
-
 
 
     /**
@@ -681,47 +715,42 @@ public class Utility {
                     null
             );
 
-            if (cursor!=null && cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
                     favoriteMoviePostersJpgs.add((Uri.parse(cursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX)).getLastPathSegment()));
                 } while (cursor.moveToNext());
 
             }  //end of if(cursor.moveToFirst());
 
-            if(cursor!=null) {
+            if (cursor != null) {
                 cursor.close();
             }
-                //TODO add query for favorite trailers
+            //TODO add query for favorite trailers
 
-                Cursor trailerCursor = context.getContentResolver().query(
-                        DataContract.Trailers.buildFavoriteTrailersUri(),
-                        null,
-                        null,
-                        null,
-                        null);
+            Cursor trailerCursor = context.getContentResolver().query(
+                    DataContract.Trailers.buildFavoriteTrailersUri(),
+                    null,
+                    null,
+                    null,
+                    null);
 
 
-            if(trailerCursor!=null && trailerCursor.moveToFirst()){
+            if (trailerCursor != null && trailerCursor.moveToFirst()) {
                 do {
-                    favoriteTrailerJpgs.add(trailerCursor.getString(0)+thumbnailSuffix);
+                    favoriteTrailerJpgs.add(trailerCursor.getString(0) + thumbnailSuffix);
                 }
                 while (trailerCursor.moveToNext());
             }
 
-            if(trailerCursor!=null){
+            if (trailerCursor != null) {
                 trailerCursor.close();
             }
 
 
-                if (!favoriteMoviePostersJpgs.isEmpty()) {
-                    allJpgs.removeAll(favoriteMoviePostersJpgs);
-                    allJpgs.removeAll(favoriteTrailerJpgs);
-                }
-
-
-
-
-            else {
+            if (!favoriteMoviePostersJpgs.isEmpty()) {
+                allJpgs.removeAll(favoriteMoviePostersJpgs);
+                allJpgs.removeAll(favoriteTrailerJpgs);
+            } else {
                 Log.v(LOG_TAG, "_cursor is null");
             }
 
