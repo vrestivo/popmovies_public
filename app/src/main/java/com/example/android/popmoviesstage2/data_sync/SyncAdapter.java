@@ -44,7 +44,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int STATUS_IO_ERROR = -2;
     public static final int STATUS_NETWORK_CONNECTION_ERROR = -3;
     public static final int STATUS_INVALID_URL = -4;
-    public static final int STATUS_UNKNOWN_ERROR = -5;
+    public static final int STATUS_TOO_MANY_REQUESTS = -5;
+    public static final int STATUS_UNKNOWN_ERROR = -6;
 
 
     public static Account createSyncAccount(Context context) {

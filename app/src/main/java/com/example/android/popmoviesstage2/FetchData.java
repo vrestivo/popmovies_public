@@ -66,7 +66,6 @@ public class FetchData {
      *
      * @param context
      * @param sortSetting sort setting as a String
-     *
      * @return String url api request
      */
     public static String generateUrlByGivenPreference(Context context, String sortSetting) {
@@ -235,7 +234,9 @@ public class FetchData {
                 //extra paranoid error checking measure
                 //return null if no response received
                 if (inputStream == null) {
-                    return null;
+                    //return null;
+                    ufJSONData = null;
+                    statusCode = SyncAdapter.STATUS_IO_ERROR;
                 }
                 //else load the buffer break input by lines and store it in
                 //ufJSONData variable
@@ -255,28 +256,30 @@ public class FetchData {
 
             }//end of try clause
 
+            catch(FileNotFoundException fnfe){
+                ufJSONData = null;
+                statusCode = SyncAdapter.STATUS_TOO_MANY_REQUESTS;
+            }
             catch (MalformedURLException mue) {
                 mue.printStackTrace();
                 Log.e(LOG_TAG, mue.toString());
                 statusCode = SyncAdapter.STATUS_INVALID_URL;
                 ufJSONData = null;
-            }
-            catch (SocketTimeoutException ste){
+            } catch (SocketTimeoutException ste) {
                 ste.printStackTrace();
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                 ufJSONData = null;
-            }
-            catch (SocketException se){
+            } catch (SocketException se) {
                 //TODO in final block return status and close resources
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                 ufJSONData = null;
             }
             //TODO check filenotfound ecxeption
- catch (UnknownHostException uhe) {
+            catch (UnknownHostException uhe) {
                 uhe.printStackTrace();
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                 ufJSONData = null;
-            }  catch (IOException ioe) {
+            } catch (IOException ioe) {
                 ioe.printStackTrace();
                 Log.v(LOG_TAG, " in_catch IOException" + ioe.toString());
                 ufJSONData = null;
@@ -522,6 +525,7 @@ public class FetchData {
 
     /**
      * this method requests details data form TMDB for a given movie ID
+     *
      * @param movieId
      * @param c
      * @return
@@ -548,9 +552,11 @@ public class FetchData {
 
 
     //TODO add return status code and stop on network error
-    public static void downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
+    public static int downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
 
         final String LOG_TAG = "dMultImages: ";
+
+        int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
 
         InputStream is = null;
         HttpURLConnection connection = null;
@@ -577,36 +583,58 @@ public class FetchData {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             }
-            catch (IOException ioe){
-                ioe.printStackTrace();
+            catch (MalformedURLException mue) {
+                mue.printStackTrace();
+                Log.e(LOG_TAG, mue.toString());
+                statusCode = SyncAdapter.STATUS_INVALID_URL;
+            } catch (SocketTimeoutException ste) {
+                ste.printStackTrace();
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+            } catch (SocketException se) {
+                //TODO in final block return status and close resources
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
             }
-            finally {
+            catch (UnknownHostException uhe){
+                uhe.printStackTrace();
+                statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+            }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            } finally {
                 if (is != null) {
                     try {
                         is.close();
                         connection.disconnect();
                         outputStream.close();
-                    }
-                    catch (IOException ioe){
+                    } catch (IOException ioe) {
                         ioe.printStackTrace();
                     }
                 }
+                if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+                    return statusCode;
+                }
             }
         }
+
+        return statusCode;
     }
 
 
     /**
      * this method downloads youtube video thumbnails and stores in the app's files directory
+     *
      * @param passedUrlList arrays list of trailer thumbnails to download
-     * @param context context
+     * @param context       context
      * @throws IOException
      */
-    public static void downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) {
+    public static int downloadAndSaveTrailerThumbnails(ArrayList<String> passedUrlList, Context context) {
 
         final String LOG_TAG = "downloadAndSaveTrailerThumbnails";
 
-        if(passedUrlList !=null) {
+        int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
+
+
+        if (passedUrlList != null) {
             InputStream is = null;
             HttpURLConnection connection = null;
             FileOutputStream outputStream = null;
@@ -638,19 +666,30 @@ public class FetchData {
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
                         }
-                        catch (IOException ioe){
-                            ioe.printStackTrace();
+                        catch (MalformedURLException mue) {
+                            mue.printStackTrace();
+                            Log.e(LOG_TAG, mue.toString());
+                            statusCode = SyncAdapter.STATUS_INVALID_URL;
+                        } catch (SocketTimeoutException ste) {
+                            ste.printStackTrace();
+                            statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
+                        } catch (SocketException se) {
+                            statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                         }
-                        finally {
+                        catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        } finally {
                             if (is != null) {
                                 try {
                                     is.close();
                                     connection.disconnect();
                                     outputStream.close();
-                                }
-                                catch (IOException ioe){
+                                } catch (IOException ioe) {
                                     ioe.printStackTrace();
                                 }
+                            }
+                            if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+                                return statusCode;
                             }
                         }
 
@@ -661,8 +700,9 @@ public class FetchData {
             }
         } // end of if(passedUrlList !=null)
 
-    } // end of downloadAndSaveTrailerThumbnails()
+        return statusCode;
 
+    } // end of downloadAndSaveTrailerThumbnails()
 
 
 } //end of class
