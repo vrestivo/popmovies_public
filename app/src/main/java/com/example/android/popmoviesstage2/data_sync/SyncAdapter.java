@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -140,16 +141,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private int initialDataPull(Context context, boolean firstrun) {
         int statusCode = STATUS_UNKNOWN_ERROR;
 
-        int tempStatus = Utility.pullMoviesAndBulkInsert(context, firstrun);
-        if(tempStatus<0){
-            statusCode = tempStatus;
-            if(statusCode == STATUS_UNKNOWN_ERROR){
-                return statusCode;
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        int tempStatus = STATUS_UNKNOWN_ERROR;
+        if (connectivityManager.getActiveNetworkInfo().isConnected()) {
+            tempStatus = Utility.pullMoviesAndBulkInsert(context, firstrun);
+            if (tempStatus < 0) {
+                statusCode = tempStatus;
+                if (statusCode == STATUS_UNKNOWN_ERROR) {
+                    return statusCode;
+                }
             }
+            else {
+                statusCode = STATUS_OK;
+            }
+
+        }else
+        {
+            return STATUS_NETWORK_CONNECTION_ERROR;
         }
 
-        //TODO get status code
-        Utility.pullDetailsDataAndBulkInsert(context);
+
+        if (connectivityManager.getActiveNetworkInfo().isConnected()) {
+            //TODO get status code
+            Utility.pullDetailsDataAndBulkInsert(context);
+        }
+        else {
+            return STATUS_NETWORK_CONNECTION_ERROR;
+        }
 
         //pull list of poster URLs from the movies table
         ArrayList<String> posterDownloadList =
@@ -160,16 +179,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Utility.getThumbnailUrlsFromDb(context);
 
 
-        //download movie posters
-        if (!posterDownloadList.isEmpty()) {
-            FetchData.downloadAndSaveMoviePosters(posterDownloadList,
-                    context);
+        if (connectivityManager.getActiveNetworkInfo().isConnected()) {
+            //download movie posters
+            if (!posterDownloadList.isEmpty()) {
+                FetchData.downloadAndSaveMoviePosters(posterDownloadList,
+                        context);
+            }
+
+        }
+        else {
+            statusCode = STATUS_NETWORK_CONNECTION_ERROR;
+
         }
 
-        //download movie trailers thumbnails
-        if(!thumbnailDownloadList.isEmpty()){
-            FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
-                    context);
+
+        if (connectivityManager.getActiveNetworkInfo().isConnected()) {
+            //download movie trailers thumbnails
+            if (!thumbnailDownloadList.isEmpty()) {
+                FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context),
+                        context);
+            }
+        }
+        else {
+            statusCode = STATUS_NETWORK_CONNECTION_ERROR;
+
         }
 
         return statusCode;

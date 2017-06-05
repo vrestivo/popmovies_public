@@ -128,9 +128,16 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 Log.v(LOG_TAG, "_restaring cursorloader");
                 MainActivity mainActivity = (MainActivity) getActivity();
 
+                int statusCode = intent.getIntExtra(SyncAdapter.EXTRA_STATUS_CODE, SyncAdapter.STATUS_UNKNOWN_ERROR);
+
                 if (mainActivity != null) {
                     mainActivity.restartFragmentMainLoader();
-                    Toast.makeText(mainActivity, "Done Refreshing", Toast.LENGTH_SHORT).show();
+
+                    //TODO put toast message in strings.xml
+                    String toastMessage = "Done Refreshing " + String.valueOf(statusCode);
+
+                    //TODO delete status code when done
+                    Toast.makeText(mainActivity, toastMessage, Toast.LENGTH_SHORT).show();
                     ProgressFragment pf = (ProgressFragment) mainActivity.getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
                     if (pf != null) {
                         pf.dismiss();
