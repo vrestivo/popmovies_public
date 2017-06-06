@@ -34,6 +34,8 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:textColor="@android:color/white"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="@dimen/material_appbar_title_height" />
 
             </android.support.v7.widget.Toolbar>

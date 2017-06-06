@@ -41,7 +41,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
          * @param movieId         used for uri generation for the activity intent/data query
          * @param posterImageView used for transistion between activities
          */
-        void onGridItemClick(long movieId, @Nullable View posterImageView);
+        void onGridItemClick(long movieId, @Nullable View posterImageView, int position);
     }
 
 
@@ -61,6 +61,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
     @Override
     public void onBindViewHolder(MovieItemViewHolder holder, int position) {
+        holder.mmPosition = position;
         if (mCursor != null && mCursor.moveToPosition(position)) {
             //Get movie poster url and load it into image view
             String posterUrl = mCursor.getString(DataContract.Movies.COL_POSTER_PATH_INDEX);
@@ -138,9 +139,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
         private ImageView mmPoster;
         private TextView mmTitle;
-        //TODO use or delete
-        private TextView mmRating;
         private long mmMovieId;
+        private int mmPosition;
         private GridItemClickListener mmListener;
 
 
@@ -155,7 +155,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
 
         @Override
         public void onClick(View v) {
-            mmListener.onGridItemClick(mmMovieId, mmPoster);
+            mmListener.onGridItemClick(mmMovieId, mmPoster, mmPosition);
             Log.v(LOT_TAG, "moviedID: " + mmMovieId);
         }
     }

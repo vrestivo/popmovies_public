@@ -66,6 +66,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     private String PREF_KEY_FIRSTRUN;
 
     private boolean mTwoPane;
+    private boolean mIsClicked = false;
+
 
     //progress dialog
     private final String DIALOG_TAG = "DIALOG_TAG";
@@ -86,8 +88,12 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
     @Override
-    public void onGridItemClick(long movieId, View posterImageView) {
+    public void onGridItemClick(long movieId, View posterImageView, int position) {
         Uri clickedItemUri = DataContract.Movies.buildMovieWithIdUri(movieId);
+        if(!mTwoPane){
+            mPosition = position;
+            mIsClicked = true;
+        }
         Log.v(LOG_TAG, "_uri: " + clickedItemUri.toString());
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setFragment(clickedItemUri, posterImageView);
@@ -164,6 +170,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -176,10 +184,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             }
             if(savedInstanceState.containsKey(KEY_SCROLL_POS)){
                 mPosition = savedInstanceState.getInt(KEY_SCROLL_POS);
+                Log.v(LOG_TAG, "_saved positinon: " + mPosition);
+
             }
         }
         else {
             Log.v(LOG_TAG, "_saved instance state is null");
+            Log.v(LOG_TAG, "_sa unsaved mPosition: " + mPosition);
+
         }
 
         final MainActivity mainActivity = (MainActivity) getActivity();
@@ -225,6 +237,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onResume() {
         super.onResume();
+        mIsClicked = false;
         //register broadcast receiver to listen for callbacks
         //used to signal the end of data sync
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
@@ -242,9 +255,24 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
+        Log.v(LOG_TAG, "_sa in onSaveInstanceState");
+
         outState.putBoolean(KEY_GRID_COLLAPSED, mGridCollapsed);
-        int curPos = mGridLayoutManager.findFirstVisibleItemPosition();
-        Log.v(LOG_TAG, "_in onSaveInstanceState() mpos/curpost: " + mPosition + "/ curPos");
+
+         int curPos;
+        if(mTwoPane) {
+            curPos = mGridLayoutManager.findFirstVisibleItemPosition();
+        }else {
+            //FIXME
+            if(mIsClicked){
+            curPos = mPosition;
+            }
+            else {
+                curPos = mGridLayoutManager.findFirstVisibleItemPosition();
+            }
+        }
+        Log.v(LOG_TAG, "_sa in onSaveInstanceState() mpos/curpost: " + mPosition + "/"+ curPos);
         outState.putInt(KEY_SCROLL_POS, curPos);
         super.onSaveInstanceState(outState);
     }
@@ -321,7 +349,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 mRecyclerView.setVisibility(View.VISIBLE);
             }
             mGridAdapter.swapCursor(data);
-            if(mPosition!= RecyclerView.NO_POSITION && mPosition < data.getCount()){
+            if(mPosition != RecyclerView.NO_POSITION && mPosition < data.getCount()){
                 Log.v(LOG_TAG, "_in onLoadFinished() pos: " + mPosition);
                 //mRecyclerView.getLayoutManager().scrollToPosition(mPosition);
                 mGridLayoutManager.scrollToPositionWithOffset(mPosition,0);

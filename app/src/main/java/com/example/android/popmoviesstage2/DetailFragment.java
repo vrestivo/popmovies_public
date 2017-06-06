@@ -121,6 +121,14 @@ public class DetailFragment extends Fragment
             mActonBar = activity.getSupportActionBar();
             mActonBar.setDisplayHomeAsUpEnabled(true);
             mActonBar.setDisplayShowHomeEnabled(true);
+
+            //needed for parent fragment/activity to restore state correctly
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
         }
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SCROLLVIEW_SCROLL_POS)) {
