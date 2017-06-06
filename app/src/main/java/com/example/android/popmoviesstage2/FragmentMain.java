@@ -132,9 +132,25 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
                 if (mainActivity != null) {
                     mainActivity.restartFragmentMainLoader();
+                    String toastMessage = null;
 
-                    //TODO put toast message in strings.xml
-                    String toastMessage = "Done Refreshing " + String.valueOf(statusCode);
+                    switch (statusCode){
+                        case SyncAdapter.STATUS_OK: {
+                            toastMessage = getContext().getString(R.string.message_update_complete);
+                            break;
+                        }
+                        case SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR: {
+                            toastMessage = getContext().getString(R.string.error_partial_update);
+                            break;
+                        }
+                        case SyncAdapter.STATUS_TOO_MANY_REQUESTS:{
+                            toastMessage = getContext().getString(R.string.error_too_many_requests);
+                            break;
+                        }
+                        default: {
+                            toastMessage = getContext().getString(R.string.error_update_error);
+                        }
+                    }
 
                     //TODO delete status code when done
                     Toast.makeText(mainActivity, toastMessage, Toast.LENGTH_SHORT).show();

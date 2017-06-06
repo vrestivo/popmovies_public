@@ -21,7 +21,7 @@
             <TextView
                 android:id="@+id/trailers_title"
                 style="@style/SubheaderStyle"
-                android:text="@string/tab_trailers" />
+                android:text="@string/title_trailers" />
 
             <TextView
                 android:id="@+id/msg_no_trailers"

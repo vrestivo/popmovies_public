@@ -26,7 +26,7 @@
             <TextView
                 android:id="@+id/trailers_title"
                 style="@style/SubheaderStyle"
-                android:text="@string/tab_reviews"
+                android:text="@string/title_reviews"
                 />
 
 

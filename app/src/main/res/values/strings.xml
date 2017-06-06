@@ -11,17 +11,22 @@
     <string name="button_refresh">Refresh</string>
     <string name="message_refresh_wait">Downloading movie data\nPlease wait...</string>
     <string name="message_select_movie">Please click on a movie for details...</string>
+    <string name="message_update_complete">Update Complete.</string>
 
 
     <!--Shared Element Transition IDs -->
     <string name="share_poster">shared_poster</string>
 
-
-
     <!--Messages When Data Not Available-->
     <string name="msg_no_trailers">No trailers available for this item.</string>
     <string name="msg_no_reviews">No reviews available for this item.</string>
     <string name="msg_no_data_main">No data availabe.\nPlease check your network connection.</string>
+
+
+    <!--Sections(Fragment) Titles-->
+    <string name="title_overview">Overview</string>
+    <string name="title_trailers">Trailers</string>
+    <string name="title_reviews">Reviews</string>
 
 
     <!--
@@ -182,10 +187,6 @@
 
 
 
-
-
-
-
     <!--
                 ****************************
                     Error Messages
@@ -193,6 +194,9 @@
     -->
 
     <string name="error_data_unavailable">Data not available</string>
+    <string name="error_partial_update">No network connection. Please check your connection and try again.</string>
+    <string name="error_update_error">Update Error. Please check your connection and try again</string>
+    <string name="error_too_many_requests">Update Error.  Too many requests. Please wait and try again.</string>
 
 
     <!--  TODO delete if not used
