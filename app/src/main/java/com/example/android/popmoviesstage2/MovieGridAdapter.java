@@ -88,10 +88,15 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Movi
                                 public void onError() {
                                     Picasso.with(mContext)
                                             .load(R.drawable.ic_broken_image_48px)
+                                            .placeholder(R.drawable.ic_broken_image_48px)
                                             .into(innerHolder.mmPoster);
                                 }
                             });
 
+                } // end of  if (imageFile.exists() && imageFile.isFile())
+                else {
+                    holder.mmPoster.setImageResource(R.drawable.ic_broken_image_48px);
+                    holder.mmPoster.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
             }
 

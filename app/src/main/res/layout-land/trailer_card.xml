@@ -15,7 +15,6 @@
         android:layout_width="@dimen/trailer_card_width"
         android:layout_height="@dimen/trailer_card_height"
         android:padding="@dimen/material_card_padding"
-        android:transitionName="@string/share_poster"
         />
 
 </android.support.v7.widget.CardView>

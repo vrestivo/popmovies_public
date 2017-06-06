@@ -189,12 +189,13 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //Bind data to fields
 
-        Context context;
+        final Context context;
+        //get correct context for correct layout
         if(mTwoPane){
-            context = getContext();
+            mContext = getContext();
         }
         else {
-            context = getActivity().getApplicationContext();
+            mContext = getActivity().getApplicationContext();
         }
 
         if (data != null && data.moveToFirst()) {
@@ -202,7 +203,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             Log.v(LOG_TAG, "_non null data returned");
 
             if (mTwoPane) {
-                //FIXME
                 mTitle.setText(data.getString(DataContract.Movies.COL_TITLE_INDEX));
             } else {
                 DetailFragment fragment = (DetailFragment) getParentFragment();
@@ -235,14 +235,13 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
             //load the movie poster if exists
             if (!posterPath.isEmpty()) {
                 String imageName = Uri.parse(posterPath).getLastPathSegment();
-                String posterFilePath = context.getFilesDir().toString() + "/" + imageName;
+                String posterFilePath = mContext.getFilesDir().toString() + "/" + imageName;
                 final File posterFile = new File(posterFilePath);
 
                 if (posterFile.isFile() && posterFile.exists()) {
 
                     Picasso.with(mContext)
                             .load(posterFile)
-                            .noPlaceholder()
                             .into(mMoviePoster, new Callback() {
                                 @Override
                                 public void onSuccess() {
@@ -255,13 +254,25 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
                                 public void onError() {
                                     Picasso.with(mContext)
                                             .load(R.drawable.ic_broken_image_48px)
+                                            .placeholder(R.drawable.ic_broken_image_48px)
                                             .into(mMoviePoster);
                                 }
                             });
+                } //end of if (posterFile.isFile() && posterFile.exists())
+                else {
+                    //set placeholder if image file does not exist
+                    mMoviePoster.setImageResource(R.drawable.ic_broken_image_48px);
                 }
+            } // end of if (!posterPath.isEmpty())
+            else {
+                //set placeholder if there is no poster data in the database
+                mMoviePoster.setImageResource(R.drawable.ic_broken_image_48px);
             }
-        } else {
+        } //end  if (data != null && data.moveToFirst())
+        else {
             Log.v(LOG_TAG, "_null data returned");
+            mMoviePoster.setImageResource(R.drawable.ic_broken_image_48px);
+            mOverview.setText(mContext.getString(R.string.msg_no_overview));
         }
     }
 

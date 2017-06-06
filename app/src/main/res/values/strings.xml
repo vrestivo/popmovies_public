@@ -20,6 +20,7 @@
     <!--Messages When Data Not Available-->
     <string name="msg_no_trailers">No trailers available for this item.</string>
     <string name="msg_no_reviews">No reviews available for this item.</string>
+    <string name="msg_no_overview">No overview available for this item.</string>
     <string name="msg_no_data_main">No data availabe.\nPlease check your network connection.</string>
 
 

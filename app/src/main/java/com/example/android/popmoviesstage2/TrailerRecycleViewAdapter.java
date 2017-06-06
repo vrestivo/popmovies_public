@@ -84,6 +84,10 @@ public class TrailerRecycleViewAdapter extends RecyclerView.Adapter<TrailerRecyc
                             });
 
                 }
+                else {
+                    holder.mmThumbnail.setImageResource(R.drawable.ic_play_circle_outline_48px);
+                    holder.mmThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                }
             }
         }
     }
