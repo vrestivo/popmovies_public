@@ -2,7 +2,7 @@
 
 This app is a project for the Developing Android Apps course of Udacity's 
 Android Developer Nanodegree program.  The app was written from scratch for the exception
-of third party libraries.  It retrieves movies from the [TMDB](https://www.themoviedb.org/?language=en), 
+of third party libraries.  It retrieves movie data from the [TMDB](https://www.themoviedb.org/?language=en), 
 a community-built movie database and displays them to the user.
 The movie data is queried using TMDB's JSON API over HTTP protocol, 
 then downloaded and stored in the local SQLite database.
