@@ -30,7 +30,6 @@ public class DetailActivity extends AppCompatActivity {
         Log.v(LOG_TAG, "_in onCreate()");
 
         if(savedInstanceState  == null) {
-            //ViewPagerTabFragment fragment = new ViewPagerTabFragment();
             DetailFragment fragment = new DetailFragment();
 
             FragmentManager fragmentManager = getSupportFragmentManager();

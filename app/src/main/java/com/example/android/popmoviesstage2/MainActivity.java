@@ -232,11 +232,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
             Bundle fragmentArgs = new Bundle();
             fragmentArgs.putString(DETAIL_URI_TAG, uri.toString());
 
-            /*
-            ViewPagerTabFragment detailFragment = new ViewPagerTabFragment();
-            detailFragment.setArguments(fragmentArgs);
-            */
-
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setArguments(fragmentArgs);
 

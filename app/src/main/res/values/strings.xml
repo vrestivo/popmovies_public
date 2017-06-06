@@ -16,10 +16,6 @@
     <!--Shared Element Transition IDs -->
     <string name="share_poster">shared_poster</string>
 
-    <!-- Tab Names -->
-    <string name="tab_overview">Overview</string>
-    <string name="tab_trailers">Trailers</string>
-    <string name="tab_reviews">Reviews</string>
 
 
     <!--Messages When Data Not Available-->
