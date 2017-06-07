@@ -15,7 +15,9 @@ import android.support.annotation.Nullable;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -143,8 +145,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
                 mContainerVisibility = savedInstanceState.getBoolean(VISIBILITY);
             }
         }
-
-
     }
 
     @Override
@@ -190,8 +190,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMain.Frag
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_sort: {
-                Intent settingIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingIntent);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                PrefDialogFragment prefDialogFragment = new PrefDialogFragment();
+                prefDialogFragment.show(ft, "dialog");
+
                 return true;
             }
             case R.id.button_refresh: {

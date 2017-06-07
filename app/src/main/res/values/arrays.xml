@@ -14,7 +14,7 @@
     </string-array>
 
     <!-- values for sort by list preference -->
-    <string-array name="prev_sort_by_values">
+    <string-array name="pref_sort_by_values">
         <item>popularity</item>
         <item>rating</item>
         <item>favorite</item>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -7,7 +8,7 @@
     <ListPreference
         android:defaultValue="@string/pref_sort_by_default"
         android:entries="@array/pref_sort_by_entries"
-        android:entryValues="@array/prev_sort_by_values"
+        android:entryValues="@array/pref_sort_by_values"
         android:summary="%s"
         android:key="@string/pref_sort_key"
         android:title="@string/pref_sort_title" />

@@ -264,7 +264,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         if(mTwoPane) {
             curPos = mGridLayoutManager.findFirstVisibleItemPosition();
         }else {
-            //FIXME
             if(mIsClicked){
             curPos = mPosition;
             }
@@ -294,7 +293,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Context context = getActivity().getApplicationContext();
-        String seletction = null;
+        String selection = null;
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -324,7 +323,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         //set soring by favorites if matches
         else if (sortOrder.contentEquals(SETTING_FAVORITES)) {
             //sort by favorites
-            seletction = SETTING_FAVORITES + ">0";
+            selection = SETTING_FAVORITES + ">0";
         }
         //set sorting to default (popularity)
         else {
@@ -335,7 +334,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                 getActivity(),
                 DataContract.Movies.buildMoviesUri(), //Uri
                 DataContract.Movies.defaultProjection, //projection
-                seletction,         //selection
+                selection,         //selection
                 null,               //selection arguments
                 sortOrder           //sort order
         );
@@ -380,7 +379,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     /**
      * perform manual sync immediately
-     *
      * @param context
      */
     public void syncNow(Context context, boolean AppFirstRun) {
