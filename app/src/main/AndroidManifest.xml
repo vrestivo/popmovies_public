@@ -34,8 +34,6 @@
         </activity>
 
 
-        <activity android:name="com.example.android.popmoviesstage2.SettingsActivity" />
-
         <!--Declare a detail activity and set MainActivity as parent-->
         <activity android:name="com.example.android.popmoviesstage2.DetailActivity"
             android:parentActivityName=".MainActivity"
