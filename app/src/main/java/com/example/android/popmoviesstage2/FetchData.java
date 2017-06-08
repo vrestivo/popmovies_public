@@ -2,7 +2,6 @@ package com.example.android.popmoviesstage2;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -24,10 +23,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.NetPermission;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -553,7 +550,7 @@ public class FetchData {
 
     }
 
-
+    //TODO document
     public static int downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
         final String LOG_TAG = "dMultImages: ";
 

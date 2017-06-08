@@ -63,8 +63,6 @@ public class PrefDialogFragment  extends DialogFragment {
         mDefaultValue = getString(R.string.pref_sort_by_default);
         mValue = mSharedPrefs.getString(mPrefKey, mDefaultValue);
 
-
-
     }
 
 
@@ -76,6 +74,7 @@ public class PrefDialogFragment  extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setSingleChoiceItems(mEnries, getItemIndex(), mSelectedItemListener);
         //TODO optionally pretty up the appearance
+        builder.setTitle(R.string.title_sort_by);
         return builder.create();
     }
 
