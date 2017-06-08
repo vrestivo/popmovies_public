@@ -1,0 +1,25 @@
+<resources>
+
+    <!--material spec dimension-->
+    <dimen name="material_title_height">72dp</dimen>
+    <dimen name="material_title_text_size">24sp</dimen>
+    <dimen name="material_title_padding_top">24dp</dimen>
+    <dimen name="material_content_padding_general">16dp</dimen>
+    <dimen name="material_content_padding_bottom">24dp</dimen>
+
+    <!--column span dimensions-->
+    <integer name="grid_span">6</integer>
+    <integer name="collapsed_span">3</integer>
+
+
+    <dimen name="movie_grid_poster_height">200dp</dimen>
+    <dimen name="movie_overview_poster_min_height">260dp</dimen>
+    <dimen name="movie_overview_poster_width">160dp</dimen>
+
+    <!--Trailer card dimensions per material theme in multiples of 80dp-->
+    <dimen name="trailer_card_height">180dp</dimen>
+    <dimen name="trailer_card_width">240dp</dimen>
+    <dimen name="max_width">520dp</dimen>
+
+
+</resources>

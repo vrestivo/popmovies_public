@@ -341,6 +341,8 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Context context = getContext();
+
         if(data!=null && data.moveToFirst()) {
             if(mNoDataMessage.getVisibility() == View.VISIBLE){
                 mNoDataMessage.setVisibility(View.GONE);
@@ -354,6 +356,14 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
             }
         }
         else {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String sortOrder = preferences.getString(PREF_KEY_SORT_BY, "");
+            if (sortOrder.equals(SETTING_FAVORITES)){
+                mNoDataMessage.setText(getString(R.string.msg_no_favorites));
+            }
+            else {
+                mNoDataMessage.setText(getString(R.string.msg_no_data_main));
+            }
             mRecyclerView.setVisibility(View.GONE);
             mNoDataMessage.setVisibility(View.VISIBLE);
         }

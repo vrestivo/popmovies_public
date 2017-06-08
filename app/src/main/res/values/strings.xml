@@ -22,7 +22,9 @@
     <string name="msg_no_trailers">No trailers available for this item.</string>
     <string name="msg_no_reviews">No reviews available for this item.</string>
     <string name="msg_no_overview">No overview available for this item.</string>
-    <string name="msg_no_data_main">No data availabe.\nPlease check your network connection.</string>
+    <string name="msg_no_data_main">No data availabe. Please check your network connection and attempt a sync.</string>
+    <string name="msg_no_favorites">There are no favorite items in your collection.</string>
+
 
 
     <!--Sections(Fragment) Titles-->
