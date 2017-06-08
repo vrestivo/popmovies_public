@@ -278,11 +278,9 @@ public class FetchData {
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                 ufJSONData = null;
             } catch (SocketException se) {
-                //TODO in final block return status and close resources
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
                 ufJSONData = null;
             }
-            //TODO check filenotfound ecxeption
             catch (UnknownHostException uhe) {
                 uhe.printStackTrace();
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
@@ -306,8 +304,6 @@ public class FetchData {
                         statusCode = SyncAdapter.STATUS_IO_ERROR;
                     }
                 }
-
-                //TODO return status code on network error
 
             }//end of finally clause
 
@@ -558,9 +554,7 @@ public class FetchData {
     }
 
 
-    //TODO add return status code and stop on network error
     public static int downloadAndSaveMoviePosters(ArrayList<String> passedUrlList, Context context) {
-
         final String LOG_TAG = "dMultImages: ";
 
         int statusCode = SyncAdapter.STATUS_UNKNOWN_ERROR;
@@ -604,7 +598,6 @@ public class FetchData {
                 ste.printStackTrace();
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
             } catch (SocketException se) {
-                //TODO in final block return status and close resources
                 statusCode = SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR;
             }
             catch (UnknownHostException uhe){

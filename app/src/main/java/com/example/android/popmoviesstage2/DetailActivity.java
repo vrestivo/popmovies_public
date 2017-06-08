@@ -26,7 +26,7 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
-        //TODO delete when done
+        //TODO delete logging when done
         Log.v(LOG_TAG, "_in onCreate()");
 
         if(savedInstanceState  == null) {

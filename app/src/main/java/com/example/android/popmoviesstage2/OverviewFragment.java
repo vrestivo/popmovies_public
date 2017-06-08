@@ -114,7 +114,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         rootView = inflater.inflate(R.layout.fragment_overview, container, false);
 
 
-        //TODO delete when done
+        //TODO delete logging when
         Log.v(LOG_TAG, "_in onCreateView()");
         Log.v(LOG_TAG, "_fragment id: " + this.getId());
 
@@ -129,7 +129,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
 
         //set up title text view if using tabled layout
         //set up tool bar for detail activity if using phone layout
-        //FIXME
         if (mTwoPane) {
             mTitle = (TextView) rootView.findViewById(R.id.overview_title);
         }

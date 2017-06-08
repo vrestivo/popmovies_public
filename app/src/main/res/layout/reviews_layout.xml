@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     >
 
-
-    <!--TODO use dimens resources-->
-
         <com.example.android.popmoviesstage2.MaxWidthFrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

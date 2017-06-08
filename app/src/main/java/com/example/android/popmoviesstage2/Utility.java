@@ -63,9 +63,9 @@ public class Utility {
         String rawJSON = null;
 
         //change firstrun setting to false on the first fun
-        //TODO replace string
         if (firstrun) {
-            sharedPreferences.edit().putBoolean("firstrun", false).commit();
+            //using commit() since this task is already a background task
+            sharedPreferences.edit().putBoolean(c.getString(R.string.pref_firstrun_key), false).commit();
         }
 
         //pull movies by vote_average
@@ -134,8 +134,6 @@ public class Utility {
      */
     public static int pullDetailsDataAndBulkInsert(Context context) {
 
-        //TODO return result code
-
         int retValues = 0;
 
         String rawJSONDetails = null;
@@ -177,6 +175,7 @@ public class Utility {
             statusCode = movieResults.getStatusCode();
 
             if (statusCode == SyncAdapter.STATUS_NETWORK_CONNECTION_ERROR) {
+                //exit and report error when network connection issues are present
                 return statusCode;
             }
 
@@ -717,9 +716,6 @@ public class Utility {
         ArrayList<String> allJpgs = listAllJpgs(context);
         ArrayList<String> favoriteMoviePostersJpgs = new ArrayList<String>();
         ArrayList<String> favoriteTrailerJpgs = new ArrayList<String>();
-
-        //TODO get favorite poster Jpgs
-
         Uri favoriteMoviesUri = DataContract.Movies.buildFavoritesUri();
         Uri hitListUri = DataContract.buildNotFavoritesUri();
 
@@ -743,7 +739,6 @@ public class Utility {
             if (cursor != null) {
                 cursor.close();
             }
-            //TODO add query for favorite trailers
 
             Cursor trailerCursor = context.getContentResolver().query(
                     DataContract.Trailers.buildFavoriteTrailersUri(),

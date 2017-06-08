@@ -158,7 +158,6 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
                         }
                     }
 
-                    //TODO delete status code when done
                     Toast.makeText(mainActivity, toastMessage, Toast.LENGTH_SHORT).show();
                     ProgressFragment pf = (ProgressFragment) mainActivity.getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
                     if (pf != null) {
@@ -389,7 +388,7 @@ public class FragmentMain extends Fragment implements LoaderManager.LoaderCallba
         syncSettings.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         syncSettings.putBoolean(PREF_KEY_FIRSTRUN, AppFirstRun);
 
-        //TODO start dialog
+        //start dialog
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         ProgressFragment progressFragment = new ProgressFragment();
         progressFragment.setCancelable(false);

@@ -51,10 +51,6 @@ public class ReviewsFragment extends Fragment
         return fragment;
     }
 
-    //TODO delete
-    interface  ReviewsDoneLoading{
-        public void doTheScroll();
-    }
 
 
     @Nullable
@@ -138,12 +134,8 @@ public class ReviewsFragment extends Fragment
                 mNoReviewsMsg.setVisibility(View.GONE);
             }
             mReviewAdapter.swapCursor(cursor);
-            //TODO delete
-/*            DetailFragment detailFragment = (DetailFragment) getParentFragment();
-            detailFragment.doTheScroll();*/
         }
         else {
-            //TODO make the no data message visible
             mNoReviewsMsg.setVisibility(View.VISIBLE);
         }
 

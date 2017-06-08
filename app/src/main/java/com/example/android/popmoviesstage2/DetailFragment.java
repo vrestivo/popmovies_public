@@ -112,9 +112,7 @@ public class DetailFragment extends Fragment
             mConfigChange = true;
         }
 
-        //TODO fix toolbar title change
         if (!mTwoPane) {
-            //TODO get Toolbar, set movie title, add back button
             mToolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
             mToolbarTitle = (TextView) mToolbar.findViewById(R.id.detail_toolbar_title_text_view);
             activity.setSupportActionBar(mToolbar);

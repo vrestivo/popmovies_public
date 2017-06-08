@@ -19,9 +19,6 @@
     android:padding="@dimen/material_card_padding"
     >
 
-    <!--todo delete hard coded text-->
-
-
     <at.blogc.android.views.ExpandableTextView
         android:id="@+id/expandable_text_view"
         android:layout_width="wrap_content"
