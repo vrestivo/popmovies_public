@@ -3,6 +3,7 @@ package com.example.android.popmoviesstage2;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -30,9 +31,6 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 
 @RunWith(JUnit4.class)
 public class FavoritesTest {
-
-
-
 
     /**
      * Covenience method sets favorite column value to 1 in the movies
@@ -65,15 +63,10 @@ public class FavoritesTest {
     }
 
 
-
-
     /**
      * sets favorite values in the movies table to 1
      * for records with _ID greater than movieIdLimit
      */
-/*
-
-    @Test
     public void makeFavorites(){
         final String LOG_TAG = "makeFavoriteTest";
 
@@ -88,47 +81,59 @@ public class FavoritesTest {
 
     }
 
-*/
 
 
-//    @Test
-//    public void DeleteNonFavoritesTest(){
-//        final String LOG_TAG = "DeleteNonFavoriteTest";
-//
-//        final String movieIdLimit = "270000";
-//
-//        Context context = InstrumentationRegistry.getTargetContext();
-//
-//        toggleFavoriteWithMovieIdAboveGiven(1, movieIdLimit, context);
-//
-//        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
-//        Uri notFaves = DataContract.buildNotFavoritesUri();
-//        Log.v(LOG_TAG, notFaves.toString());
-//
-//        ContentResolver contentResolver = context.getContentResolver();
-//
-//        int deathToll = contentResolver.delete(notFaves,
-//                null,
-//                null
-//                );
-//
-//        Assert.assertTrue("Rookies can't shoot straight. Death toll: " + String.valueOf(deathToll), deathToll>0);
-//        db.close();
-//        Log.v(LOG_TAG, "Good shootin', Rookie, you've got " + String.valueOf(deathToll) + " kills!");
-//
-//    }
-
-
-
-    //TODO validate the results
     @Test
-    public void deleteNonFavoriteJPGs(){
+    public void DeleteNonFavoritesTest(){
+        final String LOG_TAG = "DeleteNonFavoriteTest";
 
-        Utility.deleteNonFavoriteJPGsAndMovieRecords(getTargetContext());
+        final String movieIdLimit = "270000";
+
+        Context context = InstrumentationRegistry.getTargetContext();
+
+        toggleFavoriteWithMovieIdAboveGiven(1, movieIdLimit, context);
+
+        SQLiteOpenHelper dbHelper = new MovieDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Uri notFaves = DataContract.buildNotFavoritesUri();
+        Log.v(LOG_TAG, notFaves.toString());
+
+        ContentResolver contentResolver = context.getContentResolver();
+
+        int deathToll = contentResolver.delete(notFaves,
+                null,
+                null
+                );
 
 
+        Cursor leftOverts = db.query(
+                DataContract.TABLE_MOVIES,  //table
+                null,                       //columns
+                null,                       //selection (rows)
+                null,                       //selection args
+                null,                       //group by
+                null,                       //having
+                null                        //orderby
+        );
+
+        Assert.assertTrue("Database error: ", leftOverts!=null && leftOverts.moveToFirst());
+
+        int favFlag = 0;
+
+        Log.v(LOG_TAG, "found items: " + leftOverts.getCount());
+
+        do {
+            favFlag = leftOverts.getInt(DataContract.Movies.COL_FAVORITES_INDEX);
+            Assert.assertTrue("Favorite not deleted!", favFlag==1);
+        }
+        while (leftOverts.moveToNext());
+
+        db.close();
+
+
+        Assert.assertTrue(" " + String.valueOf(deathToll), deathToll>0);
+        Log.v(LOG_TAG, " deleted items: " + String.valueOf(deathToll));
 
     }
 

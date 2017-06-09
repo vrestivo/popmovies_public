@@ -47,7 +47,6 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 @RunWith(JUnit4.class)
 public class ImageDownloadAndSaveTest {
 
-    public ArrayList<String> jpgHitList = new ArrayList<String>();
     private static final String cptAmericaMovieId = "271110";
 
     /**
@@ -120,24 +119,5 @@ public class ImageDownloadAndSaveTest {
         }
 
     }
-
-
-/**
- * test deletion of movie posters and records for movies not marked
- * as favorite
- */
-/*
-
-    @Test
-    public void deletNonFavoriteJpgandMoviesTest(){
-        //TODO validate retults
-        final String LOG_TAG = "deletNonFavJPGTest: ";
-        Context context = getTargetContext();
-        int deletedItems = Utility.deleteNonFavoriteJPGsAndMovieRecords(context);
-        Assert.assertTrue("No items were deleted", deletedItems>0);
-    }
-
-*/
-
 
 }

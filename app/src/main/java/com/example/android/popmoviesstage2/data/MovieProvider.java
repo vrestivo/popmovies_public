@@ -415,27 +415,25 @@ public class MovieProvider extends ContentProvider {
                             context);
 
                     if (hitList.size() > 0) {
-
                         //delete entries from the reviews table
                         returnCount += deleteInBulkbyMovieId(db, DataContract.TABLE_REVIEWS,
                                 DataContract.Reviews.COL_MOVIE_ID,
                                 hitList,
                                 context);
 
-                        //deete entries from the trailers table
+                        //delete entries from the trailers table
                         returnCount += deleteInBulkbyMovieId(db, DataContract.TABLE_TRAILERS,
                                 DataContract.Trailers.COL_MOVIE_ID,
                                 hitList,
                                 context);
 
-                        //due to specified database contstrains entries
+                        //due to specified database constraints entries
                         //in movies table have to be deleted last
                         returnCount += deleteInBulkbyMovieId(db, DataContract.TABLE_MOVIES,
                                 DataContract.Reviews._ID,
                                 hitList,
                                 context);
                     }
-
                     break;
                 }
                 default:
