@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -33,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -42,142 +44,98 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
  */
 
 
-
 @RunWith(JUnit4.class)
 public class ImageDownloadAndSaveTest {
 
     public ArrayList<String> jpgHitList = new ArrayList<String>();
-
-
     private static final String cptAmericaMovieId = "271110";
 
+    /**
+     * Utility method that takes a list of URLs pointing to trailer thumbnail images,
+     * converts them to a list of files expected to be downloaded and saved
+     * and saved
+     * @param thumbnaiilUrls
+     * @return
+     */
+    public static ArrayList<String> getProjectedThumbnailList(ArrayList<String> thumbnaiilUrls){
+        if(thumbnaiilUrls != null && thumbnaiilUrls.size()>0) {
+            ArrayList<String> projectedThumbnails = new ArrayList<String>();
+            for(String url : thumbnaiilUrls){
+                if(url!=null && !url.isEmpty()){
+                    projectedThumbnails.add(Utility.getThumbnailSaveName(url));
+                }
+            }
+            return projectedThumbnails;
+        }
+        return null;
+    }
 
-//    @Test
-//    public void deleteSelectImages(){
-//        final String LOG_TAG = "deleteSelected Items";
-//
-//        Context context = getTargetContext();
-//
-//        File fileDir = context.getFilesDir();
-//
-//        String[] fileList = fileDir.list();
-//
-//        Assert.assertTrue("file list is empty", fileList.length>0);
-//
-//        ArrayList<String> fileArrayList = new ArrayList<String>(Arrays.asList(fileList));
-//
-//        for(String filename : fileArrayList){
-//            Log.v(LOG_TAG, "JPG: " + filename);
-//        }
-//
-//        jpgHitList.add("43Gr00IiZtq2dOtYZQVOTwMf3kI.jpg");
-//        jpgHitList.add("4Iu5f2nv7huqvuYkmZvSPOtbFjs.jpg");
-//        jpgHitList.add("5N20rQURev5CNDcMjHVUZhpoCNC.jpg");
-//
-//        for(String filename : jpgHitList){
-//            Log.v(LOG_TAG, "hitlist member: " + filename);
-//        }
-//
-//        fileArrayList.removeAll(jpgHitList);
-//
-//        for(String filename : fileArrayList){
-//            Log.v(LOG_TAG, "survivor : " + filename);
-//        }
-//
-//
-//    }
+    /**
+     * A Utility method that deletes all trailer thumbnail images
+     * @param context
+     * @param thumbnailList list of thumbnail images to delete
+     */
+    public static void deleteAllThumbnailJpgs(Context context, ArrayList<String> thumbnailList) {
+        if (thumbnailList != null && thumbnailList.size() > 0) {
+            //TODO go through each file and delete it
+            String filename = null;
+            for (String url : thumbnailList) {
+                if (url != null) {
+                    filename = Utility.getThumbnailSaveName(url);
+                    if (filename != null) {
+                        context.deleteFile(filename);
+                    }
+
+                }
+            }
+        }
+    }
 
 
     /**
-     * tests a download functionality for a single image
+     * test to validate the correct download and save procedures
+     * for the trailer thumbnail images
      */
-
-
-//    @Test
-//    public void downloadMultipleImagesTest() {
-//        final String LOG_TAG = "_dMultipleImagesTest: ";
-//        Context context = getTargetContext();
-//
-//        ArrayList<String> urlList = getPosterUrlsFromDb(context);
-//
-//        Assert.assertTrue("Url List is null", !urlList.isEmpty());
-//
-//        ConnectivityManager connectivityManager = (ConnectivityManager)
-//                context.getSystemService(context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//
-//        if (networkInfo != null && networkInfo.isConnected()) {
-//            try {
-//                downloadAndSaveMoviePosters(urlList, context);
-//            } catch (IOException ioe) {
-//                Log.v(LOG_TAG, ioe.toString());
-//                ioe.printStackTrace();
-//            }
-//        } else {
-//            Log.v(LOG_TAG, "_no network connection");
-//        }
-//
-//    }
-
-
-//    @Test
-//    public void fileListTest(){
-//        final String LOG_TAG = "fileListTest: ";
-//        Context context = getTargetContext();
-//
-//        File file = context.getFilesDir();
-//
-//        String[] fileList = file.list();
-//
-//        Assert.assertTrue("No files listed: ", fileList.length > 0);
-//
-//        Log.v(LOG_TAG, "_JPG resultsFollow: ");
-//        for(String filename : fileList){
-//            if(filename.matches(".*\\.jpg")) {
-//                Log.v(LOG_TAG, "JPG: " + filename);
-//            }
-//        }
-//
-//    }
-
-    public static void downloadAndSaveMultipleImages(ArrayList<String> passedUrlList, Context context) throws IOException {
-        //TODO update method
-
-    }
-
     @Test
     public void downloadAndSaveTrailerThumbnails() {
+        final String LOG_TAG = "downloadAndSaveTrailerThumbnails";
         Context context = getTargetContext();
 
-        try {
-            FetchData.downloadAndSaveTrailerThumbnails(Utility.getThumbnailUrlsFromDb(context), context);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        //get trailer Thumbnail URL and delete existing thumbnails
+        ArrayList<String> thumbNailUrls = Utility.getThumbnailUrlsFromDb(context);
+        deleteAllThumbnailJpgs(context, thumbNailUrls);
+        ArrayList<String> projectedSavedThumbnailList = getProjectedThumbnailList(thumbNailUrls);
+
+        //download thumbnails and save the images
+        FetchData.downloadAndSaveTrailerThumbnails(thumbNailUrls, context);
+
+        File filesDir = context.getFilesDir();
+        String[] listedFiles = filesDir.list();
+        List<String> fileList = Arrays.asList(listedFiles);
+
+        //check image names against the URLs
+        for(String finename : projectedSavedThumbnailList){
+            Log.v(LOG_TAG, "filename: " + finename);
+            Assert.assertTrue("filename: " + finename + " not found", fileList.contains(finename));
         }
 
     }
 
-/*
 
-    */
 /**
  * test deletion of movie posters and records for movies not marked
  * as favorite
- *//*
+ */
 
     @Test
     public void deletNonFavoriteJpgandMoviesTest(){
+        //TODO validate retults
         final String LOG_TAG = "deletNonFavJPGTest: ";
-
         Context context = getTargetContext();
-
         int deletedItems = Utility.deleteNonFavoriteJPGsAndMovieRecords(context);
-
         Assert.assertTrue("No items were deleted", deletedItems>0);
-
-
     }
-*/
+
 
 
 }

@@ -96,6 +96,7 @@ public class DatabaseTest {
     }
 
 
+/*
 
     public static int pullMoviesAndBulkInsert(Context c) {
         int returnCount = 0;
@@ -119,6 +120,7 @@ public class DatabaseTest {
         return returnCount;
 
     }
+*/
 
 
 /**

@@ -110,6 +110,7 @@ public class ApplicationTest {
     }
 
 
+/*
 
     @Test
     public void downloadAndSaveToDbTest() {
@@ -170,6 +171,7 @@ public class ApplicationTest {
 
 
     }
+*/
 
 
     @Test

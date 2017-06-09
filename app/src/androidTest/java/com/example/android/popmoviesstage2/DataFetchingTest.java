@@ -39,6 +39,7 @@ public class DataFetchingTest {
 
 
 
+/*
 
     public static String fetchDetailsByMovieId(String movieId, Context c) {
         final String LOG_TAG = "fetchDetailsByMovieId: ";
@@ -58,10 +59,12 @@ public class DataFetchingTest {
         return rawJsonDetails;
 
     }
+*/
 
 
 
 
+/*
     @Test
     public void pullExtraDataTest() {
         final String LOG_TAG = "pullExtraData: ";
@@ -83,6 +86,7 @@ public class DataFetchingTest {
 
     }
 
+*/
 
 
 
