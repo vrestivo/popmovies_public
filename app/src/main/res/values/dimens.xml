@@ -38,6 +38,9 @@
     <!--Movie Grid Poster dimensions-->
     <dimen name="movie_grid_poster_height">300dp</dimen>
     <integer name="grid_span">2</integer>
+    <!--single line text 48dp high with 16dp text per material spec-->
+    <dimen name="movie_grid_title_height">48dp</dimen>
+    <dimen name="movie_grid_title_text_size">16dp</dimen>
 
 
     <!--material spec dimension-->

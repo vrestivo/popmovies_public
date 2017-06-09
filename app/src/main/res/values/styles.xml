@@ -67,6 +67,18 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="MovieGridTitle">
+        <item name="android:paddingTop">@dimen/material_16dp_keyline</item>
+        <item name="android:paddingStart">@dimen/material_16dp_keyline</item>
+        <item name="android:paddingEnd">@dimen/material_16dp_keyline</item>
+        <item name="android:layout_marginBottom">@dimen/material_16dp_keyline</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_height">@dimen/movie_grid_title_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/movie_grid_title_text_size</item>
+    </style>
 
     <style name="NoDataMsg">
         <item name="android:paddingEnd">@dimen/material_24dp_keyline</item>

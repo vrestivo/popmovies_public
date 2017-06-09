@@ -126,6 +126,7 @@ public class ImageDownloadAndSaveTest {
  * test deletion of movie posters and records for movies not marked
  * as favorite
  */
+/*
 
     @Test
     public void deletNonFavoriteJpgandMoviesTest(){
@@ -136,6 +137,7 @@ public class ImageDownloadAndSaveTest {
         Assert.assertTrue("No items were deleted", deletedItems>0);
     }
 
+*/
 
 
 }
