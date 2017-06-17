@@ -91,6 +91,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         //Drop old version of the database if exists
         db.execSQL("DROP TABLE IF EXISTS " + DataContract.TABLE_MOVIES);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.TABLE_REVIEWS);
+        db.execSQL("DROP TABLE IF EXISTS " + DataContract.TABLE_TRAILERS);
         onCreate(db);
     }
 
